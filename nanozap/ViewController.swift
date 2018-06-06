@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import SwiftGRPC
-import SwiftProtobuf
 
 class ViewController: UIViewController {
 
