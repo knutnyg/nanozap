@@ -2,6 +2,10 @@
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
+Pods
+admin.macaroon
+tls.cert
+
 ## Build generated
 build/
 DerivedData/
