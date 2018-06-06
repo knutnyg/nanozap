@@ -1,0 +1,744 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		707B98F6EAF2D93E3F2BF16B /* Pods_nanozap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */; };
+		7267D97220C7198300549631 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D97120C7198300549631 /* AppDelegate.swift */; };
+		7267D97420C7198300549631 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D97320C7198300549631 /* ViewController.swift */; };
+		7267D97720C7198300549631 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7267D97520C7198300549631 /* Main.storyboard */; };
+		7267D97920C7198500549631 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7267D97820C7198500549631 /* Assets.xcassets */; };
+		7267D97C20C7198500549631 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7267D97A20C7198500549631 /* LaunchScreen.storyboard */; };
+		7267D98720C7198500549631 /* nanozapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D98620C7198500549631 /* nanozapTests.swift */; };
+		7267D99220C7198500549631 /* nanozapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D99120C7198500549631 /* nanozapUITests.swift */; };
+		7267D9A220C71A5B00549631 /* api.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D9A120C71A5A00549631 /* api.pb.swift */; };
+		72A1661E20C71E8200F85D71 /* tls.cert in Resources */ = {isa = PBXBuildFile; fileRef = 72A1661D20C71E8200F85D71 /* tls.cert */; };
+		72A1662020C7266D00F85D71 /* api.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A1661F20C7266C00F85D71 /* api.grpc.swift */; };
+		72A1662320C82E3500F85D71 /* admin.macaroon in Resources */ = {isa = PBXBuildFile; fileRef = 72A1662220C82E3400F85D71 /* admin.macaroon */; };
+		72A1662620C833C900F85D71 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A1662520C833C900F85D71 /* Data.swift */; };
+		777B131D1BFD75FE76421DD6 /* Pods_nanozapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */; };
+		A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7267D98320C7198500549631 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7267D96620C7198300549631 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7267D96D20C7198300549631;
+			remoteInfo = nanozap;
+		};
+		7267D98E20C7198500549631 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7267D96620C7198300549631 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7267D96D20C7198300549631;
+			remoteInfo = nanozap;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.release.xcconfig"; sourceTree = "<group>"; };
+		6ACEF8C8F91B98293A4AA069 /* Pods-nanozapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapUITests/Pods-nanozapUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		6D1E7CD5D5217E9A65BEC78D /* Pods-nanozapUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapUITests/Pods-nanozapUITests.release.xcconfig"; sourceTree = "<group>"; };
+		7267D96E20C7198300549631 /* nanozap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nanozap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7267D97120C7198300549631 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7267D97320C7198300549631 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7267D97620C7198300549631 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7267D97820C7198500549631 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7267D97B20C7198500549631 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7267D97D20C7198500549631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7267D98220C7198500549631 /* nanozapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nanozapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7267D98620C7198500549631 /* nanozapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nanozapTests.swift; sourceTree = "<group>"; };
+		7267D98820C7198500549631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7267D98D20C7198500549631 /* nanozapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nanozapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7267D99120C7198500549631 /* nanozapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nanozapUITests.swift; sourceTree = "<group>"; };
+		7267D99320C7198500549631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7267D9A120C71A5A00549631 /* api.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.pb.swift; sourceTree = "<group>"; };
+		72A1661D20C71E8200F85D71 /* tls.cert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tls.cert; sourceTree = "<group>"; };
+		72A1661F20C7266C00F85D71 /* api.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.grpc.swift; sourceTree = "<group>"; };
+		72A1662220C82E3400F85D71 /* admin.macaroon */ = {isa = PBXFileReference; lastKnownFileType = file; path = admin.macaroon; sourceTree = "<group>"; };
+		72A1662520C833C900F85D71 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		7D9B63D700EF83677ADDE5EF /* Pods-nanozap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozap/Pods-nanozap.debug.xcconfig"; sourceTree = "<group>"; };
+		99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7F50E6AFFC8D24F78019970 /* Pods-nanozapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F6DF48CC507693F39E9BDDF3 /* Pods-nanozap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozap.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozap/Pods-nanozap.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7267D96B20C7198300549631 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				707B98F6EAF2D93E3F2BF16B /* Pods_nanozap.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7267D97F20C7198500549631 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7267D98A20C7198500549631 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				777B131D1BFD75FE76421DD6 /* Pods_nanozapUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7267D96520C7198300549631 = {
+			isa = PBXGroup;
+			children = (
+				7267D97020C7198300549631 /* nanozap */,
+				7267D98520C7198500549631 /* nanozapTests */,
+				7267D99020C7198500549631 /* nanozapUITests */,
+				7267D96F20C7198300549631 /* Products */,
+				B02C6A39C06381194C53A060 /* Pods */,
+				BA84EE0E4D0D8092E127F8A2 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		7267D96F20C7198300549631 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7267D96E20C7198300549631 /* nanozap.app */,
+				7267D98220C7198500549631 /* nanozapTests.xctest */,
+				7267D98D20C7198500549631 /* nanozapUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7267D97020C7198300549631 /* nanozap */ = {
+			isa = PBXGroup;
+			children = (
+				72A1662420C833AF00F85D71 /* extentions */,
+				72A1662220C82E3400F85D71 /* admin.macaroon */,
+				7267D9A120C71A5A00549631 /* api.pb.swift */,
+				72A1661F20C7266C00F85D71 /* api.grpc.swift */,
+				7267D97120C7198300549631 /* AppDelegate.swift */,
+				7267D97320C7198300549631 /* ViewController.swift */,
+				7267D97520C7198300549631 /* Main.storyboard */,
+				7267D97820C7198500549631 /* Assets.xcassets */,
+				7267D97A20C7198500549631 /* LaunchScreen.storyboard */,
+				7267D97D20C7198500549631 /* Info.plist */,
+				72A1661D20C71E8200F85D71 /* tls.cert */,
+			);
+			path = nanozap;
+			sourceTree = "<group>";
+		};
+		7267D98520C7198500549631 /* nanozapTests */ = {
+			isa = PBXGroup;
+			children = (
+				7267D98620C7198500549631 /* nanozapTests.swift */,
+				7267D98820C7198500549631 /* Info.plist */,
+			);
+			path = nanozapTests;
+			sourceTree = "<group>";
+		};
+		7267D99020C7198500549631 /* nanozapUITests */ = {
+			isa = PBXGroup;
+			children = (
+				7267D99120C7198500549631 /* nanozapUITests.swift */,
+				7267D99320C7198500549631 /* Info.plist */,
+			);
+			path = nanozapUITests;
+			sourceTree = "<group>";
+		};
+		72A1662420C833AF00F85D71 /* extentions */ = {
+			isa = PBXGroup;
+			children = (
+				72A1662520C833C900F85D71 /* Data.swift */,
+			);
+			path = extentions;
+			sourceTree = "<group>";
+		};
+		B02C6A39C06381194C53A060 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7D9B63D700EF83677ADDE5EF /* Pods-nanozap.debug.xcconfig */,
+				F6DF48CC507693F39E9BDDF3 /* Pods-nanozap.release.xcconfig */,
+				D7F50E6AFFC8D24F78019970 /* Pods-nanozapTests.debug.xcconfig */,
+				4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */,
+				6ACEF8C8F91B98293A4AA069 /* Pods-nanozapUITests.debug.xcconfig */,
+				6D1E7CD5D5217E9A65BEC78D /* Pods-nanozapUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		BA84EE0E4D0D8092E127F8A2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */,
+				99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */,
+				CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7267D96D20C7198300549631 /* nanozap */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7267D99620C7198500549631 /* Build configuration list for PBXNativeTarget "nanozap" */;
+			buildPhases = (
+				363A6C47F571790C01E1888D /* [CP] Check Pods Manifest.lock */,
+				7267D96A20C7198300549631 /* Sources */,
+				7267D96B20C7198300549631 /* Frameworks */,
+				7267D96C20C7198300549631 /* Resources */,
+				5995EF823B85483C65478DAE /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = nanozap;
+			productName = nanozap;
+			productReference = 7267D96E20C7198300549631 /* nanozap.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7267D98120C7198500549631 /* nanozapTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7267D99920C7198500549631 /* Build configuration list for PBXNativeTarget "nanozapTests" */;
+			buildPhases = (
+				86F5795A5F9E84B545902552 /* [CP] Check Pods Manifest.lock */,
+				7267D97E20C7198500549631 /* Sources */,
+				7267D97F20C7198500549631 /* Frameworks */,
+				7267D98020C7198500549631 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7267D98420C7198500549631 /* PBXTargetDependency */,
+			);
+			name = nanozapTests;
+			productName = nanozapTests;
+			productReference = 7267D98220C7198500549631 /* nanozapTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		7267D98C20C7198500549631 /* nanozapUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7267D99C20C7198500549631 /* Build configuration list for PBXNativeTarget "nanozapUITests" */;
+			buildPhases = (
+				AD8F041C36EAA2D533F76EEC /* [CP] Check Pods Manifest.lock */,
+				7267D98920C7198500549631 /* Sources */,
+				7267D98A20C7198500549631 /* Frameworks */,
+				7267D98B20C7198500549631 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7267D98F20C7198500549631 /* PBXTargetDependency */,
+			);
+			name = nanozapUITests;
+			productName = nanozapUITests;
+			productReference = 7267D98D20C7198500549631 /* nanozapUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7267D96620C7198300549631 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Knut Nygaard";
+				TargetAttributes = {
+					7267D96D20C7198300549631 = {
+						CreatedOnToolsVersion = 9.4;
+					};
+					7267D98120C7198500549631 = {
+						CreatedOnToolsVersion = 9.4;
+						TestTargetID = 7267D96D20C7198300549631;
+					};
+					7267D98C20C7198500549631 = {
+						CreatedOnToolsVersion = 9.4;
+						TestTargetID = 7267D96D20C7198300549631;
+					};
+				};
+			};
+			buildConfigurationList = 7267D96920C7198300549631 /* Build configuration list for PBXProject "nanozap" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7267D96520C7198300549631;
+			productRefGroup = 7267D96F20C7198300549631 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7267D96D20C7198300549631 /* nanozap */,
+				7267D98120C7198500549631 /* nanozapTests */,
+				7267D98C20C7198500549631 /* nanozapUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7267D96C20C7198300549631 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7267D97C20C7198500549631 /* LaunchScreen.storyboard in Resources */,
+				7267D97920C7198500549631 /* Assets.xcassets in Resources */,
+				72A1662320C82E3500F85D71 /* admin.macaroon in Resources */,
+				7267D97720C7198300549631 /* Main.storyboard in Resources */,
+				72A1661E20C71E8200F85D71 /* tls.cert in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7267D98020C7198500549631 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7267D98B20C7198500549631 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		363A6C47F571790C01E1888D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-nanozap-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5995EF823B85483C65478DAE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-nanozap/Pods-nanozap-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftGRPC/SwiftGRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftProtobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-nanozap/Pods-nanozap-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		86F5795A5F9E84B545902552 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-nanozapTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AD8F041C36EAA2D533F76EEC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-nanozapUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7267D96A20C7198300549631 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7267D97420C7198300549631 /* ViewController.swift in Sources */,
+				72A1662620C833C900F85D71 /* Data.swift in Sources */,
+				72A1662020C7266D00F85D71 /* api.grpc.swift in Sources */,
+				7267D9A220C71A5B00549631 /* api.pb.swift in Sources */,
+				7267D97220C7198300549631 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7267D97E20C7198500549631 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7267D98720C7198500549631 /* nanozapTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7267D98920C7198500549631 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7267D99220C7198500549631 /* nanozapUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7267D98420C7198500549631 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7267D96D20C7198300549631 /* nanozap */;
+			targetProxy = 7267D98320C7198500549631 /* PBXContainerItemProxy */;
+		};
+		7267D98F20C7198500549631 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7267D96D20C7198300549631 /* nanozap */;
+			targetProxy = 7267D98E20C7198500549631 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7267D97520C7198300549631 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7267D97620C7198300549631 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		7267D97A20C7198500549631 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7267D97B20C7198500549631 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7267D99420C7198500549631 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7267D99520C7198500549631 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7267D99720C7198500549631 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D9B63D700EF83677ADDE5EF /* Pods-nanozap.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = nanozap/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.nygaard.nanozap;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7267D99820C7198500549631 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F6DF48CC507693F39E9BDDF3 /* Pods-nanozap.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = nanozap/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.nygaard.nanozap;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7267D99A20C7198500549631 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D7F50E6AFFC8D24F78019970 /* Pods-nanozapTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = nanozapTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.nygaard.nanozapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/nanozap.app/nanozap";
+			};
+			name = Debug;
+		};
+		7267D99B20C7198500549631 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = nanozapTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.nygaard.nanozapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/nanozap.app/nanozap";
+			};
+			name = Release;
+		};
+		7267D99D20C7198500549631 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6ACEF8C8F91B98293A4AA069 /* Pods-nanozapUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = nanozapUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.nygaard.nanozapUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = nanozap;
+			};
+			name = Debug;
+		};
+		7267D99E20C7198500549631 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6D1E7CD5D5217E9A65BEC78D /* Pods-nanozapUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = nanozapUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.nygaard.nanozapUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = nanozap;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7267D96920C7198300549631 /* Build configuration list for PBXProject "nanozap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7267D99420C7198500549631 /* Debug */,
+				7267D99520C7198500549631 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7267D99620C7198500549631 /* Build configuration list for PBXNativeTarget "nanozap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7267D99720C7198500549631 /* Debug */,
+				7267D99820C7198500549631 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7267D99920C7198500549631 /* Build configuration list for PBXNativeTarget "nanozapTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7267D99A20C7198500549631 /* Debug */,
+				7267D99B20C7198500549631 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7267D99C20C7198500549631 /* Build configuration list for PBXNativeTarget "nanozapUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7267D99D20C7198500549631 /* Debug */,
+				7267D99E20C7198500549631 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7267D96620C7198300549631 /* Project object */;
+}
