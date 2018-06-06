@@ -12,28 +12,25 @@ import SwiftProtobuf
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var walletbalanceLabel: UILabel!
+    
+    let rpcmanager: RpcManager = RpcManager.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let path = Bundle.main.path(forResource: "tls", ofType: "cert")
-        let macpath = Bundle.main.path(forResource: "admin", ofType: "macaroon")
-        let data = try? Data(contentsOf: URL(fileURLWithPath: macpath!))
-        if let tlsCert = try? String.init(contentsOfFile: path!) {
-            let macaroon = data!.hexString()
-            print(tlsCert)
-            
-            do {
-                setenv("GRPC_SSL_CIPHER_SUITES", "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384", 1)
-                let client = Lnrpc_LightningServiceClient(address: "192.168.100.15:10009", certificates: tlsCert)
-                try client.metadata.add(key: "macaroon", value: macaroon)
-                
-                let res = try client.walletBalance(Lnrpc_WalletBalanceRequest())
-                print(res)
-            } catch {
+        guard let client = rpcmanager.client
+            else {
+                return
+        }
+        do {
+            let res = try client.walletBalance(Lnrpc_WalletBalanceRequest())
+            walletbalanceLabel.text = String(format: "Balance: %ld",res.totalBalance)
+        } catch {
                 print("Unexpected error: \(error).")
-            }
         }
     }
+        
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

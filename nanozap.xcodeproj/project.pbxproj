@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		707B98F6EAF2D93E3F2BF16B /* Pods_nanozap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */; };
+		7221654620C8591F00A429DE /* ChannelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7221654520C8591F00A429DE /* ChannelsTableViewController.swift */; };
+		7221654B20C85AC000A429DE /* RpcManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7221654A20C85AC000A429DE /* RpcManager.swift */; };
 		7267D97220C7198300549631 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D97120C7198300549631 /* AppDelegate.swift */; };
 		7267D97420C7198300549631 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D97320C7198300549631 /* ViewController.swift */; };
 		7267D97720C7198300549631 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7267D97520C7198300549631 /* Main.storyboard */; };
@@ -45,6 +47,8 @@
 		4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.release.xcconfig"; sourceTree = "<group>"; };
 		6ACEF8C8F91B98293A4AA069 /* Pods-nanozapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapUITests/Pods-nanozapUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		6D1E7CD5D5217E9A65BEC78D /* Pods-nanozapUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapUITests/Pods-nanozapUITests.release.xcconfig"; sourceTree = "<group>"; };
+		7221654520C8591F00A429DE /* ChannelsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsTableViewController.swift; sourceTree = "<group>"; };
+		7221654A20C85AC000A429DE /* RpcManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RpcManager.swift; sourceTree = "<group>"; };
 		7267D96E20C7198300549631 /* nanozap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nanozap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7267D97120C7198300549631 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7267D97320C7198300549631 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +103,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7221650720C8512E00A429DE /* secrets */ = {
+			isa = PBXGroup;
+			children = (
+				72A1662220C82E3400F85D71 /* admin.macaroon */,
+				72A1661D20C71E8200F85D71 /* tls.cert */,
+			);
+			path = secrets;
+			sourceTree = "<group>";
+		};
+		7221650820C8514700A429DE /* rpc */ = {
+			isa = PBXGroup;
+			children = (
+				72A1661F20C7266C00F85D71 /* api.grpc.swift */,
+				7267D9A120C71A5A00549631 /* api.pb.swift */,
+				7221654A20C85AC000A429DE /* RpcManager.swift */,
+			);
+			path = rpc;
+			sourceTree = "<group>";
+		};
+		7221654720C8592600A429DE /* viewcontrollers */ = {
+			isa = PBXGroup;
+			children = (
+				7221654520C8591F00A429DE /* ChannelsTableViewController.swift */,
+			);
+			path = viewcontrollers;
+			sourceTree = "<group>";
+		};
 		7267D96520C7198300549631 = {
 			isa = PBXGroup;
 			children = (
@@ -124,17 +155,16 @@
 		7267D97020C7198300549631 /* nanozap */ = {
 			isa = PBXGroup;
 			children = (
+				7221654720C8592600A429DE /* viewcontrollers */,
+				7221650820C8514700A429DE /* rpc */,
+				7221650720C8512E00A429DE /* secrets */,
 				72A1662420C833AF00F85D71 /* extentions */,
-				72A1662220C82E3400F85D71 /* admin.macaroon */,
-				7267D9A120C71A5A00549631 /* api.pb.swift */,
-				72A1661F20C7266C00F85D71 /* api.grpc.swift */,
 				7267D97120C7198300549631 /* AppDelegate.swift */,
 				7267D97320C7198300549631 /* ViewController.swift */,
 				7267D97520C7198300549631 /* Main.storyboard */,
 				7267D97820C7198500549631 /* Assets.xcassets */,
 				7267D97A20C7198500549631 /* LaunchScreen.storyboard */,
 				7267D97D20C7198500549631 /* Info.plist */,
-				72A1661D20C71E8200F85D71 /* tls.cert */,
 			);
 			path = nanozap;
 			sourceTree = "<group>";
@@ -409,6 +439,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7267D97420C7198300549631 /* ViewController.swift in Sources */,
+				7221654620C8591F00A429DE /* ChannelsTableViewController.swift in Sources */,
+				7221654B20C85AC000A429DE /* RpcManager.swift in Sources */,
 				72A1662620C833C900F85D71 /* Data.swift in Sources */,
 				72A1662020C7266D00F85D71 /* api.grpc.swift in Sources */,
 				7267D9A220C71A5B00549631 /* api.pb.swift in Sources */,
