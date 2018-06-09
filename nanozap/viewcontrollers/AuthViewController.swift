@@ -43,7 +43,7 @@ class AuthViewController : UIViewController {
                 print("Password: \(loginDetails.password ?? "")")
                 print("Notes: \(loginDetails.notes ?? "")")
                 print("URL: \(loginDetails.urlString)")
-//                print("Fields: \(loginDetails.fields ?? "")")
+                //print("Fields: \(loginDetails.fields ?? "")")
             } else if let error = error {
                 switch error.code {
                 case .extensionCancelledByUser:
