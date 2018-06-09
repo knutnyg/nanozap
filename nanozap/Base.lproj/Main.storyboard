@@ -131,6 +131,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tbb-vm-EeX">
+                                <rect key="frame" x="140" y="446" width="95" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="OnePassword"/>
+                                <connections>
+                                    <action selector="onePasswordButtonClicked:" destination="0qr-yP-4w5" eventType="touchUpInside" id="IpO-tA-K1d"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="HmZ-KH-Y3m"/>
@@ -140,6 +148,7 @@
                     <connections>
                         <outlet property="certTextView" destination="6gU-KA-WX5" id="mGa-z0-gZ5"/>
                         <outlet property="macaroonTextView" destination="N7L-pl-saD" id="1O9-ng-Pf0"/>
+                        <outlet property="onePasswordButton" destination="Tbb-vm-EeX" id="cv1-vZ-287"/>
                         <outlet property="saveButton" destination="I7t-3a-uxM" id="qHF-76-JIf"/>
                     </connections>
                 </viewController>
