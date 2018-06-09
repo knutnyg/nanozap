@@ -5,6 +5,9 @@
 Pods
 admin.macaroon
 tls.cert
+.DS_Store
+.idea
+
 
 ## Build generated
 build/
