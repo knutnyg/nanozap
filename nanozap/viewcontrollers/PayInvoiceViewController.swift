@@ -6,13 +6,10 @@ import QRCodeReader
 
 class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDelegate {
     @IBOutlet weak var saveButton: UIButton!
-    
     @IBOutlet weak var scanButton: UIButton!
     @IBAction func click(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
-    
-    
     
     // Good practice: create the reader lazily to avoid cpu overload during the
     // initialization and each time we need to scan a QRCode
@@ -32,6 +29,24 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
         // Or by using the closure pattern
         readerVC.completionBlock = { (result: QRCodeReaderResult?) in
             print(result)
+            
+            let payreq:String
+            
+            let c = result!.value.characters
+            if let colon = c.index(of: ":") {
+                payreq = String(result!.value[c.index(after: colon)..<result!.value.endIndex])
+            } else {
+                payreq = ""
+            }
+            
+            do {
+                let invoiceService = try InvoiceService()
+                let invoice = try invoiceService.decodeInvoice(invoice: payreq)
+                print(invoice.ammount)
+            } catch {
+                print(error)
+            }
+            
         }
         
         // Presents the readerVC as modal form sheet
