@@ -19,6 +19,7 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - PasswordExtension (4.1.0)
+  - QRCodeReader.swift (8.2.0)
   - SwiftGRPC (0.4.3):
     - BoringSSL (~> 10.0)
     - gRPC-Core (~> 1.11.0)
@@ -29,6 +30,7 @@ PODS:
 
 DEPENDENCIES:
   - PasswordExtension
+  - QRCodeReader.swift (~> 8.2.0)
   - SwiftGRPC
   - SwiftLint
   - SwiftProtobuf (~> 1.0)
@@ -40,6 +42,7 @@ SPEC REPOS:
     - gRPC-Core
     - nanopb
     - PasswordExtension
+    - QRCodeReader.swift
     - SwiftGRPC
     - SwiftLint
     - SwiftProtobuf
@@ -50,11 +53,12 @@ SPEC CHECKSUMS:
   gRPC-Core: 5fee7fa47b9cd12b2858e7e0dcf7bb0c61aeb23f
   nanopb: 7ff14b1dce580107a15de90796e901596d5529bd
   PasswordExtension: dc963ca5b5c95d93c145d5d44a465918f7fc3930
+  QRCodeReader.swift: 33dbaad979a6d080a0ff1bbe2c2aa02f8d2ea1eb
   SwiftGRPC: 0a0e23fe1dfbc2ef28c5d73062d54282ee8cb484
   SwiftLint: 87a43a7423cc6a9e23de6ec21cf148ddeece4b1f
   SwiftProtobuf: 4725f04098622c30bf46c80eff73330ebe9d8730
   Valet: 3b27cb8f4187d1ab39f7158698f5baf360fa989e
 
-PODFILE CHECKSUM: b4d84c2f5ecb484e1ad538a15ae203b4d8341fd6
+PODFILE CHECKSUM: 5c56148f3273965e7b31e1b38f70550e70d2f326
 
 COCOAPODS: 1.5.3

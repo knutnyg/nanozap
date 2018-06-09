@@ -12,6 +12,7 @@ target 'nanozap' do
   pod 'Valet'
   pod 'SwiftLint'
   pod 'PasswordExtension'
+  pod 'QRCodeReader.swift', '~> 8.2.0'
   
   target 'nanozapTests' do
     inherit! :search_paths

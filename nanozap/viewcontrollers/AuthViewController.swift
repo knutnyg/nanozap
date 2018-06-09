@@ -34,7 +34,7 @@ class AuthViewController : UIViewController {
         certTextView.text = self.cert ?? "no cert stored"
     }
     
-    @IBAction func onePasswordButtonClicked(_ sender: UIButton) {
+    @IBAction func onePasswordButtonClicked(_ sender: Any) {
         // Using the provided classes
         PasswordExtension.shared.findLoginDetails(for: "https://github.com/lnd", viewController: self, sender: nil) { (loginDetails, error) in
             if let loginDetails = loginDetails {
@@ -42,8 +42,8 @@ class AuthViewController : UIViewController {
                 print("Username: \(loginDetails.username)")
                 print("Password: \(loginDetails.password ?? "")")
                 print("Notes: \(loginDetails.notes ?? "")")
-                print("URL: \(loginDetails.urlString ?? "")")
-                print("Fields: \(loginDetails.fields ?? "")")
+                print("URL: \(loginDetails.urlString)")
+//                print("Fields: \(loginDetails.fields ?? "")")
             } else if let error = error {
                 switch error.code {
                 case .extensionCancelledByUser:
