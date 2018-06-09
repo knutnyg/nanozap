@@ -9,6 +9,7 @@ target 'nanozap' do
   # Pods for nanozap
   pod 'SwiftProtobuf' , '~> 1.0'
   pod 'SwiftGRPC', :inhibit_warnings => true
+  pod 'Valet'
   pod 'SwiftLint'
 
   target 'nanozapTests' do
