@@ -11,7 +11,8 @@ target 'nanozap' do
   pod 'SwiftGRPC', :inhibit_warnings => true
   pod 'Valet'
   pod 'SwiftLint'
-
+  pod 'PasswordExtension'
+  
   target 'nanozapTests' do
     inherit! :search_paths
     # Pods for testing

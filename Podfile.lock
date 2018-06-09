@@ -18,6 +18,7 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - PasswordExtension (4.1.0)
   - SwiftGRPC (0.4.3):
     - BoringSSL (~> 10.0)
     - gRPC-Core (~> 1.11.0)
@@ -27,6 +28,7 @@ PODS:
   - Valet (3.1.3)
 
 DEPENDENCIES:
+  - PasswordExtension
   - SwiftGRPC
   - SwiftLint
   - SwiftProtobuf (~> 1.0)
@@ -37,6 +39,7 @@ SPEC REPOS:
     - BoringSSL
     - gRPC-Core
     - nanopb
+    - PasswordExtension
     - SwiftGRPC
     - SwiftLint
     - SwiftProtobuf
@@ -48,6 +51,7 @@ SPEC CHECKSUMS:
   nanopb: 7ff14b1dce580107a15de90796e901596d5529bd
   SwiftGRPC: 0a0e23fe1dfbc2ef28c5d73062d54282ee8cb484
   SwiftProtobuf: 4725f04098622c30bf46c80eff73330ebe9d8730
+  PasswordExtension: 80a57bdae651d04437c8d2e07d90d5f18fe73180
   SwiftLint: ce933681be10c3266e82576dad676fa815a602e9
   Valet: fae4295525b1f13048147d30a38f66d266af9338
 
