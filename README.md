@@ -12,4 +12,8 @@ Nanozap uses Cocoapods for dependencies:
 ## Secrets
 For now Nanozap expects to find your `admin.macaroon` and `tls.cert` in the project. These are used for authenticating requests to your LND node. Copy these files into the project. They are typically located at `~/.lnd/`
 
+## Fastlane
+Use fastlane for building and testing:
+`sudo gem install fastlane -NV`
+`fastlane test`
 
