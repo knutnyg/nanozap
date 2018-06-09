@@ -7,7 +7,7 @@ target 'nanozap' do
   inhibit_all_warnings!
 
   # Pods for nanozap
-  pod 'SwiftProtobuf' , '~> 1.0',
+  pod 'SwiftProtobuf' , '~> 1.0'
   pod 'SwiftGRPC', :inhibit_warnings => true
   pod 'SwiftLint'
 
