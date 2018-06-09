@@ -12,12 +12,15 @@ class RpcManager {
     static let shared = RpcManager()
     
     let client: Lnrpc_LightningServiceClient?
-    
+
+    let macStore = MacaroonStore()
+    let certStore = CertStore()
+
     private init() {
         setenv("GRPC_SSL_CIPHER_SUITES", "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384", 1)
         
-        var cert: String? = nil
-        var macaroon: String? = nil
+        var cert = certStore.getCert()
+        var macaroon = macStore.getMacaroon()
         
         if let path = Bundle.main.path(forResource: "tls", ofType: "cert") {
             do {
