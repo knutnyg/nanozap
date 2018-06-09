@@ -28,6 +28,15 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<!-- In order for your app to be able to fully integrate with the 1Password extension,
+	   the following needs to be added to the Info.plist file in your app to allow the url
+	   scheme that password managers like 1Password and LastPass use to check if those apps are installed on the users device.
+     -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>org-appextension-feature-password-management</string>
+	</array>
+	<!-- </1Password> -->
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
