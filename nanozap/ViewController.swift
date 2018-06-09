@@ -11,24 +11,24 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var walletbalanceLabel: UILabel!
-    
+
     let rpcmanager: RpcManager = RpcManager.shared
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         guard let client = rpcmanager.client
-            else {
-                return
+                else {
+            return
         }
         do {
             let res = try client.walletBalance(Lnrpc_WalletBalanceRequest())
-            walletbalanceLabel.text = String(format: "Balance: %ld",res.totalBalance)
+            walletbalanceLabel.text = String(format: "Balance: %ld", res.totalBalance)
         } catch {
-                print("Unexpected error: \(error).")
+            print("Unexpected error: \(error).")
         }
     }
-        
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
