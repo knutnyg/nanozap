@@ -15,18 +15,28 @@ class AuthViewController : UIViewController {
     @IBOutlet weak var macaroonTextView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
     
-    let secrets:Secrets?
+    var macaroonStore:MacaroonStore!
+    var certStore:CertStore!
+    
+    var macaroon:String?
+    var cert:String?
     
     override func viewDidLoad() {
-        let unsecretService = UnsecretService()
-        self.secrets = unsecretService.getSecrets()
+        self.macaroonStore = MacaroonStore()
+        self.certStore = CertStore()
         
+        self.macaroon = macaroonStore.getMacaroon()
+        self.cert = certStore.getCert()
         
+        macaroonTextView.text = self.macaroon ?? "no macaroon stored"
+        certTextView.text = self.cert ?? "no cert stored"
     }
     
     @IBAction func click(_ sender: UIButton) {
-        print(certTextView.text)
+        macaroonStore.saveMacaroon(secret: macaroonTextView.text)
+        macaroonTextView.text = ""
+        
+        certStore.saveCert(certData: certTextView.text)
+        certTextView.text = ""
     }
-    
-    
 }
