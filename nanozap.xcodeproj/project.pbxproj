@@ -28,6 +28,7 @@
 		72A1662620C833C900F85D71 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A1662520C833C900F85D71 /* Data.swift */; };
 		777B131D1BFD75FE76421DD6 /* Pods_nanozapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */; };
 		A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */; };
+		BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0BB283F89D9AB5E995ECF /* SecretService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		7D9B63D700EF83677ADDE5EF /* Pods-nanozap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozap/Pods-nanozap.debug.xcconfig"; sourceTree = "<group>"; };
 		99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFD0BB283F89D9AB5E995ECF /* SecretService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretService.swift; sourceTree = "<group>"; };
 		CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F50E6AFFC8D24F78019970 /* Pods-nanozapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F6DF48CC507693F39E9BDDF3 /* Pods-nanozap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozap.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozap/Pods-nanozap.release.xcconfig"; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 			children = (
 				6ADB0F2220CC1502008E62DF /* ChannelService.swift */,
 				6ADB0F2420CC1D33008E62DF /* WalletService.swift */,
+				BFD0BB283F89D9AB5E995ECF /* SecretService.swift */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftGRPC/SwiftGRPC.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Valet/Valet.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -415,6 +419,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGRPC.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftProtobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Valet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -477,6 +482,7 @@
 				6ADB0F2020CC0C25008E62DF /* Channel.swift in Sources */,
 				7267D9A220C71A5B00549631 /* api.pb.swift in Sources */,
 				7267D97220C7198300549631 /* AppDelegate.swift in Sources */,
+				BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
