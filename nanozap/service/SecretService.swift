@@ -39,7 +39,7 @@ struct MacaroonStore {
     let store = ICloudSecretKeeper()
 
     public func getMacaroon() -> String? {
-        let myMacaroon = store.string(forKey: macaroonKey)
+        let myMacaroon = store.get(key: macaroonKey)
 
         return myMacaroon
     }
@@ -47,7 +47,7 @@ struct MacaroonStore {
     // saveMacaroon returns false if item could not be saved.
     // Typically this means we were not able to access the Keychain.
     public func saveMacaroon(secret: String) -> Bool {
-        return store.set(string: secret, forKey: macaroonKey)
+        return store.save(key: macaroonKey, secret: secret)
     }
 
 }
