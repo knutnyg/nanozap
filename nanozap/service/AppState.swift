@@ -1,6 +1,10 @@
 
 import RxSwift
 
+enum Event {
+    case updateAuthConfig(AuthStateUpdate)
+}
+
 struct AuthStateUpdate {
     let macaroon: String
     let hostname: String
@@ -25,8 +29,8 @@ class AppState {
     static var sharedState = AppState()
     let disposeBag = DisposeBag()
     
-    let updater : PublishSubject<AuthStateUpdate> = PublishSubject()
-
+    let updater : PublishSubject<Event> = PublishSubject()
+    
     var hostname : String
     var cert : String
     var macaroon : String
@@ -55,11 +59,14 @@ class AppState {
         macaroon = store.get(key: MacaroonStore.macaroonKey) ?? ""
 
         updater.subscribe(
-            onNext: { (event : AuthStateUpdate) in
-                print("event=", event)
-                self.cert = event.cert
-                self.hostname = event.hostname
-                self.macaroon = event.macaroon
+            onNext: { (evt : Event) in
+                print("event=", evt)
+                switch evt {
+                case .updateAuthConfig(let cfg):
+                    self.cert = cfg.cert
+                    self.hostname = cfg.hostname
+                    self.macaroon = cfg.macaroon
+                }
                 
                 // TODO: fix this hack
                 self.save()

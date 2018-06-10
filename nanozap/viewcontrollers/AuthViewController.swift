@@ -53,6 +53,9 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
             .map { (hostname, cert, macaroon) -> AuthStateUpdate in
                 return AuthStateUpdate(macaroon: macaroon, hostname: hostname ?? "", cert: cert)
             }
+            .map { action -> Event in
+                return Event.updateAuthConfig(action)
+            }
             .bind(to: AppState.sharedState.updater)
             .disposed(by: disposeBag)
     }

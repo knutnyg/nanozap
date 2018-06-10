@@ -40,8 +40,13 @@ class RpcManager {
                 //onError: ,
                 //onCompleted: ,
                 //onDisposed: ,
-                onNext: { (evt : AuthStateUpdate) in
-                    self.reload();
+                onNext: { (evt : Event) in
+                    switch(evt) {
+                    case .updateAuthConfig(let cfg):
+                        self.reload()
+                    default:
+                        return
+                    }
                 }
             ).disposed(by: bag)
     }
