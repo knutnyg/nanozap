@@ -40,13 +40,13 @@ class AppState {
     // TODO: error handling
     private func save() {
         // Valet will crash when saving empty strings
-        if hostname.isEmpty {
+        if !hostname.isEmpty {
             _ = store.save(key: HostnameStore.hostnameKey, secret: hostname)
         }
-        if cert.isEmpty {
+        if !cert.isEmpty {
             _ = store.save(key: CertStore.certKey, secret: cert)
         }
-        if macaroon.isEmpty {
+        if !macaroon.isEmpty {
             _ = store.save(key: MacaroonStore.macaroonKey, secret: macaroon)
         }
     }
