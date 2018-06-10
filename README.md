@@ -12,7 +12,7 @@ Nanozap uses Cocoapods for dependencies:
 ## Secrets
 To use this app, it needs to be able to talk to your LND process.
 
-To do this, 3 thinks are needed:
+To do this, 3 things are needed:
 
 - hostname: {ip|dns}:port, e.g. 1.2.3.4:10009 or mynode.lightning.org:10009
 
