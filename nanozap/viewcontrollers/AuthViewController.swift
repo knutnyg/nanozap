@@ -20,7 +20,7 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
     var cert:String?
     var hostname:String?
 
-    var hostnameObs = Variable<String?>("")
+    var hostnameObs = BehaviorSubject<String?>(value: "")
     let certObs = PublishSubject<String>()
     let macaroonObs = PublishSubject<String>()
     
@@ -28,7 +28,7 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         self.macaroon = AppState.sharedState.macaroon
         self.cert = AppState.sharedState.cert
         self.hostname = AppState.sharedState.hostname
-        self.hostnameObs = Variable<String?>(AppState.sharedState.hostname)
+        self.hostnameObs = BehaviorSubject<String?>(value: AppState.sharedState.hostname)
         
         certLabel.text = (self.cert != nil) ? "✅" : "❌"
         macaroonLabal.text = (self.macaroon != nil) ? "✅" : "❌"
@@ -37,6 +37,7 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         hostnameTextField.rx.text
             .distinctUntilChanged()
             .bind(to: hostnameObs)
+            .disposed(by: disposeBag)
 
         let obs1 = hostnameObs.asObservable()
             .do(onNext: { (val : String?) in print("host=", val) })
@@ -67,11 +68,12 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
                 print("Password: \(loginDetails.password ?? "")")
                 print("Notes: \(loginDetails.notes ?? "")")
                 print("URL: \(loginDetails.urlString)")
-                //print("Fields: \(loginDetails.fields ?? "")")
+                print("Fields: ", loginDetails.fields)
+                print("Fields: ", loginDetails.returnedFields)
 
                 self.certObs.onNext(loginDetails.notes ?? "")
                 self.macaroonObs.onNext(loginDetails.password ?? "")
-                self.hostnameObs.value = loginDetails.urlString
+                self.hostnameTextField.text = loginDetails.urlString
                 
             } else if let error = error {
                 switch error.code {
