@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  nanozap
-//
-//  Created by Knut Nygaard on 05/06/2018.
-//  Copyright © 2018 Knut Nygaard. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 
@@ -29,7 +21,6 @@ class WalletViewController: UIViewController, UITableViewDataSource, UITableView
         
         return cell
     }
-    
 
     @IBOutlet weak var walletbalanceLabel: UILabel!
 
@@ -66,7 +57,4 @@ class WalletViewController: UIViewController, UITableViewDataSource, UITableView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
-

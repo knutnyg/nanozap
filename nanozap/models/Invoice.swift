@@ -14,5 +14,4 @@ struct Invoice {
         self.expiry = expiry
         self.payreq = payreq
     }
-
 }

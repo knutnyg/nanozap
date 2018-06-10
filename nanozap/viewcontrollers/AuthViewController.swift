@@ -72,8 +72,8 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
                     print("Password: \(loginDetails.password ?? "")")
                     print("Notes: \(loginDetails.notes ?? "")")
                     print("URL: \(loginDetails.urlString)")
-                    print("Fields: ", loginDetails.fields)
-                    print("Fields: ", loginDetails.returnedFields)
+                    print("Fields: ", loginDetails.fields ?? "")
+                    print("Fields: ", loginDetails.returnedFields ?? "")
 
                     self.certObs.onNext(loginDetails.notes ?? "")
                     self.macaroonObs.onNext(loginDetails.password ?? "")
@@ -129,7 +129,7 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         default:
             print(result.value)
         }
-        
+
         dismiss(animated: true, completion: nil)
     }
     

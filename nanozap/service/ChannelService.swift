@@ -1,5 +1,4 @@
-	class ChannelService {
-
+class ChannelService {
     let rpcmanager: RpcManager = RpcManager.shared
 
     public func getChannels() throws -> [Channel] {

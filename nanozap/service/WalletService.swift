@@ -40,5 +40,4 @@ class WalletService {
     }
     
     private init() {}
-    
 }
