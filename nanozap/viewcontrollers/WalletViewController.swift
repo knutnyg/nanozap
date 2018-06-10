@@ -17,7 +17,9 @@ class WalletViewController: UIViewController, UITableViewDataSource, UITableView
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM"
         
-        cell.textLabel?.text = "\(formatter.string(from: transaction.timestamp)) - \(transaction.destination.dropLast(transaction.destination.count - 8))... - \(transaction.amount)"
+        cell.textLabel?.text = "\(formatter.string(from: transaction.timestamp))" +
+        "- \(transaction.destination.dropLast(transaction.destination.count - 8))..." +
+        "- \(transaction.amount)"
         
         return cell
     }
