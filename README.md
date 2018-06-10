@@ -1,7 +1,7 @@
 # Nanozap
 
 ## TLDR:
-Nanozap is a light GUI client to be used with an external LND lightning node.
+Nanozap is a light GUI client to be used with a private, fully validating LND lightning node.
 
 ## Setup
 Nanozap uses Cocoapods for dependencies:
