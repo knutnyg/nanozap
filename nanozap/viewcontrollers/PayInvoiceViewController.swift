@@ -59,7 +59,6 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
         
     }
     
-    
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         reader.stopScanning()
         
@@ -67,7 +66,7 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
         
         let payreq:String
 
-        let charList = result.value.characters
+        let charList = result.value
         if let colon = charList.index(of: ":") {
             payreq = String(result.value[charList.index(after: colon)..<result.value.endIndex])
         } else {
