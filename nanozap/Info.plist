@@ -18,8 +18,14 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>org-appextension-feature-password-management</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>The camera is used to scan QR-codes</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -28,23 +34,12 @@
 	<array>
 		<string>armv7</string>
 	</array>
-	<!-- In order for your app to be able to fully integrate with the 1Password extension,
-	   the following needs to be added to the Info.plist file in your app to allow the url
-	   scheme that password managers like 1Password and LastPass use to check if those apps are installed on the users device.
-     -->
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>org-appextension-feature-password-management</string>
-	</array>
-	<!-- </1Password> -->
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>The camera is used to scan QR-codes</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -7,71 +7,62 @@ import QRCodeReader
 class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDelegate {
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var scanButton: UIButton!
-    @IBAction func click(_ sender: UIButton) {
+ 
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var descLabel: UILabel!
+    @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var expiryLabel: UILabel!
+    
+    
+    @IBAction func click(sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
     
-    // Good practice: create the reader lazily to avoid cpu overload during the
-    // initialization and each time we need to scan a QRCode
+    // Start QRCode
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
             $0.reader = QRCodeReader(metadataObjectTypes: [.qr], captureDevicePosition: .back)
         }
-        
         return QRCodeReaderViewController(builder: builder)
     }()
     
-    @IBAction func scanAction(_ sender: AnyObject) {
-        // Retrieve the QRCode content
-        // By using the delegate pattern
+    @IBAction func scanPayRequest(sender: UIButton) {
         readerVC.delegate = self
-        
-        // Or by using the closure pattern
-        readerVC.completionBlock = { (result: QRCodeReaderResult?) in
-            print(result)
-            
-            let payreq:String
-            
-            let c = result!.value.characters
-            if let colon = c.index(of: ":") {
-                payreq = String(result!.value[c.index(after: colon)..<result!.value.endIndex])
-            } else {
-                payreq = ""
-            }
-            
-            do {
-                let invoiceService = try InvoiceService()
-                let invoice = try invoiceService.decodeInvoice(invoice: payreq)
-                print(invoice.ammount)
-            } catch {
-                print(error)
-            }
-            
-        }
-        
-        // Presents the readerVC as modal form sheet
         readerVC.modalPresentationStyle = .formSheet
         present(readerVC, animated: true, completion: nil)
     }
     
-    // MARK: - QRCodeReaderViewController Delegate Methods
-    
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         reader.stopScanning()
         
+        print(result.value)
+        
+        let payreq:String
+
+        let c = result.value.characters
+        if let colon = c.index(of: ":") {
+            payreq = String(result.value[c.index(after: colon)..<result.value.endIndex])
+        } else {
+            payreq = ""
+        }
+        
+        print("Payreq: \(payreq)")
+        do {
+            let invoice = try InvoiceService.shared.decodeInvoice(invoice: payreq)
+            timeLabel.text = invoice.timestamp.description
+            descLabel.text = invoice.description
+            amountLabel.text = String(invoice.ammount)
+            expiryLabel.text = invoice.expiry.description
+            
+        } catch {
+            
+        }
         dismiss(animated: true, completion: nil)
-    }
-    
-    //This is an optional delegate method, that allows you to be notified when the user switches the cameraName
-    //By pressing on the switch camera button
-    func reader(_ reader: QRCodeReaderViewController, didSwitchCamera newCaptureDevice: AVCaptureDeviceInput) {
-        let cameraName = newCaptureDevice.device.localizedName
-        print("Switching capturing to: \(cameraName)")
     }
     
     func readerDidCancel(_ reader: QRCodeReaderViewController) {
         reader.stopScanning()
-        
         dismiss(animated: true, completion: nil)
     }
+    // End QRCode
 }
