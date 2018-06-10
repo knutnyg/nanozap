@@ -7,12 +7,14 @@ import QRCodeReader
 class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDelegate {
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var scanButton: UIButton!
- 
+    @IBOutlet weak var payButton: UIButton!
+    
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var descLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
     @IBOutlet weak var expiryLabel: UILabel!
     
+    var invoice:Invoice?
     
     @IBAction func click(sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -32,6 +34,24 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
         present(readerVC, animated: true, completion: nil)
     }
     
+    @IBAction func pay(_ sender: Any) {
+        if let invoice = self.invoice {
+            let alert = UIAlertController(title: "Pay?", message: "Confirm paying \(invoice.ammount) satoshis", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+                print("paying")
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { action in
+                print("cancel")}))
+            
+            self.present(alert, animated: true)
+        } else {
+            return
+        }
+        
+    }
+    
+    
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         reader.stopScanning()
         
@@ -48,12 +68,12 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
         
         print("Payreq: \(payreq)")
         do {
-            let invoice = try InvoiceService.shared.decodeInvoice(invoice: payreq)
+            let invoice = try InvoiceService.shared.decodeInvoice(payreqString: payreq)
             timeLabel.text = invoice.timestamp.description
             descLabel.text = invoice.description
             amountLabel.text = String(invoice.ammount)
             expiryLabel.text = invoice.expiry.description
-            
+            self.invoice = invoice
         } catch {
             
         }
