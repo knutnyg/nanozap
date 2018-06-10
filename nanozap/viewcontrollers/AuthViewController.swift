@@ -112,14 +112,17 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         reader.stopScanning()
         
-        print(result.value)
         switch scanType {
         case "cert":
-            //TODO: sanitycheck result
+            if !(certIsValid(cert: result.value)) {
+                return
+            }
             certObs.onNext(result.value)
             certLabel.text = "✅"
         case "macaroon":
-            //TODO: sanitycheck result
+            if !(macaroonIsValid(macaroon: result.value)) {
+                return
+            }
             let base64Macaroon = Data(base64Encoded: result.value)!
             
             macaroon = base64Macaroon.hexString()
@@ -137,5 +140,19 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         reader.stopScanning()
         
         dismiss(animated: true, completion: nil)
+    }
+    
+    public func certIsValid(cert:String) -> Bool {
+        return
+            cert.contains("-----BEGIN CERTIFICATE-----") &&
+            cert.contains("-----END CERTIFICATE-----")
+    }
+    
+    public func macaroonIsValid(macaroon:String) -> Bool {
+        if let data = Data(base64Encoded: macaroon) {
+            return !data.isEmpty
+        }
+        
+        return false
     }
 }
