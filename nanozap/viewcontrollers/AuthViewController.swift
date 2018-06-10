@@ -64,8 +64,8 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         // Using the provided classes
         let domain = self.hostname ?? "https://github.com"
 
-        PasswordExtension.shared.findLoginDetails(for: domain, viewController: self, sender: nil) {
-            (loginDetails, error) in
+        PasswordExtension.shared
+            .findLoginDetails(for: domain, viewController: self, sender: nil) { (loginDetails, error) in
                 if let loginDetails = loginDetails {
                     print("Title: \(loginDetails.title ?? "")")
                     print("Username: \(loginDetails.username)")
