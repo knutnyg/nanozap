@@ -13,11 +13,15 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
     @IBOutlet weak var certLabel: UILabel!
     @IBOutlet weak var macaroonLabal: UILabel!
     
+    let disposeBag = DisposeBag()
     var scanType:String = "none"
     
     var macaroon:String?
     var cert:String?
     var hostname:String?
+    
+    let certObs = PublishSubject<String>()
+    let macaroonObs = PublishSubject<String>()
     
     override func viewDidLoad() {
         self.macaroon = AppState.sharedState.macaroon
@@ -26,18 +30,22 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         
         certLabel.text = (self.cert != nil) ? "✅" : "❌"
         macaroonLabal.text = (self.macaroon != nil) ? "✅" : "❌"
-
         hostnameTextField.text = self.hostname ?? ""
 
         let obs1 = hostnameTextField.rx.text.distinctUntilChanged()
-        let obs2 = certTextView.rx.text.distinctUntilChanged()
-        let obs3 = macaroonTextView.rx.text.distinctUntilChanged()
-        
-        let obs = Observable
+            .do(onNext: {(val : String?) in print("host=", val) })
+            .startWith(hostname ?? "")
+
+        let obs2 = certObs.distinctUntilChanged().startWith(cert ?? "")
+        let obs3 = macaroonObs.distinctUntilChanged().startWith(macaroon ?? "")
+
+        let _ = Observable
             .combineLatest(obs1, obs2, obs3)
             .map { (hostname, cert, macaroon) -> AuthStateUpdate in
-                return AuthStateUpdate(macaroon: macaroon ?? "", hostname: hostname ?? "", cert: cert ?? "")
-            }.bind(to: AppState.sharedState.updater)
+                return AuthStateUpdate(macaroon: macaroon, hostname: hostname ?? "", cert: cert)
+            }
+            .bind(to: AppState.sharedState.updater)
+            .disposed(by: disposeBag)
     }
     
     @IBAction func onePasswordButtonClicked(_ sender: Any) {
@@ -89,22 +97,18 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         switch scanType {
         case "cert":
             //TODO: sanitycheck result
-            cert = result.value
+            certObs.onNext(result.value)
             certLabel.text = "✅"
-            let success = certStore.saveCert(certData: result.value)
-            success ? print("cert stored") : print("failed to store cert")
-            
         case "macaroon":
             //TODO: sanitycheck result
             let base64Macaroon = Data(base64Encoded: result.value)!
             
             macaroon = base64Macaroon.hexString()
+            macaroonObs.onNext(macaroon ?? "")
             macaroonLabal.text = "✅"
-            let success = macaroonStore.saveMacaroon(secret: macaroon!)
-            success ? print("macaroon stored") : print("failed to store macaroon")
             
-            default:
-                print(result.value)
+        default:
+            print(result.value)
         }
         
         dismiss(animated: true, completion: nil)
