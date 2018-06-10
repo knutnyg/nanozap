@@ -2,10 +2,14 @@ disabled_rules: # rule identifiers to exclude from running
   - colon
   - comma
   - control_statement
+  - unused_closure_parameter
+  - vertical_whitespace
+
 opt_in_rules: # some rules are only opt-in
   - empty_count
-  # Find all the available rules by running:
-  # swiftlint rules
+
+# Find all the available rules by running:
+# swiftlint rules
 included: # paths to include during linting. `--path` is ignored if present.
   - Source
   - nanozap
@@ -19,6 +23,7 @@ excluded: # paths to ignore during linting. Takes precedence over `included`.
 trailing_whitespace:
   ignores_empty_lines: true
   ignores_comments: true
+
 
 # configurable rules can be customized from this configuration file
 # binary rules can set their severity level
