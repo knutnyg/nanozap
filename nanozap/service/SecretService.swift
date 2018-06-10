@@ -7,7 +7,10 @@ protocol SecretKeeper {
 
 struct ICloudSecretKeeper: SecretKeeper {
     //TODO: find out if identifier should be random or secret itself.
-    let appValet = Valet.iCloudValet(with: Identifier(nonEmpty: "TQRQLA8ubzVgPtTWWswAZTs")!, accessibility: .whenUnlocked)
+    let appValet = Valet.iCloudValet(
+        with: Identifier(nonEmpty: "TQRQLA8ubzVgPtTWWswAZTs")!,
+        accessibility: .whenUnlocked
+    )
 
     //let appValet = Valet.valet(with: Identifier(nonEmpty: "TQRQLA8ubzVgPtTWWswAZTs")!, accessibility: .whenUnlocked)
 
