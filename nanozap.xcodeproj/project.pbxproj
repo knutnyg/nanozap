@@ -30,6 +30,9 @@
 		72A1662020C7266D00F85D71 /* api.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A1661F20C7266C00F85D71 /* api.grpc.swift */; };
 		72A1662620C833C900F85D71 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A1662520C833C900F85D71 /* Data.swift */; };
 		777B131D1BFD75FE76421DD6 /* Pods_nanozapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */; };
+		9876A86620CDA563002E824F /* Podfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = 9876A86320CDA563002E824F /* Podfile.lock */; };
+		9876A86720CDA563002E824F /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 9876A86420CDA563002E824F /* Podfile */; };
+		9876A86820CDA563002E824F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9876A86520CDA563002E824F /* README.md */; };
 		9899353020CD31D800498280 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9899352F20CD31D800498280 /* AppState.swift */; };
 		A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */; };
 		BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0BB283F89D9AB5E995ECF /* SecretService.swift */; };
@@ -85,6 +88,9 @@
 		72A1661F20C7266C00F85D71 /* api.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.grpc.swift; sourceTree = "<group>"; };
 		72A1662520C833C900F85D71 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		7D9B63D700EF83677ADDE5EF /* Pods-nanozap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozap/Pods-nanozap.debug.xcconfig"; sourceTree = "<group>"; };
+		9876A86320CDA563002E824F /* Podfile.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
+		9876A86420CDA563002E824F /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		9876A86520CDA563002E824F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9899352F20CD31D800498280 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +183,9 @@
 		7267D96520C7198300549631 = {
 			isa = PBXGroup;
 			children = (
+				9876A86420CDA563002E824F /* Podfile */,
+				9876A86320CDA563002E824F /* Podfile.lock */,
+				9876A86520CDA563002E824F /* README.md */,
 				7267D97020C7198300549631 /* nanozap */,
 				7267D98520C7198500549631 /* nanozapTests */,
 				7267D99020C7198500549631 /* nanozapUITests */,
@@ -372,8 +381,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9876A86820CDA563002E824F /* README.md in Resources */,
+				9876A86720CDA563002E824F /* Podfile in Resources */,
 				7267D97C20C7198500549631 /* LaunchScreen.storyboard in Resources */,
 				7267D97920C7198500549631 /* Assets.xcassets in Resources */,
+				9876A86620CDA563002E824F /* Podfile.lock in Resources */,
 				7267D97720C7198300549631 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
