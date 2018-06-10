@@ -64,28 +64,29 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         // Using the provided classes
         let domain = self.hostname ?? "https://github.com"
 
-        PasswordExtension.shared.findLoginDetails(for: domain, viewController: self, sender: nil) { (loginDetails, error) in
-            if let loginDetails = loginDetails {
-                print("Title: \(loginDetails.title ?? "")")
-                print("Username: \(loginDetails.username)")
-                print("Password: \(loginDetails.password ?? "")")
-                print("Notes: \(loginDetails.notes ?? "")")
-                print("URL: \(loginDetails.urlString)")
-                print("Fields: ", loginDetails.fields)
-                print("Fields: ", loginDetails.returnedFields)
+        PasswordExtension.shared.findLoginDetails(for: domain, viewController: self, sender: nil) {
+            (loginDetails, error) in
+                if let loginDetails = loginDetails {
+                    print("Title: \(loginDetails.title ?? "")")
+                    print("Username: \(loginDetails.username)")
+                    print("Password: \(loginDetails.password ?? "")")
+                    print("Notes: \(loginDetails.notes ?? "")")
+                    print("URL: \(loginDetails.urlString)")
+                    print("Fields: ", loginDetails.fields)
+                    print("Fields: ", loginDetails.returnedFields)
 
-                self.certObs.onNext(loginDetails.notes ?? "")
-                self.macaroonObs.onNext(loginDetails.password ?? "")
-                self.hostnameTextField.text = loginDetails.urlString
-                
-            } else if let error = error {
-                switch error.code {
-                case .extensionCancelledByUser:
-                    print(error.localizedDescription)
-                default:
-                    print("Error: \(error)")
+                    self.certObs.onNext(loginDetails.notes ?? "")
+                    self.macaroonObs.onNext(loginDetails.password ?? "")
+                    self.hostnameTextField.text = loginDetails.urlString
+                    
+                } else if let error = error {
+                    switch error.code {
+                    case .extensionCancelledByUser:
+                        print(error.localizedDescription)
+                    default:
+                        print("Error: \(error)")
+                    }
                 }
-            }
         }
     }
     
