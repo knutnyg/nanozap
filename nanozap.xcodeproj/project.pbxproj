@@ -15,7 +15,6 @@
 		6ADB0F2520CC1D33008E62DF /* WalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F2420CC1D33008E62DF /* WalletService.swift */; };
 		6ADB0F2720CC1D60008E62DF /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F2620CC1D60008E62DF /* Errors.swift */; };
 		6AFDE89520CC4080000EFA34 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFDE89420CC4080000EFA34 /* AuthViewController.swift */; };
-		6AFDE89B20CC4840000EFA34 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFDE89A20CC4840000EFA34 /* Secrets.swift */; };
 		707B98F6EAF2D93E3F2BF16B /* Pods_nanozap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */; };
 		7221654620C8591F00A429DE /* ChannelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7221654520C8591F00A429DE /* ChannelsTableViewController.swift */; };
 		7221654B20C85AC000A429DE /* RpcManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7221654A20C85AC000A429DE /* RpcManager.swift */; };
@@ -63,7 +62,6 @@
 		6ADB0F2420CC1D33008E62DF /* WalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletService.swift; sourceTree = "<group>"; };
 		6ADB0F2620CC1D60008E62DF /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		6AFDE89420CC4080000EFA34 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
-		6AFDE89A20CC4840000EFA34 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		6D1E7CD5D5217E9A65BEC78D /* Pods-nanozapUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapUITests/Pods-nanozapUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7221654520C8591F00A429DE /* ChannelsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsTableViewController.swift; sourceTree = "<group>"; };
 		7221654A20C85AC000A429DE /* RpcManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RpcManager.swift; sourceTree = "<group>"; };
@@ -126,7 +124,6 @@
 			children = (
 				6ADB0F1F20CC0C25008E62DF /* Channel.swift */,
 				6ADB0F2620CC1D60008E62DF /* Errors.swift */,
-				6AFDE89A20CC4840000EFA34 /* Secrets.swift */,
 				6A059A2A20CC7441008EBDD4 /* Invoice.swift */,
 			);
 			path = models;
@@ -481,7 +478,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AFDE89B20CC4840000EFA34 /* Secrets.swift in Sources */,
 				7267D97420C7198300549631 /* ViewController.swift in Sources */,
 				6A059A2B20CC7441008EBDD4 /* Invoice.swift in Sources */,
 				9899353020CD31D800498280 /* AppState.swift in Sources */,
