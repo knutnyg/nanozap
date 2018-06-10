@@ -147,14 +147,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I7t-3a-uxM">
-                                <rect key="frame" x="170" y="484" width="34" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="click:" destination="0qr-yP-4w5" eventType="touchUpInside" id="w71-Ev-LoZ"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tbb-vm-EeX">
                                 <rect key="frame" x="140" y="446" width="95" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -223,7 +215,6 @@
                         <outlet property="hostnameTextField" destination="IwG-Wa-01V" id="jqf-ma-vMd"/>
                         <outlet property="macaroonLabal" destination="DJO-yY-Lml" id="MUw-lJ-7iX"/>
                         <outlet property="onePasswordButton" destination="Tbb-vm-EeX" id="cv1-vZ-287"/>
-                        <outlet property="saveButton" destination="I7t-3a-uxM" id="qHF-76-JIf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P5X-IM-FRh" userLabel="First Responder" sceneMemberID="firstResponder"/>

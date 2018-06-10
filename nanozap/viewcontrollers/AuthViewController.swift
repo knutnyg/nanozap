@@ -8,7 +8,6 @@ import RxCocoa
 
 class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate {
     
-    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var onePasswordButton: UIButton!
     @IBOutlet weak var hostnameTextField: UITextField!
     @IBOutlet weak var certLabel: UILabel!
@@ -115,7 +114,5 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         reader.stopScanning()
         
         dismiss(animated: true, completion: nil)
-    
-    @IBAction func click(_ sender: UIButton) {
     }
 }
