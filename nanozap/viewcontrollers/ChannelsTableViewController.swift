@@ -40,4 +40,3 @@ class ChannelsTableViewController: UITableViewController {
     }
     
 }
-

@@ -34,8 +34,6 @@ class WalletViewController: UIViewController, UITableViewDataSource, UITableView
         transactionsView.delegate = self
         transactionsView.dataSource = self
         
-        
-        
         guard let client = rpcmanager.client()
                 else {
             return
@@ -51,7 +49,6 @@ class WalletViewController: UIViewController, UITableViewDataSource, UITableView
             print("Unexpected error: \(error).")
         }
     }
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
