@@ -42,7 +42,7 @@ class RpcManager {
                 //onDisposed: ,
                 onNext: { (evt : Event) in
                     switch(evt) {
-                    case .updateAuthConfig(let cfg):
+                    case .updateAuthConfig(let _):
                         self.reload()
                     default:
                         return
