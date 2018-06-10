@@ -37,7 +37,7 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
         if let invoice = self.invoice {
             let alert = UIAlertController(
                 title: "Pay?",
-                message: "Confirm paying \(invoice.ammount) satoshis",
+                message: "Confirm paying \(invoice.amount) satoshis",
                 preferredStyle: .alert
             )
             
@@ -78,7 +78,7 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
             let invoice = try InvoiceService.shared.decodeInvoice(payreqString: payreq)
             timeLabel.text = invoice.timestamp.description
             descLabel.text = invoice.description
-            amountLabel.text = String(invoice.ammount)
+            amountLabel.text = String(invoice.amount)
             expiryLabel.text = invoice.expiry.description
             self.invoice = invoice
         } catch {

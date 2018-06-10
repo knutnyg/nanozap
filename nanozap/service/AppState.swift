@@ -1,4 +1,3 @@
-
 import RxSwift
 
 enum Event {
