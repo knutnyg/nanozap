@@ -26,6 +26,7 @@ class RpcManager {
                 certificates: cert,
                 arguments: [.keepAliveTimeout(5)]
         )
+        self.myClient?.timeout = 5
 
         do {
             try self.myClient!.metadata.add(key: "macaroon", value: macaroon)
