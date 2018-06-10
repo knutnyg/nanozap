@@ -12,6 +12,7 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
     @IBOutlet weak var hostnameTextField: UITextField!
     @IBOutlet weak var certLabel: UILabel!
     @IBOutlet weak var macaroonLabal: UILabel!
+    @IBOutlet weak var testSecretsButton: UIButton!
     
     let disposeBag = DisposeBag()
     var scanType:String = "none"
@@ -109,6 +110,37 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         present(readerVC, animated: true, completion: { self.scanType = "macaroon"})
     }
     
+    @IBAction func testAuth(_ sender: Any) {
+        do {
+            _ = try WalletService.shared.getBalance()
+            let alert = UIAlertController(
+                title: "Success 🙌",
+                message: "Successfully made a request to LND",
+                preferredStyle: .alert
+            )
+            
+            alert.addAction(UIAlertAction(
+                title: "Great",
+                style: .default,
+                handler: nil
+            ))
+            self.present(alert, animated: true)
+        } catch {
+            let alert = UIAlertController(
+                title: "Failure 😢",
+                message: "Failed to make a request to LND",
+                preferredStyle: .alert
+            )
+            
+            alert.addAction(UIAlertAction(
+                title: "OK",
+                style: .default,
+                handler: nil
+            ))
+            self.present(alert, animated: true)
+        }
+    }
+    
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         reader.stopScanning()
         
@@ -135,6 +167,7 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
 
         dismiss(animated: true, completion: nil)
     }
+    
     
     func readerDidCancel(_ reader: QRCodeReaderViewController) {
         reader.stopScanning()

@@ -286,6 +286,9 @@
                                 <rect key="frame" x="155" y="344" width="64" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Test auth"/>
+                                <connections>
+                                    <action selector="testAuth:" destination="0qr-yP-4w5" eventType="touchUpInside" id="0Wc-gN-72a"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iwl-0J-uab">
                                 <rect key="frame" x="268" y="192" width="67" height="31"/>
@@ -310,6 +313,7 @@
                         <outlet property="hostnameTextField" destination="IwG-Wa-01V" id="jqf-ma-vMd"/>
                         <outlet property="macaroonLabal" destination="DJO-yY-Lml" id="MUw-lJ-7iX"/>
                         <outlet property="onePasswordButton" destination="Tbb-vm-EeX" id="cv1-vZ-287"/>
+                        <outlet property="testSecretsButton" destination="lMb-uP-CDG" id="sc3-gI-ZIb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P5X-IM-FRh" userLabel="First Responder" sceneMemberID="firstResponder"/>
