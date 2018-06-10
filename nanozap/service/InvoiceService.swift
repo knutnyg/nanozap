@@ -2,13 +2,12 @@ import Foundation
 
 class InvoiceService {
     let rpcmanager:RpcManager = RpcManager.shared
-    let client:Lnrpc_LightningServiceClient
     
     public func decodeInvoice(invoice:String) throws -> Invoice {
         do {
             var payreq = Lnrpc_PayReqString()
             payreq.payReq = invoice
-            let res = try client.decodePayReq(payreq)
+            let res = try rpcmanager.client()!.decodePayReq(payreq)
             let date = Date.init(timeIntervalSince1970: TimeInterval(res.timestamp))
             
             return Invoice(timestamp: date, ammount: Int(res.numSatoshis), description: res.description_p, expiry: date)
@@ -18,11 +17,4 @@ class InvoiceService {
         }
     }
     
-    init() throws {
-        guard let client = rpcmanager.client
-            else {
-                throw RPCErrors.unableToAccessClient
-        }
-        self.client = client
-    }
 }

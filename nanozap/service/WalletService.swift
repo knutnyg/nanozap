@@ -10,11 +10,10 @@ import Foundation
 
 class WalleteService {
     let rpcmanager:RpcManager = RpcManager.shared
-    let client:Lnrpc_LightningServiceClient
     
     public func getBalance() throws -> Int {
         do {
-            let res = try client.walletBalance(Lnrpc_WalletBalanceRequest())
+            let res = try rpcmanager.client()!.walletBalance(Lnrpc_WalletBalanceRequest())
             return Int(res.totalBalance)
         } catch {
             print("Unexpected error: \(error).")
@@ -22,11 +21,4 @@ class WalleteService {
         }
     }
     
-    init() throws {
-        guard let client = rpcmanager.client
-            else {
-                throw RPCErrors.unableToAccessClient
-        }
-        self.client = client
-    }
 }

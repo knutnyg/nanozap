@@ -3,6 +3,8 @@ import UIKit
 import PasswordExtension
 import AVFoundation
 import QRCodeReader
+import RxSwift
+import RxCocoa
 
 class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate {
     
@@ -12,29 +14,31 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
     @IBOutlet weak var certLabel: UILabel!
     @IBOutlet weak var macaroonLabal: UILabel!
     
-    var macaroonStore:MacaroonStore!
-    var certStore:CertStore!
-    var secretStore:SecretKeeper!
     var scanType:String = "none"
-    
     
     var macaroon:String?
     var cert:String?
     var hostname:String?
     
     override func viewDidLoad() {
-        self.macaroonStore = MacaroonStore()
-        self.certStore = CertStore()
-        self.secretStore = ICloudSecretKeeper()
-        
-        self.hostname = secretStore.get(key: "hostname")
-        self.macaroon = macaroonStore.getMacaroon()
-        self.cert = certStore.getCert()
+        self.macaroon = AppState.sharedState.macaroon
+        self.cert = AppState.sharedState.cert
+        self.hostname = AppState.sharedState.hostname
         
         certLabel.text = (self.cert != nil) ? "✅" : "❌"
         macaroonLabal.text = (self.macaroon != nil) ? "✅" : "❌"
 
         hostnameTextField.text = self.hostname ?? ""
+
+        let obs1 = hostnameTextField.rx.text.distinctUntilChanged()
+        let obs2 = certTextView.rx.text.distinctUntilChanged()
+        let obs3 = macaroonTextView.rx.text.distinctUntilChanged()
+        
+        let obs = Observable
+            .combineLatest(obs1, obs2, obs3)
+            .map { (hostname, cert, macaroon) -> AuthStateUpdate in
+                return AuthStateUpdate(macaroon: macaroon ?? "", hostname: hostname ?? "", cert: cert ?? "")
+            }.bind(to: AppState.sharedState.updater)
     }
     
     @IBAction func onePasswordButtonClicked(_ sender: Any) {
@@ -111,5 +115,7 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         reader.stopScanning()
         
         dismiss(animated: true, completion: nil)
+    
+    @IBAction func click(_ sender: UIButton) {
     }
 }

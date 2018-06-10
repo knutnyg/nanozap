@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class ViewController: UIViewController {
 
@@ -14,10 +15,13 @@ class ViewController: UIViewController {
 
     let rpcmanager: RpcManager = RpcManager.shared
 
+    // Creating a DisposeBag so subscription will be cancelled correctly
+    let bag = DisposeBag()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        guard let client = rpcmanager.client
+        guard let client = rpcmanager.client()
                 else {
             return
         }
