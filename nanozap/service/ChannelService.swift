@@ -8,16 +8,16 @@
             return res.channels.map({ (lndChannel: Lnrpc_Channel) in
                 return Channel(
                     active: lndChannel.active,
-                    remote_pubkey: lndChannel.remotePubkey,
-                    channel_point: lndChannel.channelPoint,
-                    channel_id: Int(lndChannel.chanID),
+                    remotePubkey: lndChannel.remotePubkey,
+                    channelPoint: lndChannel.channelPoint,
+                    channelId: Int(lndChannel.chanID),
                     capacity: Int(lndChannel.capacity),
-                    remote_balance: Int(lndChannel.remoteBalance),
-                    commit_fee: Int(lndChannel.commitFee),
-                    commit_weight: Int(lndChannel.commitWeight),
-                    fee_per_kw: Int(lndChannel.feePerKw),
-                    num_updates: Int(lndChannel.numUpdates),
-                    csv_delay: Int(lndChannel.csvDelay)
+                    remoteBalance: Int(lndChannel.remoteBalance),
+                    commitFee: Int(lndChannel.commitFee),
+                    commitWeight: Int(lndChannel.commitWeight),
+                    feePerKw: Int(lndChannel.feePerKw),
+                    numUpdates: Int(lndChannel.numUpdates),
+                    csvDelay: Int(lndChannel.csvDelay)
                 )
             })
         } catch {
