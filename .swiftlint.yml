@@ -57,4 +57,4 @@ identifier_name:
     - URL
     - GlobalAPIKey
 
-#reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji)
+reporter: "csv" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji)
