@@ -16,6 +16,7 @@ struct AuthStateUpdate {
         self.cert = cert
     }
 }
+
 extension AuthStateUpdate: CustomStringConvertible {
     var description: String {
         // create and return a String that is how
@@ -24,13 +25,12 @@ extension AuthStateUpdate: CustomStringConvertible {
     }
 }
 
-
 class AppState {
     static var sharedState = AppState()
     let disposeBag = DisposeBag()
-    
+
     let updater : PublishSubject<Event> = PublishSubject()
-    
+
     var hostname : String
     var cert : String
     var macaroon : String
@@ -39,16 +39,16 @@ class AppState {
     
     // TODO: Fix this hackish way of saving state
     // TODO: error handling
-    private func save() -> Void {
+    private func save() {
         // Valet will crash when saving empty strings
-        if hostname.count > 0 {
-            let _ = store.save(key: HostnameStore.hostnameKey, secret: hostname)
+        if hostname.isEmpty {
+            _ = store.save(key: HostnameStore.hostnameKey, secret: hostname)
         }
-        if cert.count > 0 {
-            let _ = store.save(key: CertStore.certKey, secret: cert)
+        if cert.isEmpty {
+            _ = store.save(key: CertStore.certKey, secret: cert)
         }
-        if macaroon.count > 0 {
-            let _ = store.save(key: MacaroonStore.macaroonKey, secret: macaroon)
+        if macaroon.isEmpty {
+            _ = store.save(key: MacaroonStore.macaroonKey, secret: macaroon)
         }
     }
     
@@ -67,7 +67,7 @@ class AppState {
                     self.hostname = cfg.hostname
                     self.macaroon = cfg.macaroon
                 }
-                
+
                 // TODO: fix this hack
                 self.save()
             }
