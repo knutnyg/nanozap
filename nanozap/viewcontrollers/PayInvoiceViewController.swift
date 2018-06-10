@@ -3,7 +3,6 @@ import UIKit
 import AVFoundation
 import QRCodeReader
 
-
 class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDelegate {
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var scanButton: UIButton!
@@ -36,13 +35,22 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
     
     @IBAction func pay(_ sender: Any) {
         if let invoice = self.invoice {
-            let alert = UIAlertController(title: "Pay?", message: "Confirm paying \(invoice.ammount) satoshis", preferredStyle: .alert)
+            let alert = UIAlertController(
+                title: "Pay?",
+                message: "Confirm paying \(invoice.ammount) satoshis",
+                preferredStyle: .alert
+            )
             
-            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-                print("paying")
-            }))
-            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { action in
-                print("cancel")}))
+            alert.addAction(UIAlertAction(
+                title: "Yes",
+                style: .default,
+                handler: { action in print("paying")}
+            ))
+            alert.addAction(UIAlertAction(
+                title: "No",
+                style: .cancel,
+                handler: { action in print("cancel")}
+            ))
             
             self.present(alert, animated: true)
         } else {
