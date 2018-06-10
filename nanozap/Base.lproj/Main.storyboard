@@ -13,7 +13,7 @@
         <!--Wallet-->
         <scene sceneID="AUT-V0-edI">
             <objects>
-                <viewController id="Wt3-ti-SBJ" customClass="ViewController" customModule="nanozap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Wt3-ti-SBJ" customClass="WalletViewController" customModule="nanozap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nl6-fW-byL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class WalletViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var transactionsView: UITableView!
     
     var transactions:[Transaction] = []
