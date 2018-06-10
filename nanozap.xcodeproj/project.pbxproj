@@ -58,6 +58,7 @@
 		6A059A2820CC7327008EBDD4 /* InvoiceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceService.swift; sourceTree = "<group>"; };
 		6A059A2A20CC7441008EBDD4 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
 		6A059A2E20CD9243008EBDD4 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		6A059A3320CDA4FC008EBDD4 /* code-generation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "code-generation.md"; sourceTree = "<group>"; };
 		6ACEF8C8F91B98293A4AA069 /* Pods-nanozapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapUITests/Pods-nanozapUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		6ADB0F1F20CC0C25008E62DF /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		6ADB0F2220CC1502008E62DF /* ChannelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelService.swift; sourceTree = "<group>"; };
@@ -121,6 +122,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A059A3220CDA4CE008EBDD4 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				6A059A3320CDA4FC008EBDD4 /* code-generation.md */,
+			);
+			path = docs;
+			sourceTree = "<group>";
+		};
 		6ADB0F1E20CC0BFB008E62DF /* models */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +199,7 @@
 		7267D97020C7198300549631 /* nanozap */ = {
 			isa = PBXGroup;
 			children = (
+				6A059A3220CDA4CE008EBDD4 /* docs */,
 				6ADB0F2120CC14F1008E62DF /* service */,
 				6ADB0F1E20CC0BFB008E62DF /* models */,
 				7221654720C8592600A429DE /* viewcontrollers */,
