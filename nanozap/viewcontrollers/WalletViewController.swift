@@ -21,7 +21,11 @@ class WalletViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
         let transaction = transactions[indexPath.item]
-        cell.textLabel?.text = "\(transaction.timestamp) - \(transaction.destination)"
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM"
+        
+        cell.textLabel?.text = "\(formatter.string(from: transaction.timestamp)) - \(transaction.destination.dropLast(transaction.destination.count - 8))... - \(transaction.amount)"
         
         return cell
     }
