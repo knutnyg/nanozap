@@ -16,7 +16,19 @@ struct Channel {
     let numUpdates: Int
     let csvDelay: Int
     
-    init(active:Bool, remotePubkey:String, channelPoint:String, channelId: Int, capacity: Int, remoteBalance: Int, commitFee: Int, commitWeight: Int, feePerKw: Int, numUpdates: Int,csvDelay: Int) {
+    init(
+        active:Bool,
+        remotePubkey:String,
+        channelPoint:String,
+        channelId: Int,
+        capacity: Int,
+        remoteBalance: Int,
+        commitFee: Int,
+        commitWeight: Int,
+        feePerKw: Int,
+        numUpdates: Int,
+        csvDelay: Int
+    ) {
         self.active = active
         self.remotePubkey = remotePubkey
         self.channelPoint = channelPoint

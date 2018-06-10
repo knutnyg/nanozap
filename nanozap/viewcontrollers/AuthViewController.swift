@@ -40,14 +40,14 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
             .disposed(by: disposeBag)
 
         let obs1 = hostnameObs.asObservable()
-            .do(onNext: { (val : String?) in print("host=", val) })
+            .do(onNext: { (val : Any) in print("host=", val) })
             .do(onNext: { (val : String?) in self.hostname = val })
             .startWith(hostname ?? "")
 
         let obs2 = certObs.distinctUntilChanged().startWith(cert ?? "")
         let obs3 = macaroonObs.distinctUntilChanged().startWith(macaroon ?? "")
 
-        let _ = Observable
+        _ = Observable
             .combineLatest(obs1, obs2, obs3)
             .debounce(1.0, scheduler: MainScheduler.instance)
             .map { (hostname, cert, macaroon) -> AuthStateUpdate in

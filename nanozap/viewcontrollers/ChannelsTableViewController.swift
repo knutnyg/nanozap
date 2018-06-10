@@ -12,7 +12,6 @@ import UIKit
 class ChannelsTableViewController: UITableViewController {
     var channels:[Channel] = []
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         do {
@@ -39,6 +38,5 @@ class ChannelsTableViewController: UITableViewController {
         
         return cell
     }
-    
     
 }
