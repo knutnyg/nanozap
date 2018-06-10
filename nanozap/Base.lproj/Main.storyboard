@@ -18,27 +18,54 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Slu-Z7-yzH">
-                                <rect key="frame" x="99" y="119" width="176" height="57"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Slu-Z7-yzH">
+                                <rect key="frame" x="50" y="120" width="275" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wol-rm-gRK">
-                                <rect key="frame" x="149" y="271" width="77" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wol-rm-gRK">
+                                <rect key="frame" x="50" y="190.5" width="275" height="30"/>
                                 <state key="normal" title="Pay invoice"/>
                                 <connections>
                                     <segue destination="FEc-Mb-zXS" kind="presentation" id="RVR-4L-Mgy"/>
                                 </connections>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Le9-tg-OiY">
+                                <rect key="frame" x="5" y="320" width="365" height="297.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TransactionCell" id="QaH-vH-DY5">
+                                        <rect key="frame" x="0.0" y="28" width="365" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QaH-vH-DY5" id="7Gu-rr-bTb">
+                                            <rect key="frame" x="0.0" y="0.0" width="365" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="g2x-Il-VyY" firstAttribute="bottom" secondItem="Le9-tg-OiY" secondAttribute="bottom" id="0Jg-T7-qTR"/>
+                            <constraint firstItem="Le9-tg-OiY" firstAttribute="top" secondItem="wol-rm-gRK" secondAttribute="bottom" constant="100" id="3aa-nX-0fQ"/>
+                            <constraint firstItem="g2x-Il-VyY" firstAttribute="trailing" secondItem="Slu-Z7-yzH" secondAttribute="trailing" constant="50" id="A4Q-Jf-dSx"/>
+                            <constraint firstItem="g2x-Il-VyY" firstAttribute="trailing" secondItem="wol-rm-gRK" secondAttribute="trailing" constant="50" id="AFX-AH-nJq"/>
+                            <constraint firstItem="wol-rm-gRK" firstAttribute="top" secondItem="Slu-Z7-yzH" secondAttribute="bottom" constant="50" id="M4C-Sp-uwK"/>
+                            <constraint firstItem="Le9-tg-OiY" firstAttribute="top" secondItem="wol-rm-gRK" secondAttribute="bottom" constant="100" id="Mkl-Mz-Usd"/>
+                            <constraint firstItem="Le9-tg-OiY" firstAttribute="trailing" secondItem="g2x-Il-VyY" secondAttribute="trailing" constant="-5" id="RVV-b4-QVR"/>
+                            <constraint firstItem="Slu-Z7-yzH" firstAttribute="leading" secondItem="g2x-Il-VyY" secondAttribute="leading" constant="50" id="RzD-Lm-fuJ"/>
+                            <constraint firstItem="wol-rm-gRK" firstAttribute="leading" secondItem="g2x-Il-VyY" secondAttribute="leading" constant="50" id="bnR-lE-SZh"/>
+                            <constraint firstItem="Le9-tg-OiY" firstAttribute="leading" secondItem="g2x-Il-VyY" secondAttribute="leading" constant="5" id="cFN-VR-Iu1"/>
+                            <constraint firstItem="Slu-Z7-yzH" firstAttribute="top" secondItem="g2x-Il-VyY" secondAttribute="top" constant="100" id="fse-jS-ydx"/>
+                            <constraint firstItem="g2x-Il-VyY" firstAttribute="bottom" secondItem="Le9-tg-OiY" secondAttribute="bottom" id="vNY-Re-6AJ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="g2x-Il-VyY"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Wallet" id="1zB-4O-dOF"/>
                     <connections>
+                        <outlet property="transactionsView" destination="Le9-tg-OiY" id="iGS-Wo-5wm"/>
                         <outlet property="walletbalanceLabel" destination="Slu-Z7-yzH" id="2MV-hO-PzD"/>
                     </connections>
                 </viewController>

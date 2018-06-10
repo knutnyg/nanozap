@@ -8,8 +8,9 @@
 
 import Foundation
 
-class WalleteService {
+class WalletService {
     let rpcmanager:RpcManager = RpcManager.shared
+    static let shared = WalletService()
     
     public func getBalance() throws -> Int {
         do {
@@ -17,8 +18,23 @@ class WalleteService {
             return Int(res.totalBalance)
         } catch {
             print("Unexpected error: \(error).")
-            throw RPCErrors.failedToFetchChannels
+            throw RPCErrors.unableToAccessClient
         }
     }
+    
+    public func listTransactions() throws -> [Transaction] {
+        do {
+            let res = try rpcmanager.client()!.getTransactions(Lnrpc_GetTransactionsRequest())
+            return res.transactions.map({ transaction in
+                let timestamp = Date.init(timeIntervalSince1970: TimeInterval(transaction.timeStamp))
+                return Transaction(timestamp: timestamp, amount: Int(transaction.amount), destination: transaction.destAddresses[0])
+            })
+        } catch {
+            print("Unexpected error: \(error).")
+            throw RPCErrors.unableToAccessClient
+        }
+    }
+    
+    private init() {}
     
 }

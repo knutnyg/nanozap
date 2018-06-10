@@ -9,7 +9,23 @@
 import UIKit
 import RxSwift
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    @IBOutlet weak var transactionsView: UITableView!
+    
+    var transactions:[Transaction] = []
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return transactions.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
+        let transaction = transactions[indexPath.item]
+        cell.textLabel?.text = "\(transaction.timestamp) - \(transaction.destination)"
+        
+        return cell
+    }
+    
 
     @IBOutlet weak var walletbalanceLabel: UILabel!
 
@@ -20,7 +36,11 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        transactionsView.delegate = self
+        transactionsView.dataSource = self
+        
+        
+        
         guard let client = rpcmanager.client()
                 else {
             return
@@ -28,6 +48,10 @@ class ViewController: UIViewController {
         do {
             let res = try client.walletBalance(Lnrpc_WalletBalanceRequest())
             walletbalanceLabel.text = String(format: "Balance: %ld", res.totalBalance)
+            
+            self.transactions = try WalletService.shared.listTransactions()
+                .sorted(by: {$0.timestamp > $1.timestamp})
+            
         } catch {
             print("Unexpected error: \(error).")
         }

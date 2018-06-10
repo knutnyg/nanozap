@@ -10,6 +10,7 @@
 		6A059A2720CC651C008EBDD4 /* PayInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */; };
 		6A059A2920CC7327008EBDD4 /* InvoiceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2820CC7327008EBDD4 /* InvoiceService.swift */; };
 		6A059A2B20CC7441008EBDD4 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2A20CC7441008EBDD4 /* Invoice.swift */; };
+		6A059A2F20CD9243008EBDD4 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2E20CD9243008EBDD4 /* Transaction.swift */; };
 		6ADB0F2020CC0C25008E62DF /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F1F20CC0C25008E62DF /* Channel.swift */; };
 		6ADB0F2320CC1502008E62DF /* ChannelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F2220CC1502008E62DF /* ChannelService.swift */; };
 		6ADB0F2520CC1D33008E62DF /* WalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F2420CC1D33008E62DF /* WalletService.swift */; };
@@ -56,6 +57,7 @@
 		6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInvoiceViewController.swift; sourceTree = "<group>"; };
 		6A059A2820CC7327008EBDD4 /* InvoiceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceService.swift; sourceTree = "<group>"; };
 		6A059A2A20CC7441008EBDD4 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
+		6A059A2E20CD9243008EBDD4 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		6ACEF8C8F91B98293A4AA069 /* Pods-nanozapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapUITests/Pods-nanozapUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		6ADB0F1F20CC0C25008E62DF /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		6ADB0F2220CC1502008E62DF /* ChannelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelService.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				6ADB0F1F20CC0C25008E62DF /* Channel.swift */,
 				6ADB0F2620CC1D60008E62DF /* Errors.swift */,
 				6A059A2A20CC7441008EBDD4 /* Invoice.swift */,
+				6A059A2E20CD9243008EBDD4 /* Transaction.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				72A1662620C833C900F85D71 /* Data.swift in Sources */,
 				72A1662020C7266D00F85D71 /* api.grpc.swift in Sources */,
 				6ADB0F2520CC1D33008E62DF /* WalletService.swift in Sources */,
+				6A059A2F20CD9243008EBDD4 /* Transaction.swift in Sources */,
 				6ADB0F2720CC1D60008E62DF /* Errors.swift in Sources */,
 				6A059A2720CC651C008EBDD4 /* PayInvoiceViewController.swift in Sources */,
 				6ADB0F2020CC0C25008E62DF /* Channel.swift in Sources */,
