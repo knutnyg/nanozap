@@ -27,7 +27,11 @@ class WalletService {
             let res = try rpcmanager.client()!.getTransactions(Lnrpc_GetTransactionsRequest())
             return res.transactions.map({ transaction in
                 let timestamp = Date.init(timeIntervalSince1970: TimeInterval(transaction.timeStamp))
-                return Transaction(timestamp: timestamp, amount: Int(transaction.amount), destination: transaction.destAddresses[0])
+                return Transaction(
+                    timestamp: timestamp,
+                    amount: Int(transaction.amount),
+                    destination: transaction.destAddresses[0]
+                )
             })
         } catch {
             print("Unexpected error: \(error).")
