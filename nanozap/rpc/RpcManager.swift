@@ -21,7 +21,11 @@ class RpcManager {
             return
         }
 
-        self.myClient = Lnrpc_LightningServiceClient(address: hostname, certificates: cert)
+        self.myClient = Lnrpc_LightningServiceClient(
+                address: hostname,
+                certificates: cert,
+                arguments: [.keepAliveTimeout(5)]
+        )
 
         do {
             try self.myClient!.metadata.add(key: "macaroon", value: macaroon)
