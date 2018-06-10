@@ -1,11 +1,3 @@
-//
-//  ChannelsTableViewController.swift
-//  nanozap
-//
-//  Created by Knut Nygaard on 06/06/2018.
-//  Copyright © 2018 Knut Nygaard. All rights reserved.
-//
-
 import Foundation
 import UIKit
 
@@ -14,6 +6,10 @@ class ChannelsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        refreshChannels()
+    }
+
+    private func refreshChannels() {
         do {
             let channelService = ChannelService()
             self.channels = try channelService.getChannels()
@@ -22,7 +18,12 @@ class ChannelsTableViewController: UITableViewController {
             print("Unexpected error: \(error).")
         }
     }
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        refreshChannels()
+    }
+
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
