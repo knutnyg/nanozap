@@ -26,7 +26,7 @@ class RpcManager {
         }
         
         do {
-            self.client = Lnrpc_LightningServiceClient(address: "192.168.100.15:10009", certificates: cert)
+            self.client = Lnrpc_LightningServiceClient(address: "84.214.74.65:10009", certificates: cert)
             try self.client!.metadata.add(key: "macaroon", value: macaroon)
             
         } catch {
