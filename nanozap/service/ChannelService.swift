@@ -8,8 +8,7 @@
             return res.channels.map({ (lndChannel: Lnrpc_Channel) in
                 return Channel(
                     active: lndChannel.active,
-                    remote_pubkey:
-                    lndChannel.remotePubkey,
+                    remote_pubkey: lndChannel.remotePubkey,
                     channel_point: lndChannel.channelPoint,
                     channel_id: Int(lndChannel.chanID),
                     capacity: Int(lndChannel.capacity),

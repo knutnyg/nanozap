@@ -16,7 +16,7 @@ class ChannelsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         do {
-            let channelService = try ChannelService()
+            let channelService = ChannelService()
             self.channels = try channelService.getChannels()
                 .sorted(by: {$0.local_balance > $1.local_balance})
         } catch {

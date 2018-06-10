@@ -4,7 +4,7 @@ class RpcManager {
     static let shared = RpcManager()
     private var myClient: Lnrpc_LightningServiceClient?
 
-    let bag = DisposeBag()
+    let disposeBag = DisposeBag()
     
     public func client() -> Lnrpc_LightningServiceClient? {
         return myClient
@@ -48,7 +48,7 @@ class RpcManager {
                         return
                     }
                 }
-            ).disposed(by: bag)
+            ).disposed(by: disposeBag)
     }
 }
 
