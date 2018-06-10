@@ -59,9 +59,9 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
         
         let payreq:String
 
-        let c = result.value.characters
-        if let colon = c.index(of: ":") {
-            payreq = String(result.value[c.index(after: colon)..<result.value.endIndex])
+        let charList = result.value.characters
+        if let colon = charList.index(of: ":") {
+            payreq = String(result.value[charList.index(after: colon)..<result.value.endIndex])
         } else {
             payreq = ""
         }

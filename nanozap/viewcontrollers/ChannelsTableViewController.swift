@@ -18,7 +18,7 @@ class ChannelsTableViewController: UITableViewController {
         do {
             let channelService = ChannelService()
             self.channels = try channelService.getChannels()
-                .sorted(by: {$0.local_balance > $1.local_balance})
+                .sorted(by: {$0.localBalance > $1.localBalance})
         } catch {
             print("Unexpected error: \(error).")
         }
@@ -35,7 +35,7 @@ class ChannelsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
         
-        cell.textLabel?.text = "ID: \(channels[indexPath.row].channel_id) $: \(channels[indexPath.row].local_balance)"
+        cell.textLabel?.text = "ID: \(channels[indexPath.row].channelId) $: \(channels[indexPath.row].localBalance)"
         
         return cell
     }

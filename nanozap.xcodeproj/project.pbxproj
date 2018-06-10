@@ -24,7 +24,7 @@
 		7267D97720C7198300549631 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7267D97520C7198300549631 /* Main.storyboard */; };
 		7267D97920C7198500549631 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7267D97820C7198500549631 /* Assets.xcassets */; };
 		7267D97C20C7198500549631 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7267D97A20C7198500549631 /* LaunchScreen.storyboard */; };
-		7267D98720C7198500549631 /* nanozapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D98620C7198500549631 /* nanozapTests.swift */; };
+		7267D98720C7198500549631 /* NanozapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D98620C7198500549631 /* NanozapTests.swift */; };
 		7267D99220C7198500549631 /* nanozapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D99120C7198500549631 /* nanozapUITests.swift */; };
 		7267D9A220C71A5B00549631 /* api.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D9A120C71A5A00549631 /* api.pb.swift */; };
 		72A1662020C7266D00F85D71 /* api.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A1661F20C7266C00F85D71 /* api.grpc.swift */; };
@@ -79,7 +79,7 @@
 		7267D97B20C7198500549631 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7267D97D20C7198500549631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7267D98220C7198500549631 /* nanozapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nanozapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7267D98620C7198500549631 /* nanozapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nanozapTests.swift; sourceTree = "<group>"; };
+		7267D98620C7198500549631 /* NanozapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanozapTests.swift; sourceTree = "<group>"; };
 		7267D98820C7198500549631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7267D98D20C7198500549631 /* nanozapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nanozapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7267D99120C7198500549631 /* nanozapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nanozapUITests.swift; sourceTree = "<group>"; };
@@ -226,7 +226,7 @@
 		7267D98520C7198500549631 /* nanozapTests */ = {
 			isa = PBXGroup;
 			children = (
-				7267D98620C7198500549631 /* nanozapTests.swift */,
+				7267D98620C7198500549631 /* NanozapTests.swift */,
 				7267D98820C7198500549631 /* Info.plist */,
 			);
 			path = nanozapTests;
@@ -542,7 +542,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7267D98720C7198500549631 /* nanozapTests.swift in Sources */,
+				7267D98720C7198500549631 /* NanozapTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
