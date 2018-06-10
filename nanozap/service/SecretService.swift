@@ -29,33 +29,8 @@ struct HostnameStore {
 
 struct CertStore {
     static let certKey = "lnd-cert"
-    
-    let store = ICloudSecretKeeper()
-
-    public func getCert() -> String? {
-        return store.get(key: CertStore.certKey)
-    }
-
-    public func saveCert(certData: String) -> Bool {
-        return store.save(key: CertStore.certKey, secret: certData)
-    }
 }
 
 struct MacaroonStore {
     static let macaroonKey = "macaroon"
-    
-    let store = ICloudSecretKeeper()
-
-    public func getMacaroon() -> String? {
-        let myMacaroon = store.get(key: MacaroonStore.macaroonKey)
-
-        return myMacaroon
-    }
-
-    // saveMacaroon returns false if item could not be saved.
-    // Typically this means we were not able to access the Keychain.
-    public func saveMacaroon(secret: String) -> Bool {
-        return store.save(key: MacaroonStore.macaroonKey, secret: secret)
-    }
-
 }
