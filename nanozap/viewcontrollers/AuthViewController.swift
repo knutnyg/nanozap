@@ -1,29 +1,22 @@
 import Foundation
 import UIKit
-import RxSwift
 import PasswordExtension
+import AVFoundation
+import QRCodeReader
 
-class AuthViewController : UIViewController {
+class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate {
     
-    @IBOutlet weak var certTextView: UITextView!
-    @IBOutlet weak var macaroonTextView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var onePasswordButton: UIButton!
     @IBOutlet weak var hostnameTextField: UITextField!
+    @IBOutlet weak var certLabel: UILabel!
+    @IBOutlet weak var macaroonLabal: UILabel!
     
     var macaroonStore:MacaroonStore!
     var certStore:CertStore!
     var secretStore:SecretKeeper!
+    var scanType:String = "none"
     
-    private let macaroonFieldVariable = Variable("")
-    var macaroonFieldValue : Observable<String> {
-        return macaroonFieldVariable.asObservable()
-    }
-
-    private let certFieldVariable = Variable("")
-    var certFieldValue : Observable<String> {
-        return certFieldVariable.asObservable()
-    }
     
     var macaroon:String?
     var cert:String?
@@ -37,9 +30,10 @@ class AuthViewController : UIViewController {
         self.hostname = secretStore.get(key: "hostname")
         self.macaroon = macaroonStore.getMacaroon()
         self.cert = certStore.getCert()
+        
+        certLabel.text = (self.cert != nil) ? "✅" : "❌"
+        macaroonLabal.text = (self.macaroon != nil) ? "✅" : "❌"
 
-        macaroonTextView.text = self.macaroon ?? "no macaroon stored"
-        certTextView.text = self.cert ?? "no cert stored"
         hostnameTextField.text = self.hostname ?? ""
     }
     
@@ -66,11 +60,56 @@ class AuthViewController : UIViewController {
         }
     }
     
-    @IBAction func click(_ sender: UIButton) {
-        macaroonStore.saveMacaroon(secret: macaroonTextView.text)
-        macaroonTextView.text = ""
+    lazy var readerVC: QRCodeReaderViewController = {
+        let builder = QRCodeReaderViewControllerBuilder {
+            $0.reader = QRCodeReader(metadataObjectTypes: [.qr], captureDevicePosition: .back)
+        }
+        return QRCodeReaderViewController(builder: builder)
+    }()
+    
+    @IBAction func scanCert(_ sender: AnyObject) {
+        readerVC.delegate = self
+        readerVC.modalPresentationStyle = .formSheet
+        present(readerVC, animated: true, completion: { self.scanType = "cert"})
+    }
+    
+    @IBAction func scanMacaroon(_ sender: AnyObject) {
+        readerVC.delegate = self
+        readerVC.modalPresentationStyle = .formSheet
+        present(readerVC, animated: true, completion: { self.scanType = "macaroon"})
+    }
+    
+    func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
+        reader.stopScanning()
         
-        certStore.saveCert(certData: certTextView.text)
-        certTextView.text = ""
+        print(result.value)
+        switch scanType {
+        case "cert":
+            //TODO: sanitycheck result
+            cert = result.value
+            certLabel.text = "✅"
+            let success = certStore.saveCert(certData: result.value)
+            success ? print("cert stored") : print("failed to store cert")
+            
+        case "macaroon":
+            //TODO: sanitycheck result
+            let base64Macaroon = Data(base64Encoded: result.value)!
+            
+            macaroon = base64Macaroon.hexString()
+            macaroonLabal.text = "✅"
+            let success = macaroonStore.saveMacaroon(secret: macaroon!)
+            success ? print("macaroon stored") : print("failed to store macaroon")
+            
+            default:
+                print(result.value)
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func readerDidCancel(_ reader: QRCodeReaderViewController) {
+        reader.stopScanning()
+        
+        dismiss(animated: true, completion: nil)
     }
 }

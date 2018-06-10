@@ -155,30 +155,6 @@
                                     <action selector="click:" destination="0qr-yP-4w5" eventType="touchUpInside" id="w71-Ev-LoZ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Macaroon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="arn-Qg-yT5">
-                                <rect key="frame" x="53" y="323" width="77" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6gU-KA-WX5">
-                                <rect key="frame" x="40" y="138" width="295" height="122"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="122" id="av9-nU-alr"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="N7L-pl-saD">
-                                <rect key="frame" x="40" y="352" width="295" height="54"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="chu-VR-O5K"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tbb-vm-EeX">
                                 <rect key="frame" x="140" y="446" width="95" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -196,8 +172,37 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="tls.cert" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zn8-4m-5nT">
-                                <rect key="frame" x="40" y="108" width="74" height="29"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZTc-Dy-Nsh">
+                                <rect key="frame" x="140" y="193" width="91" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Scan cert QR"/>
+                                <connections>
+                                    <action selector="scanCert:" destination="0qr-yP-4w5" eventType="touchUpInside" id="y3f-qj-410"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgg-iR-1Y3">
+                                <rect key="frame" x="121" y="231" width="132" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Scan macaroon QR"/>
+                                <connections>
+                                    <action selector="scanMacaroon:" destination="0qr-yP-4w5" eventType="touchUpInside" id="Vs1-40-SMQ"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DJO-yY-Lml">
+                                <rect key="frame" x="268" y="235" width="41" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lMb-uP-CDG">
+                                <rect key="frame" x="155" y="344" width="64" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Test auth"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iwl-0J-uab">
+                                <rect key="frame" x="268" y="192" width="67" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -206,13 +211,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="IwG-Wa-01V" firstAttribute="leading" secondItem="HmZ-KH-Y3m" secondAttribute="leading" constant="40" id="02Y-az-FH1"/>
-                            <constraint firstItem="6gU-KA-WX5" firstAttribute="top" secondItem="zn8-4m-5nT" secondAttribute="bottom" constant="10" id="13X-Xh-wdQ"/>
-                            <constraint firstItem="HmZ-KH-Y3m" firstAttribute="trailing" secondItem="6gU-KA-WX5" secondAttribute="trailing" constant="40" id="1sj-gn-PHb"/>
-                            <constraint firstItem="N7L-pl-saD" firstAttribute="leading" secondItem="HmZ-KH-Y3m" secondAttribute="leading" constant="40" id="LLl-jI-zJQ"/>
-                            <constraint firstItem="N7L-pl-saD" firstAttribute="top" secondItem="arn-Qg-yT5" secondAttribute="bottom" constant="10" id="PYw-uz-FsS"/>
-                            <constraint firstItem="HmZ-KH-Y3m" firstAttribute="trailing" secondItem="N7L-pl-saD" secondAttribute="trailing" constant="40" id="WFB-Nl-Tx2"/>
                             <constraint firstItem="HmZ-KH-Y3m" firstAttribute="trailing" secondItem="IwG-Wa-01V" secondAttribute="trailing" constant="40" id="Xg5-Or-fc2"/>
-                            <constraint firstItem="6gU-KA-WX5" firstAttribute="leading" secondItem="HmZ-KH-Y3m" secondAttribute="leading" constant="40" id="gik-MQ-7yk"/>
                             <constraint firstItem="IwG-Wa-01V" firstAttribute="top" secondItem="HmZ-KH-Y3m" secondAttribute="top" constant="40" id="xjz-Wx-eJz"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HmZ-KH-Y3m"/>
@@ -220,9 +219,9 @@
                     <tabBarItem key="tabBarItem" title="Auth" id="Cw5-00-g2a"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="certTextView" destination="6gU-KA-WX5" id="mGa-z0-gZ5"/>
+                        <outlet property="certLabel" destination="iwl-0J-uab" id="lGH-wm-Can"/>
                         <outlet property="hostnameTextField" destination="IwG-Wa-01V" id="jqf-ma-vMd"/>
-                        <outlet property="macaroonTextView" destination="N7L-pl-saD" id="1O9-ng-Pf0"/>
+                        <outlet property="macaroonLabal" destination="DJO-yY-Lml" id="MUw-lJ-7iX"/>
                         <outlet property="onePasswordButton" destination="Tbb-vm-EeX" id="cv1-vZ-287"/>
                         <outlet property="saveButton" destination="I7t-3a-uxM" id="qHF-76-JIf"/>
                     </connections>

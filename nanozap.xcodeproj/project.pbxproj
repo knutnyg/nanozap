@@ -27,9 +27,7 @@
 		7267D98720C7198500549631 /* nanozapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D98620C7198500549631 /* nanozapTests.swift */; };
 		7267D99220C7198500549631 /* nanozapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D99120C7198500549631 /* nanozapUITests.swift */; };
 		7267D9A220C71A5B00549631 /* api.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D9A120C71A5A00549631 /* api.pb.swift */; };
-		72A1661E20C71E8200F85D71 /* tls.cert in Resources */ = {isa = PBXBuildFile; fileRef = 72A1661D20C71E8200F85D71 /* tls.cert */; };
 		72A1662020C7266D00F85D71 /* api.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A1661F20C7266C00F85D71 /* api.grpc.swift */; };
-		72A1662320C82E3500F85D71 /* admin.macaroon in Resources */ = {isa = PBXBuildFile; fileRef = 72A1662220C82E3400F85D71 /* admin.macaroon */; };
 		72A1662620C833C900F85D71 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A1662520C833C900F85D71 /* Data.swift */; };
 		777B131D1BFD75FE76421DD6 /* Pods_nanozapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */; };
 		A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */; };
@@ -82,9 +80,7 @@
 		7267D99120C7198500549631 /* nanozapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nanozapUITests.swift; sourceTree = "<group>"; };
 		7267D99320C7198500549631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7267D9A120C71A5A00549631 /* api.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.pb.swift; sourceTree = "<group>"; };
-		72A1661D20C71E8200F85D71 /* tls.cert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tls.cert; sourceTree = "<group>"; };
 		72A1661F20C7266C00F85D71 /* api.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.grpc.swift; sourceTree = "<group>"; };
-		72A1662220C82E3400F85D71 /* admin.macaroon */ = {isa = PBXFileReference; lastKnownFileType = file; path = admin.macaroon; sourceTree = "<group>"; };
 		72A1662520C833C900F85D71 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		7D9B63D700EF83677ADDE5EF /* Pods-nanozap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozap/Pods-nanozap.debug.xcconfig"; sourceTree = "<group>"; };
 		99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,15 +141,6 @@
 			path = service;
 			sourceTree = "<group>";
 		};
-		7221650720C8512E00A429DE /* secrets */ = {
-			isa = PBXGroup;
-			children = (
-				72A1662220C82E3400F85D71 /* admin.macaroon */,
-				72A1661D20C71E8200F85D71 /* tls.cert */,
-			);
-			path = secrets;
-			sourceTree = "<group>";
-		};
 		7221650820C8514700A429DE /* rpc */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,7 +190,6 @@
 				6ADB0F1E20CC0BFB008E62DF /* models */,
 				7221654720C8592600A429DE /* viewcontrollers */,
 				7221650820C8514700A429DE /* rpc */,
-				7221650720C8512E00A429DE /* secrets */,
 				72A1662420C833AF00F85D71 /* extentions */,
 				7267D97120C7198300549631 /* AppDelegate.swift */,
 				7267D97320C7198300549631 /* ViewController.swift */,
@@ -374,9 +360,7 @@
 			files = (
 				7267D97C20C7198500549631 /* LaunchScreen.storyboard in Resources */,
 				7267D97920C7198500549631 /* Assets.xcassets in Resources */,
-				72A1662320C82E3500F85D71 /* admin.macaroon in Resources */,
 				7267D97720C7198300549631 /* Main.storyboard in Resources */,
-				72A1661E20C71E8200F85D71 /* tls.cert in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
