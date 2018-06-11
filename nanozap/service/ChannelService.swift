@@ -1,4 +1,35 @@
-class ChannelService {
+import RxSwift
+
+protocol Channeler {
+    func getChannels() throws -> [Channel]
+}
+
+class ChannelServiceMock : Channeler {
+    static var count = 0
+
+    func getChannels() throws -> [Channel] {
+        let nextCount = ChannelServiceMock.count + 1
+        ChannelServiceMock.count = nextCount
+        print("nextCount", nextCount)
+        return [
+            Channel(
+                    active: true,
+                    remotePubkey: "somekey",
+                    channelPoint: "",
+                    channelId: nextCount,
+                    capacity: 3,
+                    remoteBalance: 4,
+                    commitFee: 5,
+                    commitWeight: 6,
+                    feePerKw: 7,
+                    numUpdates: 8,
+                    csvDelay: 9
+            )
+        ]
+    }
+}
+
+class ChannelService : Channeler {
     let rpcmanager: RpcManager = RpcManager.shared
 
     public func getChannels() throws -> [Channel] {

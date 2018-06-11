@@ -223,10 +223,6 @@
                                 <accessibility key="accessibilityConfiguration" identifier="LabelCell"/>
                             </tableViewCell>
                         </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="d4v-2K-ckF" id="aBG-sh-pkS"/>
-                            <outlet property="delegate" destination="d4v-2K-ckF" id="28u-lf-Nar"/>
-                        </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Channels" id="ncm-hy-oLi"/>
                 </tableViewController>
