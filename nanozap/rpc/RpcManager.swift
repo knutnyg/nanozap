@@ -47,10 +47,8 @@ class RpcManager {
                 //onDisposed: ,
                 onNext: { (evt : Event) in
                     switch(evt) {
-                    case .updateAuthConfig(let _):
+                    case .updateAuthConfig(_):
                         self.reload()
-                    default:
-                        return
                     }
                 }
             ).disposed(by: disposeBag)
