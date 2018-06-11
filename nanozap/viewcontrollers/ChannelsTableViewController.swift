@@ -45,6 +45,7 @@ class ChannelsTableViewController: UITableViewController {
                 .filter { val in val == true }
                 .map { [unowned self] _ in try self.getChannels() }
                 .do(onNext: { (_) in
+                    // since we are in another thread, we can sleep without locking the UI!
                     print("sleep 1")
                     sleep(1)
                 } )
