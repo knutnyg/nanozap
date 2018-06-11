@@ -25,6 +25,9 @@ extension AuthStateUpdate: CustomStringConvertible {
 }
 
 class AppState {
+    static let bgScheduler = ConcurrentDispatchQueueScheduler(qos: .background)
+    static let userInitiatedBgScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)
+
     static var sharedState = AppState()
     let disposeBag = DisposeBag()
 
