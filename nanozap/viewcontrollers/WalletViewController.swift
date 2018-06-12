@@ -1,59 +1,100 @@
 import UIKit
 import RxSwift
+import RxCocoa
 
-class WalletViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class WalletViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var transactionsView: UITableView!
-    
-    var transactions:[Transaction] = []
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return transactions.count
-    }
-    
-
     @IBOutlet weak var walletbalanceLabel: UILabel!
-
+    
     let rpcmanager: RpcManager = RpcManager.shared
+    let disposeBag = DisposeBag()
 
-    // Creating a DisposeBag so subscription will be cancelled correctly
-    let bag = DisposeBag()
+    let transactionsSubject = BehaviorSubject<[Transaction]>(value: [])
+
+    let txDateFormatter = DateFormatter()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        transactionsView.delegate = self
-        transactionsView.dataSource = self
+        txDateFormatter.dateFormat = "dd.MM"
+
+        // TODO: find out why I have to do this:
+        self.transactionsView.dataSource = nil
+
+        //self.transactionsView.delegate = self
+        //self.transactionsView.dataSource = self
+
+        transactionsSubject.asObservable()
+                .observeOn(MainScheduler.instance)
+                .bind(to: self.transactionsView.rx.items(
+                        cellIdentifier: "TransactionCell",
+                        cellType: UITableViewCell.self
+                )) { (row, tx, cell) in
+                    let dato = self.txDateFormatter.string(from: tx.timestamp)
+                    let destination = tx.destination.dropLast(tx.destination.count - 8)
+                    let amount = tx.amount
+
+                    cell.textLabel?.text = "\(dato) - \(destination)... - \(amount)"
+                }
+                .disposed(by: disposeBag)
+
+        let refreshControl = UIRefreshControl()
+        transactionsView.refreshControl = refreshControl
+
+        refreshControl.rx
+                .controlEvent(.valueChanged)
+                .map { [refreshControl] _ in
+                    refreshControl.isRefreshing
+                }
+                // do network activity in background thread
+                .observeOn(AppState.userInitiatedBgScheduler)
+                .filter { val in
+                    val == true
+                }
+                .map { [unowned self] _ in
+                    try self.getTransactionList()
+                }
+                .do(onNext: { (_) in
+                    // since we are in another thread, we can sleep without locking the UI!
+                    print("sleep 1")
+                    sleep(1)
+                })
+                // go back to main thread to touch UI
+                .observeOn(MainScheduler.instance)
+                .subscribe(onNext: { (txs) in
+                    print("some refresh")
+                    self.transactionsSubject.onNext(txs)
+                    refreshControl.endRefreshing()
+                }, onError: { (error) in
+                    print("got error on refresh: ", error)
+                    refreshControl.endRefreshing()
+                })
+                .disposed(by: disposeBag)
         
-        guard let client = rpcmanager.client()
-                else {
-            return
-        }
+        reloadTxs()
+    }
+
+    func reloadTxs() {
         do {
-            let res = try client.walletBalance(Lnrpc_WalletBalanceRequest())
-            walletbalanceLabel.text = String(format: "Balance: %ld", res.totalBalance)
-            
-            self.transactions = try WalletService.shared.listTransactions()
-                .sorted(by: {$0.timestamp > $1.timestamp})
+            let res = try getBalance()
+            walletbalanceLabel.text = String(format: "Balance: %ld", res)
+
+            let txs = try getTransactionList()
+            transactionsSubject.onNext(txs)
             
         } catch {
             print("Unexpected error: \(error).")
         }
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM"
-
-        let tx = transactions[indexPath.item]
-        let dato = formatter.string(from: tx.timestamp)
-        let destination = tx.destination.dropLast(transaction.destination.count - 8)
-        let amuont = tx.amount
-        
-        cell.textLabel?.text = "\(dato) - \(destination)... - \(amount)"
-
-        return cell
+    func getBalance() throws -> Int {
+        return try WalletService.shared.getBalance()
     }
+
+    func getTransactionList() throws -> [Transaction] {
+        return try WalletService.shared.listTransactions()
+                .sorted(by: { $0.timestamp > $1.timestamp })
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
