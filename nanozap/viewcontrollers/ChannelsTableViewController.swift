@@ -6,7 +6,6 @@ import RxCocoa
 class ChannelsTableViewController: UITableViewController {
     private let disposeBag = DisposeBag()
 
-    var channels:[Channel] = []
     let loadChannels = BehaviorSubject<Void>(value: ())
     let channelsObs = BehaviorSubject<[Channel]>(value: [])
 
@@ -18,9 +17,7 @@ class ChannelsTableViewController: UITableViewController {
 
         channelsObs.asObservable()
             .observeOn(MainScheduler.instance)
-            .bind(to: self.tableView.rx.items(cellIdentifier: "LabelCell", cellType: UITableViewCell.self))
-                { (row, channel, cell) in
-                    //cell.textLabel?.text = "\(element) @ row \(row)"
+            .bind(to: self.tableView.rx.items(cellIdentifier: "LabelCell", cellType: UITableViewCell.self)) { (row, channel, cell) in
                     cell.textLabel?.text = "ID: \(channel.channelId) $: \(channel.localBalance)"
                 }
             .disposed(by: disposeBag)
@@ -52,7 +49,6 @@ class ChannelsTableViewController: UITableViewController {
                 // go back to main thread to touch UI
                 .observeOn(MainScheduler.instance)
                 .subscribe(onNext: { (channels) in print("some refresh")
-                    self.channels = channels
                     self.channelsObs.onNext(channels)
                     refreshControl.endRefreshing()
                 }, onError: { (error) in
@@ -84,15 +80,19 @@ class ChannelsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.channels.count
+        do {
+            return try self.channelsObs.value().count
+        } catch {
+            return 0
+        }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
-        
-        cell.textLabel?.text = "ID: \(channels[indexPath.row].channelId) $: \(channels[indexPath.row].localBalance)"
-
-        return cell
-    }
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
+//
+//        cell.textLabel?.text = "ID: \(channels[indexPath.row].channelId) $: \(channels[indexPath.row].localBalance)"
+//
+//        return cell
+//    }
     
 }
