@@ -5,11 +5,15 @@ import RxCocoa
 class WalletViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var transactionsView: UITableView!
     @IBOutlet weak var walletbalanceLabel: UILabel!
-    
+
     let rpcmanager: RpcManager = RpcManager.shared
     let disposeBag = DisposeBag()
 
-    let transactionsSubject = BehaviorSubject<[Transaction]>(value: [])
+    let loadSubject = BehaviorSubject<Void>(value: ())
+
+    let walletSubject = BehaviorSubject<WalletData>(value: WalletData.initWallet)
+    let transactionsSubject = BehaviorSubject<[Transaction]>(value: WalletData.initWallet.txs)
+    let balanceSubject = BehaviorSubject<WalletBalance>(value: WalletData.initWallet.balance)
 
     let txDateFormatter = DateFormatter()
 
@@ -19,9 +23,37 @@ class WalletViewController: UIViewController, UITableViewDelegate {
 
         // TODO: find out why I have to do this:
         self.transactionsView.dataSource = nil
-
-        //self.transactionsView.delegate = self
         //self.transactionsView.dataSource = self
+
+        self.transactionsView.delegate = self
+
+        loadSubject.asObservable()
+                // do network activity in background thread
+                .observeOn(AppState.userInitiatedBgScheduler)
+                .flatMap { (_) in
+                    WalletService.shared.getData()
+                }
+                .retry(3)
+                .catchError({ (error) -> Observable<WalletData> in
+                    print("caught error", error)
+                    return Observable.empty()
+                })
+                .bind(to: walletSubject)
+                .disposed(by: disposeBag)
+
+        walletSubject.asObservable()
+                .subscribe(onNext: { (data) in
+                    self.transactionsSubject.onNext(data.txs)
+                    self.balanceSubject.onNext(data.balance)
+                })
+                .disposed(by: disposeBag)
+
+        balanceSubject.asObservable()
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (bal) in
+                self.walletbalanceLabel.text! = "\(bal.confirmedBalance)"
+            })
+            .disposed(by: disposeBag)
 
         transactionsSubject.asObservable()
                 .observeOn(MainScheduler.instance)
@@ -45,58 +77,32 @@ class WalletViewController: UIViewController, UITableViewDelegate {
                 .map { [refreshControl] _ in
                     refreshControl.isRefreshing
                 }
-                // do network activity in background thread
-                .observeOn(AppState.userInitiatedBgScheduler)
                 .filter { val in
                     val == true
                 }
-                .map { [unowned self] _ in
-                    try self.getTransactionList()
+                // do network activity in background thread
+                .observeOn(AppState.userInitiatedBgScheduler)
+                .flatMap { (_) in
+                    WalletService.shared.getData()
                 }
-                .do(onNext: { (_) in
-                    // since we are in another thread, we can sleep without locking the UI!
-                    print("sleep 1")
-                    sleep(1)
-                })
-                .catchError({ (error) -> Observable<[Transaction]> in
+                .retry(3)
+                .catchError({ (error) -> Observable<WalletData> in
                     print("caught error", error)
                     return Observable.empty()
                 })
                 // go back to main thread to touch UI
                 .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (txs) in
+                .subscribe(onNext: { (data) in
                     print("some refresh")
-                    self.transactionsSubject.onNext(txs)
+                    self.transactionsSubject.onNext(data.txs)
+                    self.walletbalanceLabel.text! = "reload \(data.balance.confirmedBalance)"
                     refreshControl.endRefreshing()
                 }, onError: { (error) in
                     print("got error on refresh: ", error)
                     refreshControl.endRefreshing()
                 })
                 .disposed(by: disposeBag)
-        
-        reloadTxs()
-    }
 
-    func reloadTxs() {
-        do {
-            let res = try getBalance()
-            walletbalanceLabel.text = String(format: "Balance: %ld", res)
-
-            let txs = try getTransactionList()
-            transactionsSubject.onNext(txs)
-            
-        } catch {
-            print("Unexpected error: \(error).")
-        }
-    }
-
-    func getBalance() throws -> Int {
-        return try WalletService.shared.getBalance()
-    }
-
-    func getTransactionList() throws -> [Transaction] {
-        return try WalletService.shared.listTransactions()
-                .sorted(by: { $0.timestamp > $1.timestamp })
     }
 
     override func didReceiveMemoryWarning() {
