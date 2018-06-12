@@ -89,11 +89,6 @@ class ChannelsTableViewController: UITableViewController {
         } catch {
             return 0
         }
-        do {
-            return try self.channelsObs.value().count
-        } catch {
-            return 0
-        }
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

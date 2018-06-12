@@ -38,6 +38,10 @@ class WalletService {
     let rpcmanager: RpcManager = RpcManager.shared
     static let shared = WalletService()
 
+    private init() {
+        // no instances
+    }
+
     public func getBalance() throws -> Int {
         do {
             let res = try rpcmanager.client()!.walletBalance(Lnrpc_WalletBalanceRequest())
@@ -59,43 +63,41 @@ class WalletService {
 
     public func getWalletBalance() -> Observable<WalletBalance> {
         return Observable.deferred {
-            let res = try self.rpcmanager.client()!.walletBalance(Lnrpc_WalletBalanceRequest())
+            if let res = try self.rpcmanager.client()?.walletBalance(Lnrpc_WalletBalanceRequest()) {
+                let bal = WalletBalance(
+                        totalBalance: res.totalBalance,
+                        confirmedBalance: res.confirmedBalance,
+                        unconfirmedBalance: res.unconfirmedBalance
+                )
 
-            let bal = WalletBalance(
-                    totalBalance: res.totalBalance,
-                    confirmedBalance: res.confirmedBalance,
-                    unconfirmedBalance: res.unconfirmedBalance
-            )
-
-            return Observable.just(bal)
+                return Observable.just(bal)
+            } else {
+                //throw RPCErrors.unableToAccessClient
+                // return Observable.empty()
+                return Observable.error(RPCErrors.unableToAccessClient)
+            }
         }
     }
 
     public func listTransactionsObs() -> Observable<[Transaction]> {
         return Observable.deferred {
-            let txs = try self.listTransactions()
-
-            return Observable.just(txs)
-        }
-    }
-
-    public func listTransactions() throws -> [Transaction] {
-        do {
-            let res = try rpcmanager.client()!.getTransactions(Lnrpc_GetTransactionsRequest())
-            return res.transactions.map({ transaction in
-                let timestamp = Date.init(timeIntervalSince1970: TimeInterval(transaction.timeStamp))
-                return Transaction(
+            if let res = try self.rpcmanager.client()?.getTransactions(Lnrpc_GetTransactionsRequest()) {
+                
+                let txs : [Transaction] = res.transactions.map({ transaction in
+                    let timestamp = Date.init(timeIntervalSince1970: TimeInterval(transaction.timeStamp))
+                    return Transaction(
                         timestamp: timestamp,
                         amount: Int(transaction.amount),
                         destination: transaction.destAddresses[0]
-                )
-            })
-        } catch {
-            print("Unexpected error: \(error).")
-            throw RPCErrors.unableToAccessClient
+                    )
+                })
+                
+                return Observable.just(txs)
+            } else {
+                //throw RPCErrors.unableToAccessClient
+                // return Observable.empty()
+                return Observable.error(RPCErrors.unableToAccessClient)
+            }
         }
-    }
-
-    private init() {
     }
 }

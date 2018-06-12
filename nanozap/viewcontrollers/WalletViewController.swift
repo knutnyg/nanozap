@@ -106,7 +106,7 @@ class WalletViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vcc = segue.destination as? TransactionViewController {
             let indexPath = self.transactionsView.indexPathForSelectedRow
-            vcc.transaction = self.transactions[indexPath!.row]
+            vcc.transaction = try! self.transactionsSubject.value()[indexPath!.row]
 
         }
         super.prepare(for: segue, sender: sender)
