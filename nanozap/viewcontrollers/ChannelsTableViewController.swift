@@ -31,6 +31,10 @@ class ChannelsTableViewController: UITableViewController {
             .map { (_) throws in
                 return try self.getChannels()
             }
+            .catchError({ (error) -> Observable<[Channel]> in
+                print("caught error", error)
+                return Observable.empty()
+            })
             .bind(to: channelsObs)
             .disposed(by: disposeBag)
         

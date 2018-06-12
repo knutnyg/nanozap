@@ -58,6 +58,10 @@ class WalletViewController: UIViewController, UITableViewDelegate {
                     print("sleep 1")
                     sleep(1)
                 })
+                .catchError({ (error) -> Observable<[Transaction]> in
+                    print("caught error", error)
+                    return Observable.empty()
+                })
                 // go back to main thread to touch UI
                 .observeOn(MainScheduler.instance)
                 .subscribe(onNext: { (txs) in
