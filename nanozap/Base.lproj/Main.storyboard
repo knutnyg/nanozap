@@ -67,11 +67,50 @@
                     <connections>
                         <outlet property="transactionsView" destination="Le9-tg-OiY" id="iGS-Wo-5wm"/>
                         <outlet property="walletbalanceLabel" destination="Slu-Z7-yzH" id="2MV-hO-PzD"/>
+                        <segue destination="GdL-l5-swP" kind="popoverPresentation" identifier="TransactionView" popoverAnchorView="nl6-fW-byL" id="3Jh-Vd-HTB">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="msE-mj-Hrl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="552.79999999999995" y="-233.43328335832086"/>
+        </scene>
+        <!--Transaction View Controller-->
+        <scene sceneID="hgs-W1-2z0">
+            <objects>
+                <viewController storyboardIdentifier="TransactionView" id="GdL-l5-swP" customClass="TransactionViewController" customModule="nanozap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="x1F-4K-g0I">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Transaction" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dm1-Iz-ne2">
+                                <rect key="frame" x="142" y="82" width="90" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BEi-0h-cKn">
+                                <rect key="frame" x="160" y="536" width="54" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Dismiss"/>
+                                <connections>
+                                    <action selector="dismiss:" destination="GdL-l5-swP" eventType="touchUpInside" id="Sd8-nE-vgk"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="nIp-NX-MwC"/>
+                    </view>
+                    <connections>
+                        <outlet property="dismissButton" destination="BEi-0h-cKn" id="Wve-8d-SVg"/>
+                        <outlet property="transactionIdLabel" destination="Dm1-Iz-ne2" id="ZfL-yM-q9J"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JIM-VD-zmt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1343.2" y="-175.86206896551727"/>
         </scene>
         <!--Pay Invoice View Controller-->
         <scene sceneID="odd-Ss-Lf9">
@@ -183,7 +222,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Hs-ma-cb4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1416.8" y="-233.43328335832086"/>
+            <point key="canvasLocation" x="1343" y="-929"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="URS-nO-9pV">
@@ -225,10 +264,51 @@
                         </prototypes>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Channels" id="ncm-hy-oLi"/>
+                    <connections>
+                        <segue destination="N3b-cA-3SS" kind="popoverPresentation" identifier="ChannelView" popoverAnchorView="ue3-tc-FVr" id="Ajd-vk-iGS">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7uE-hJ-2Yn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="553" y="482"/>
+            <point key="canvasLocation" x="620" y="482"/>
+        </scene>
+        <!--Channel View Controller-->
+        <scene sceneID="zns-cM-ydW">
+            <objects>
+                <viewController id="N3b-cA-3SS" customClass="ChannelViewController" customModule="nanozap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zMr-Mr-T8r">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Channel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4TY-8k-N1P">
+                                <rect key="frame" x="166" y="102" width="63" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kfN-Qr-jV1">
+                                <rect key="frame" x="170" y="556" width="54" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Dismiss"/>
+                                <connections>
+                                    <action selector="dismiss:" destination="N3b-cA-3SS" eventType="touchUpInside" id="lxs-p3-zMw"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="2po-qc-zFs"/>
+                    </view>
+                    <connections>
+                        <outlet property="channlIdLabel" destination="4TY-8k-N1P" id="bgt-mV-TUu"/>
+                        <outlet property="dismissButton" destination="kfN-Qr-jV1" id="McE-lW-Uxl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aK3-ae-aOY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1333.5999999999999" y="481.70914542728639"/>
         </scene>
         <!--Auth-->
         <scene sceneID="0LY-nz-njo">

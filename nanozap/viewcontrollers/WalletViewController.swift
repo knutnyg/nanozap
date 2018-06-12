@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class WalletViewController: UIViewController, UITableViewDelegate {
+class WalletViewController: UIViewController {
     @IBOutlet weak var transactionsView: UITableView!
     @IBOutlet weak var walletbalanceLabel: UILabel!
 
@@ -20,12 +20,6 @@ class WalletViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         txDateFormatter.dateFormat = "dd.MM"
-
-        // TODO: find out why I have to do this:
-        self.transactionsView.dataSource = nil
-        //self.transactionsView.dataSource = self
-
-        self.transactionsView.delegate = self
 
         loadSubject.asObservable()
                 // do network activity in background thread
@@ -104,6 +98,20 @@ class WalletViewController: UIViewController, UITableViewDelegate {
                 .disposed(by: disposeBag)
 
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "TransactionView", sender: self)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vcc = segue.destination as? TransactionViewController {
+            let indexPath = self.transactionsView.indexPathForSelectedRow
+            vcc.transaction = self.transactions[indexPath!.row]
+
+        }
+        super.prepare(for: segue, sender: sender)
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

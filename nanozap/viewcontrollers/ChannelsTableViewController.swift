@@ -89,14 +89,21 @@ class ChannelsTableViewController: UITableViewController {
         } catch {
             return 0
         }
+        do {
+            return try self.channelsObs.value().count
+        } catch {
+            return 0
+        }
     }
-    
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
-//
-//        cell.textLabel?.text = "ID: \(channels[indexPath.row].channelId) $: \(channels[indexPath.row].localBalance)"
-//
-//        return cell
-//    }
-    
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "ChannelView", sender: self)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let channelsView = segue.destination as! ChannelViewController
+        let indexPath = self.tableView.indexPathForSelectedRow
+        channelsView.channel = try! self.channelsObs.value()[indexPath!.row]
+        super.prepare(for: segue, sender: sender)
+    }
 }
