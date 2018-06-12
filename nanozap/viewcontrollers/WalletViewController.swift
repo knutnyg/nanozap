@@ -10,19 +10,6 @@ class WalletViewController: UIViewController, UITableViewDataSource, UITableView
         return transactions.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
-        let transaction = transactions[indexPath.item]
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM"
-        
-        cell.textLabel?.text = "\(formatter.string(from: transaction.timestamp))" +
-        "- \(transaction.destination.dropLast(transaction.destination.count - 8))..." +
-        "- \(transaction.amount)"
-        
-        return cell
-    }
 
     @IBOutlet weak var walletbalanceLabel: UILabel!
 
@@ -52,6 +39,21 @@ class WalletViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM"
+
+        let tx = transactions[indexPath.item]
+        let dato = formatter.string(from: tx.timestamp)
+        let destination = tx.destination.dropLast(transaction.destination.count - 8)
+        let amuont = tx.amount
+        
+        cell.textLabel?.text = "\(dato) - \(destination)... - \(amount)"
+
+        return cell
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
