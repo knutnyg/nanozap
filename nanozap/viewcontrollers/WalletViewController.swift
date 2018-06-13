@@ -26,8 +26,8 @@ class WalletViewController: UIViewController {
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { (_) in
                     WalletService.shared.getData()
+                        .retry(3)
                 }
-                .retry(3)
                 .catchError({ (error) -> Observable<WalletData> in
                     print("caught error", error)
                     return Observable.empty()
@@ -49,6 +49,22 @@ class WalletViewController: UIViewController {
             })
             .disposed(by: disposeBag)
 
+        transactionsView.rx
+            .modelSelected(Transaction.self)
+            .asObservable()
+            .observeOn(AppState.userInitiatedBgScheduler)
+            .map({ (tx) in
+                print("selected tx=", tx.destination)
+                let model = TransactionDetailViewModel(tx: tx)
+                let view = TransactionDetailViewController.make(model: model)
+                return view
+            })
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (view) in
+                self.present(view, animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+        
         transactionsSubject.asObservable()
                 .observeOn(MainScheduler.instance)
                 .bind(to: self.transactionsView.rx.items(
@@ -77,9 +93,8 @@ class WalletViewController: UIViewController {
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { (_) in
-                    WalletService.shared.getData()
+                    WalletService.shared.getData().retry(3)
                 }
-                .retry(3)
                 .catchError({ (error) -> Observable<WalletData> in
                     print("caught error", error)
                     return Observable.empty()
@@ -99,19 +114,19 @@ class WalletViewController: UIViewController {
 
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "TransactionView", sender: self)
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vcc = segue.destination as? TransactionViewController {
-            let indexPath = self.transactionsView.indexPathForSelectedRow
-            vcc.transaction = try! self.transactionsSubject.value()[indexPath!.row]
-
-        }
-        super.prepare(for: segue, sender: sender)
-    }
-
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        self.performSegue(withIdentifier: "TransactionView", sender: self)
+//    }
+//
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let vcc = segue.destination as? TransactionViewController {
+//            let indexPath = self.transactionsView.indexPathForSelectedRow
+//            vcc.transaction = try! self.transactionsSubject.value()[indexPath!.row]
+//
+//        }
+//        super.prepare(for: segue, sender: sender)
+//    }
+//
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
