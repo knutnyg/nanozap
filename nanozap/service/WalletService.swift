@@ -29,7 +29,6 @@ struct WalletData {
                     unconfirmedBalance: 0
             ))
 
-
     let txs: [Transaction]
     let balance: WalletBalance
 }
@@ -85,13 +84,15 @@ class WalletService {
                 
                 let txs : [Transaction] = res.transactions.map({ transaction in
                     let timestamp = Date.init(timeIntervalSince1970: TimeInterval(transaction.timeStamp))
+
                     return Transaction(
                         timestamp: timestamp,
                         amount: Int(transaction.amount),
                         destination: transaction.destAddresses[0]
                     )
                 })
-                
+                .sorted(by: { $0.timestamp > $1.timestamp })
+
                 return Observable.just(txs)
             } else {
                 //throw RPCErrors.unableToAccessClient
