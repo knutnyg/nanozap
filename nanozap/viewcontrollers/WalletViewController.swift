@@ -19,14 +19,13 @@ class WalletViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        txDateFormatter.dateFormat = "dd.MM"
+        txDateFormatter.dateFormat = "MM.dd"
 
         loadSubject.asObservable()
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { (_) in
-                    WalletService.shared.getData()
-                        .retry(3)
+                    WalletService.shared.getData().retry(3)
                 }
                 .catchError({ (error) -> Observable<WalletData> in
                     print("caught error", error)
