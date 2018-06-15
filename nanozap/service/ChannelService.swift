@@ -33,7 +33,7 @@ struct LndNode {
     let pubKey : String
     let alias : String
     let color : String
-    let lastUpdate : Int
+    let lastUpdate : Date
     let totalCapacity : Int64
     let numChannels : Int
 }
@@ -52,15 +52,18 @@ class ChannelService : Channeler {
                 if !res.hasNode {
                     return Observable.empty()
                 } else {
-                    let node = LndNode(
-                            pubKey: res.node.pubKey,
-                            alias: res.node.alias,
-                            color: res.node.color,
-                            lastUpdate: Int(res.node.lastUpdate),
+                    let node = res.node
+                    let lastUpdate = Date.init(timeIntervalSince1970: TimeInterval(node.lastUpdate))
+
+                    let lndNode = LndNode(
+                            pubKey: node.pubKey,
+                            alias: node.alias,
+                            color: node.color,
+                            lastUpdate: lastUpdate,
                             totalCapacity: res.totalCapacity,
                             numChannels: Int(res.numChannels)
                     )
-                    return Observable.just(node)
+                    return Observable.just(lndNode)
                 }
             } else {
                 return Observable.error(RPCErrors.unableToAccessClient)
