@@ -30,9 +30,13 @@ class ChannelsTableViewController: UITableViewController {
                 .disposed(by: disposeBag)
 
         self.tableView.rx.modelSelected(Channel.self)
-                .map { (channel) in ChannelDetailModel(channel: channel) }
+                .flatMap { (channel : Channel) in
+                    ChannelService.shared.getPubkey(pubkey: channel.remotePubkey)
+                        .map { (node) in ChannelDetailModel(channel: channel, node: node) }
+                }
                 .map { (model) in ChannelViewController.make(model: model) }
                 .subscribe(onNext: { (view) in
+                    //self.navigationController.pushViewController(nextViewController, animated: true)
                     self.present(view, animated: true, completion: nil)
                 })
                 .disposed(by: disposeBag)
@@ -64,7 +68,7 @@ class ChannelsTableViewController: UITableViewController {
                     // since we are in another thread, we can sleep without locking the UI!
                     print("sleep 1")
                     sleep(1)
-                } )
+                })
                 // go back to main thread to touch UI
                 .observeOn(MainScheduler.instance)
                 .subscribe(onNext: { (channels) in
