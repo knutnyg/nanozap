@@ -8,6 +8,29 @@
 
 import Foundation
 
+extension Optional {
+    /// Return the value of the Optional or the `default` parameter
+    /// - param: The value to return if the optional is empty
+    func or(_ other: Wrapped) -> Wrapped {
+        switch self {
+        case .none:
+            return other
+        case .some(let value):
+            return value
+        }
+    }
+
+    /// Returns the unwrapped value of the optional *or*
+    /// the result of calling the closure `else`
+    /// I.e. optional.or(else: {
+    /// ... do a lot of stuff
+    /// })
+    func or(else: () -> Wrapped) -> Wrapped {
+        return self ?? `else`()
+    }
+
+}
+
 extension String {
     /*
      Truncates string to the specified length number of characters and appends an optional trailing string if longer.
