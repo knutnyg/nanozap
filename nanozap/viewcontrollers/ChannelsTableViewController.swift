@@ -62,7 +62,8 @@ class ChannelsTableViewController: UITableViewController {
                 } )
                 // go back to main thread to touch UI
                 .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (channels) in print("some refresh")
+                .subscribe(onNext: { (channels) in
+                    print("some refresh")
                     self.channelsObs.onNext(channels)
                     refreshControl.endRefreshing()
                 }, onError: { (error) in
@@ -74,7 +75,7 @@ class ChannelsTableViewController: UITableViewController {
 
     private func getChannels() throws -> [Channel] {
         let channelService = ChannelService()
-        let channels =  try channelService.getChannels()
+        let channels = try channelService.getChannels()
                 .sorted(by: { $0.localBalance > $1.localBalance })
 
         return channels
