@@ -29,9 +29,71 @@ class ChannelServiceMock : Channeler {
     }
 }
 
+struct LndNode {
+    let pubKey : String
+    let alias : String
+    let color : String
+    let lastUpdate : Int
+    let totalCapacity : Int64
+    let numChannels : Int
+}
+
 class ChannelService : Channeler {
+    static let shared: ChannelService = ChannelService()
+
     let rpcmanager: RpcManager = RpcManager.shared
 
+    public func getPubkey(pubkey : String) -> Observable<LndNode?> {
+        return Observable.deferred {
+            var req = Lnrpc_NodeInfoRequest()
+            req.pubKey = pubkey
+
+            if let res = try self.rpcmanager.client()?.getNodeInfo(req) {
+                if !res.hasNode {
+                    return Observable.empty()
+                } else {
+                    let node = LndNode(
+                            pubKey: res.node.pubKey,
+                            alias: res.node.alias,
+                            color: res.node.color,
+                            lastUpdate: Int(res.node.lastUpdate),
+                            totalCapacity: res.totalCapacity,
+                            numChannels: Int(res.numChannels)
+                    )
+                    return Observable.just(node)
+                }
+            } else {
+                return Observable.error(RPCErrors.unableToAccessClient)
+            }
+        }
+    }
+
+    public func getChannelsRx() -> Observable<[Channel]> {
+        return Observable.deferred {
+            if let res = try self.rpcmanager.client()?.listChannels(Lnrpc_ListChannelsRequest()) {
+
+                let chans = res.channels.map({ (lndChannel: Lnrpc_Channel) in
+                    return Channel(
+                            active: lndChannel.active,
+                            remotePubkey: lndChannel.remotePubkey,
+                            channelPoint: lndChannel.channelPoint,
+                            channelId: Int(lndChannel.chanID),
+                            capacity: Int(lndChannel.capacity),
+                            remoteBalance: Int(lndChannel.remoteBalance),
+                            commitFee: Int(lndChannel.commitFee),
+                            commitWeight: Int(lndChannel.commitWeight),
+                            feePerKw: Int(lndChannel.feePerKw),
+                            numUpdates: Int(lndChannel.numUpdates),
+                            csvDelay: Int(lndChannel.csvDelay)
+                    )
+                })
+
+                return Observable.just(chans)
+            } else {
+                return Observable.error(RPCErrors.unableToAccessClient)
+            }
+        }
+    }
     public func getChannels() throws -> [Channel] {
         do {
             if let res = try rpcmanager.client()?.listChannels(Lnrpc_ListChannelsRequest()) {
