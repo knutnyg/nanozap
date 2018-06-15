@@ -81,17 +81,22 @@ class WalletService {
     public func listTransactionsObs() -> Observable<[Transaction]> {
         return Observable.deferred {
             if let res = try self.rpcmanager.client()?.getTransactions(Lnrpc_GetTransactionsRequest()) {
-                
-                let txs : [Transaction] = res.transactions.map({ transaction in
-                    let timestamp = Date.init(timeIntervalSince1970: TimeInterval(transaction.timeStamp))
 
-                    return Transaction(
-                        timestamp: timestamp,
-                        amount: Int(transaction.amount),
-                        destination: transaction.destAddresses[0]
-                    )
-                })
-                .sorted(by: { $0.timestamp > $1.timestamp })
+                let txs: [Transaction] = res.transactions.map({ transaction in
+                            let timestamp = Date.init(timeIntervalSince1970: TimeInterval(transaction.timeStamp))
+
+                            return Transaction.init(
+                                    txHash: transaction.txHash,
+                                    timestamp: timestamp,
+                                    numConfirmations: Int(transaction.numConfirmations),
+                                    blockHash: transaction.blockHash,
+                                    blockHeight: Int(transaction.blockHeight),
+                                    amount: Int(transaction.amount),
+                                    totalFees: Int(transaction.totalFees),
+                                    destination: transaction.destAddresses
+                            )
+                        })
+                        .sorted(by: { $0.timestamp > $1.timestamp })
 
                 return Observable.just(txs)
             } else {

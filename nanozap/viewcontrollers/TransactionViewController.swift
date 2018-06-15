@@ -16,7 +16,7 @@ class TransactionViewController : UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let transaction = self.transaction {
-            self.transactionIdLabel.text = transaction.destination
+            self.transactionIdLabel.text = transaction.destination.first ?? "None";
         }
     }
 }
@@ -107,7 +107,8 @@ class TransactionDetailView : UIView {
             .bind(to: self.model.closeTap)
             .disposed(by: disposeBag)
 
-        let dest = self.model.tx.destination
+        var dest = self.model.tx.destination.first ?? ""
+        dest = dest.truncate(length: 22)
         self.txIdLabel.text = "To: \(dest)"
 
         //let format = ISO8601DateFormatter()

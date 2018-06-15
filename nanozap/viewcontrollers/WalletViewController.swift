@@ -1,4 +1,5 @@
 import UIKit
+import Foundation
 import RxSwift
 import RxCocoa
 
@@ -71,7 +72,11 @@ class WalletViewController: UIViewController {
                         cellType: UITableViewCell.self
                 )) { (row, tx, cell) in
                     let dato = self.txDateFormatter.string(from: tx.timestamp)
-                    let destination = tx.destination.dropLast(tx.destination.count - 8)
+                    let firstDestination = tx.destination.first ?? ""
+                    var destination = firstDestination
+                    if firstDestination.count > 16 {
+                        destination = destination.truncate(length: 16)
+                    }
                     let amount = tx.amount
 
                     cell.textLabel?.text = "\(dato) - \(destination)... - \(amount)"
@@ -103,7 +108,7 @@ class WalletViewController: UIViewController {
                 .subscribe(onNext: { (data) in
                     print("some refresh")
                     self.transactionsSubject.onNext(data.txs)
-                    self.walletbalanceLabel.text! = "reload \(data.balance.confirmedBalance)"
+                    self.walletbalanceLabel.text! = "Confirmed: \(data.balance.confirmedBalance) SAT"
                     refreshControl.endRefreshing()
                 }, onError: { (error) in
                     print("got error on refresh: ", error)
