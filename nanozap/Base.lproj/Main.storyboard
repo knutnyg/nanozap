@@ -67,9 +67,6 @@
                     <connections>
                         <outlet property="transactionsView" destination="Le9-tg-OiY" id="iGS-Wo-5wm"/>
                         <outlet property="walletbalanceLabel" destination="Slu-Z7-yzH" id="2MV-hO-PzD"/>
-                        <segue destination="GdL-l5-swP" kind="popoverPresentation" identifier="TransactionView" popoverAnchorView="nl6-fW-byL" id="3Jh-Vd-HTB">
-                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="msE-mj-Hrl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -264,11 +261,6 @@
                         </prototypes>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Channels" id="ncm-hy-oLi"/>
-                    <connections>
-                        <segue destination="N3b-cA-3SS" kind="popoverPresentation" identifier="ChannelView" popoverAnchorView="ue3-tc-FVr" id="Ajd-vk-iGS">
-                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                        </segue>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7uE-hJ-2Yn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
