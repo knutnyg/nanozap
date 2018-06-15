@@ -53,12 +53,9 @@ class WalletViewController: UIViewController {
             .modelSelected(Transaction.self)
             .asObservable()
             .observeOn(AppState.userInitiatedBgScheduler)
-            .map({ (tx) in
-                print("selected tx=", tx.destination)
-                let model = TransactionDetailViewModel(tx: tx)
-                let view = TransactionDetailViewController.make(model: model)
-                return view
-            })
+            .do ( onNext: { tx in print("selected tx=", tx.txHash) })
+            .map { (tx) in TransactionDetailViewModel(tx: tx) }
+            .map { (model) in TransactionDetailViewController.make(model: model) }
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (view) in
                 self.present(view, animated: true, completion: nil)
@@ -117,20 +114,6 @@ class WalletViewController: UIViewController {
                 .disposed(by: disposeBag)
 
     }
-
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.performSegue(withIdentifier: "TransactionView", sender: self)
-//    }
-//
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let vcc = segue.destination as? TransactionViewController {
-//            let indexPath = self.transactionsView.indexPathForSelectedRow
-//            vcc.transaction = try! self.transactionsSubject.value()[indexPath!.row]
-//
-//        }
-//        super.prepare(for: segue, sender: sender)
-//    }
-//
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

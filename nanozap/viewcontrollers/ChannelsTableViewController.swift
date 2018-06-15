@@ -11,13 +11,15 @@ class ChannelsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // TODO: find out why I have to do this:
+
         self.tableView.dataSource = nil
 
         channelsObs.asObservable()
-            .observeOn(MainScheduler.instance)
-            .bind(to: self.tableView.rx.items(cellIdentifier: "LabelCell", cellType: UITableViewCell.self)) { (row, channel, cell) in
+                .observeOn(MainScheduler.instance)
+                .bind(to: self.tableView.rx.items(
+                        cellIdentifier: "LabelCell",
+                        cellType: UITableViewCell.self
+                )) { (row, channel, cell) in
                     cell.textLabel?.text = "ID: \(channel.channelId) $: \(channel.localBalance)"
                 }
             .disposed(by: disposeBag)

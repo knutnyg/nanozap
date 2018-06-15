@@ -168,7 +168,6 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         dismiss(animated: true, completion: nil)
     }
     
-    
     func readerDidCancel(_ reader: QRCodeReaderViewController) {
         reader.stopScanning()
         

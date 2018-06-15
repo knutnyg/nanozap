@@ -16,7 +16,7 @@ class TransactionViewController : UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let transaction = self.transaction {
-            self.transactionIdLabel.text = transaction.destination.first ?? "None";
+            self.transactionIdLabel.text = transaction.destination.first ?? "None"
         }
     }
 }
