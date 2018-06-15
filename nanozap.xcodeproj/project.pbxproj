@@ -37,6 +37,7 @@
 		9876A86820CDA563002E824F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9876A86520CDA563002E824F /* README.md */; };
 		9899353020CD31D800498280 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9899352F20CD31D800498280 /* AppState.swift */; };
 		A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */; };
+		BFD0B2EFD7157EBF09B8ABEE /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0B1E229BBCC58644886F5 /* String.swift */; };
 		BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0BB283F89D9AB5E995ECF /* SecretService.swift */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +99,7 @@
 		9899352F20CD31D800498280 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFD0B1E229BBCC58644886F5 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		BFD0BB283F89D9AB5E995ECF /* SecretService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretService.swift; sourceTree = "<group>"; };
 		CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F50E6AFFC8D24F78019970 /* Pods-nanozapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				72A1662520C833C900F85D71 /* Data.swift */,
+				BFD0B1E229BBCC58644886F5 /* String.swift */,
 			);
 			path = extentions;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				7267D97220C7198300549631 /* AppDelegate.swift in Sources */,
 				BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */,
 				3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */,
+				BFD0B2EFD7157EBF09B8ABEE /* String.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
