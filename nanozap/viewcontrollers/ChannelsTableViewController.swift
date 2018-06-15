@@ -17,10 +17,15 @@ class ChannelsTableViewController: UITableViewController {
         channelsObs.asObservable()
                 .observeOn(MainScheduler.instance)
                 .bind(to: self.tableView.rx.items(
-                        cellIdentifier: "LabelCell",
-                        cellType: UITableViewCell.self
-                )) { (row, channel, cell) in
-                    cell.textLabel?.text = "ID: \(channel.channelId) $: \(channel.localBalance)"
+                        cellIdentifier: "ChannelCell",
+                        cellType: ChannelCell.self
+                )) { (row, channel, cell : ChannelCell) in
+                    let cellColor : UIColor = channel.active ? .green : .gray
+
+                    cell.topLeftLabel?.textColor = cellColor
+                    cell.topLeftLabel?.text = "ID: \(channel.channelId)"
+                    cell.botRightLabel?.text = "Fee: \(channel.feePerKw)"
+                    cell.botLeftLabel?.text = "Sat: \(channel.localBalance)"
                 }
                 .disposed(by: disposeBag)
 
