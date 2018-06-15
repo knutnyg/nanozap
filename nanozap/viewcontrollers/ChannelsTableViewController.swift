@@ -22,7 +22,15 @@ class ChannelsTableViewController: UITableViewController {
                 )) { (row, channel, cell) in
                     cell.textLabel?.text = "ID: \(channel.channelId) $: \(channel.localBalance)"
                 }
-            .disposed(by: disposeBag)
+                .disposed(by: disposeBag)
+
+        self.tableView.rx.modelSelected(Channel.self)
+                .map { (channel) in ChannelDetailModel(channel: channel) }
+                .map { (model) in ChannelViewController.make(model: model) }
+                .subscribe(onNext: { (view) in
+                    self.present(view, animated: true, completion: nil)
+                })
+                .disposed(by: disposeBag)
 
         let refreshControl = UIRefreshControl()
         self.refreshControl = refreshControl
@@ -91,16 +99,5 @@ class ChannelsTableViewController: UITableViewController {
         } catch {
             return 0
         }
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "ChannelView", sender: self)
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let channelsView = segue.destination as! ChannelViewController
-        let indexPath = self.tableView.indexPathForSelectedRow
-        channelsView.channel = try! self.channelsObs.value()[indexPath!.row]
-        super.prepare(for: segue, sender: sender)
     }
 }
