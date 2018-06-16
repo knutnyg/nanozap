@@ -43,7 +43,7 @@ class ChannelService : Channeler {
 
     let rpcmanager: RpcManager = RpcManager.shared
 
-    public func getPubkey(pubkey : String) -> Observable<LndNode?> {
+    public func getNodeInfo(pubkey : String) -> Observable<LndNode?> {
         return Observable.deferred {
             var req = Lnrpc_NodeInfoRequest()
             req.pubKey = pubkey

@@ -26,7 +26,7 @@ class WalletViewController: UIViewController {
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { (_) in
-                    WalletService.shared.getData().retry(3)
+                    WalletService.shared.getWallet().retry(3)
                 }
                 .catchError({ (error) -> Observable<WalletData> in
                     print("caught error", error)
@@ -94,7 +94,7 @@ class WalletViewController: UIViewController {
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { (_) in
-                    WalletService.shared.getData().retry(3)
+                    WalletService.shared.getWallet().retry(3)
                 }
                 .catchError({ (error) -> Observable<WalletData> in
                     print("caught error", error)

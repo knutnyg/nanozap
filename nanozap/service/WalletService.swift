@@ -51,9 +51,9 @@ class WalletService {
         }
     }
 
-    public func getData() -> Observable<WalletData> {
+    public func getWallet() -> Observable<WalletData> {
         let bal = getWalletBalance()
-        let txs = listTransactionsObs()
+        let txs = listTransactions()
 
         return Observable.zip(bal, txs) { (bal, txs) in
             return WalletData(txs: txs, balance: bal)
@@ -78,7 +78,7 @@ class WalletService {
         }
     }
 
-    public func listTransactionsObs() -> Observable<[Transaction]> {
+    public func listTransactions() -> Observable<[Transaction]> {
         return Observable.deferred {
             if let res = try self.rpcmanager.client()?.getTransactions(Lnrpc_GetTransactionsRequest()) {
 
