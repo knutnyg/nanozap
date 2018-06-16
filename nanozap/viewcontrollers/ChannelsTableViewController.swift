@@ -30,14 +30,19 @@ class ChannelsTableViewController: UITableViewController {
                 .disposed(by: disposeBag)
 
         self.tableView.rx.modelSelected(Channel.self)
+                .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { (channel : Channel) in
                     ChannelService.shared.getPubkey(pubkey: channel.remotePubkey)
                         .map { (node) in ChannelDetailModel(channel: channel, node: node) }
                 }
                 .map { (model) in ChannelViewController.make(model: model) }
+                .observeOn(MainScheduler.instance)
                 .subscribe(onNext: { (view) in
                     //self.navigationController.pushViewController(nextViewController, animated: true)
                     self.present(view, animated: true, completion: nil)
+                }, onError: { err in
+                    print("error", err)
+                    //TODO: display some message
                 })
                 .disposed(by: disposeBag)
 
