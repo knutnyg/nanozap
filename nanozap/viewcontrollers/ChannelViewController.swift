@@ -11,13 +11,14 @@ class ChannelViewController : UIViewController {
 
     @IBOutlet weak var channlIdLabel: UILabel!
     @IBOutlet weak var dismissButton: UIButton!
+    @IBOutlet weak var heading: UILabel!
     @IBOutlet weak var firstLine: UILabel!
     @IBOutlet weak var secondLine: UILabel!
     @IBOutlet weak var thirdLine: UILabel!
     @IBOutlet weak var fourthLine: UILabel!
     @IBOutlet weak var fifthLine: UILabel!
     @IBOutlet weak var sixthLine: UILabel!
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -29,9 +30,10 @@ class ChannelViewController : UIViewController {
             let chanCount = node.map { n in "\(n.numChannels)" }.or("")
             let cap = node.map { n in "\(n.totalCapacity)" }.or("")
             let remoteKey = node.map { n in n.pubKey }.or("")
-            let GMT = TimeZone(abbreviation: "GMT")!
-            let lastUpdated = node.map { n in ISO8601DateFormatter.string(from: n.lastUpdate, timeZone: GMT) }.or("")
+            let lastUpdated = node.map { n in ISO8601DateFormatter().string(from: n.lastUpdate) }.or("")
             channlIdLabel.text = "ChannelId: \(channel.channelId)"
+            heading.textColor = heading.tintColor
+            heading.text = "Node Info"
             firstLine.text = "State: \(state)"
             secondLine.text = "Alias: \(alias)"
             thirdLine.text = "Channels: \(chanCount)"
