@@ -33,6 +33,7 @@ class ChannelsTableViewController: UITableViewController {
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { (channel : Channel) in
                     ChannelService.shared.getNodeInfo(pubkey: channel.remotePubkey)
+                        .retry(3)
                         .map { (node) in ChannelDetailModel(channel: channel, node: node) }
                 }
                 .map { (model) in ChannelViewController.make(model: model) }
