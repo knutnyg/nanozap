@@ -42,20 +42,31 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
 
         let obs1 = hostnameObs.asObservable()
             .do(onNext: { (val : Any) in print("host=", val) })
-            .do(onNext: { (val : String?) in self.hostname = val })
+            .filter { optVal in optVal.map { value in true }.or(false) }
+            .map { val in val.or("") }
+            .do(onNext: { (val : String) in self.hostname = val })
             .startWith(hostname ?? "")
 
         let obs2 = certObs.distinctUntilChanged().startWith(cert ?? "")
         let obs3 = macaroonObs.distinctUntilChanged().startWith(macaroon ?? "")
 
-        _ = Observable
+        let configs = Observable
             .combineLatest(obs1, obs2, obs3)
-            .debounce(1.0, scheduler: MainScheduler.instance)
-            .map { (hostname, cert, macaroon) -> AuthStateUpdate in
-                return AuthStateUpdate(macaroon: macaroon, hostname: hostname ?? "", cert: cert)
+            .debounce(0.5, scheduler: AppState.userInitiatedBgScheduler)
+            .observeOn(AppState.userInitiatedBgScheduler)
+            .map { (address, cert, macaroon) in
+                RpcConfig(address: address, macaroon: macaroon, cert: cert)
             }
-            .map { action -> Event in
-                return Event.updateAuthConfig(action)
+        
+        let validConfigs = configs
+            .filter { cfg in RpcManager.testConfig(cfg: cfg) }
+
+        validConfigs
+            .map { (rpcConfig) in
+                AuthStateUpdate(macaroon: rpcConfig.macaroon, hostname: rpcConfig.address, cert: rpcConfig.cert)
+            }
+            .map { action in
+                Event.updateAuthConfig(action)
             }
             .bind(to: AppState.sharedState.updater)
             .disposed(by: disposeBag)

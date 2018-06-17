@@ -1,5 +1,14 @@
 import RxSwift
 
+struct RpcConfig {
+    // address is a string on the format hostname:port
+    let address : String
+    // macaroon is a hex string of some random bytes
+    let macaroon : String
+    // cert is a certificate
+    let cert : String
+}
+
 class RpcManager {
     static let shared = RpcManager()
     private var myClient: Lnrpc_LightningServiceClient?
@@ -8,6 +17,36 @@ class RpcManager {
     
     public func client() -> Lnrpc_LightningServiceClient? {
         return myClient
+    }
+
+    public static func testConfig(cfg : RpcConfig) -> Bool {
+        do {
+            if cfg.cert.count < 1 || cfg.macaroon.count < 1 {
+                return false
+            }
+            
+            let testClient = try createClient(address: cfg.address, cert: cfg.cert, macaroon: cfg.macaroon)
+            
+            if let result = try testClient?.walletBalance(Lnrpc_WalletBalanceRequest()) {
+                return true
+            }
+        } catch(let error) {
+            print("error with config: ", error)
+        }
+        return false
+    }
+    
+    private static func createClient(address : String, cert : String, macaroon : String) throws -> Lnrpc_LightningServiceClient? {
+        let client = Lnrpc_LightningServiceClient(
+            address: address,
+            certificates: cert,
+            arguments: [.keepAliveTimeout(5)]
+        )
+        
+        client.timeout = 5
+        try client.metadata.add(key: "macaroon", value: macaroon)
+        
+        return client
     }
 
     private func reload() {
@@ -20,18 +59,15 @@ class RpcManager {
             myClient = nil
             return
         }
-
-        self.myClient = Lnrpc_LightningServiceClient(
-                address: hostname,
-                certificates: cert,
-                arguments: [.keepAliveTimeout(5)]
-        )
-        self.myClient?.timeout = 5
-
+        
         do {
-            try self.myClient!.metadata.add(key: "macaroon", value: macaroon)
+            self.myClient = try RpcManager.createClient(
+                    address: hostname,
+                    cert: cert,
+                    macaroon: macaroon
+            )
         } catch {
-            print("Failed to setup macaroon: \(error)")
+            self.myClient = nil
         }
     }
 

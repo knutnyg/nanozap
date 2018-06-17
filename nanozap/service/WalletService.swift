@@ -43,8 +43,11 @@ class WalletService {
 
     public func getBalance() throws -> Int {
         do {
-            let res = try rpcmanager.client()!.walletBalance(Lnrpc_WalletBalanceRequest())
-            return Int(res.totalBalance)
+            if let res = try rpcmanager.client()?.walletBalance(Lnrpc_WalletBalanceRequest()) {
+                return Int(res.totalBalance)
+            } else {
+                throw RPCErrors.unableToAccessClient
+            }
         } catch {
             print("Unexpected error: \(error).")
             throw RPCErrors.unableToAccessClient
