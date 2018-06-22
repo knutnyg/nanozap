@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3FCED1F354DD079835C2E51F /* telephone-with-a-bolt-on-screen-2.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3FCED8158C92CF5AD12E3D0A /* telephone-with-a-bolt-on-screen-2.svg */; };
+		3FCED5E3FF25EC5B2EB14BA0 /* telephone-with-a-bolt-on-screen.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3FCED03D7489D157964ACF5A /* telephone-with-a-bolt-on-screen.svg */; };
 		3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */; };
 		6A059A2720CC651C008EBDD4 /* PayInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */; };
 		6A059A2920CC7327008EBDD4 /* InvoiceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2820CC7327008EBDD4 /* InvoiceService.swift */; };
 		6A059A2B20CC7441008EBDD4 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2A20CC7441008EBDD4 /* Invoice.swift */; };
 		6A059A2F20CD9243008EBDD4 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2E20CD9243008EBDD4 /* Transaction.swift */; };
+		6A3FDE9B20DD765100A06E9D /* telephone-with-a-bolt-on-screen-2.svg in Resources */ = {isa = PBXBuildFile; fileRef = 6A3FDE9920DD765100A06E9D /* telephone-with-a-bolt-on-screen-2.svg */; };
+		6A3FDE9C20DD765100A06E9D /* telephone-with-a-bolt-on-screen.svg in Resources */ = {isa = PBXBuildFile; fileRef = 6A3FDE9A20DD765100A06E9D /* telephone-with-a-bolt-on-screen.svg */; };
 		6A9AC56520D04DC000EFF6ED /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9AC56420D04DC000EFF6ED /* ChannelViewController.swift */; };
 		6ADB0F2020CC0C25008E62DF /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F1F20CC0C25008E62DF /* Channel.swift */; };
 		6ADB0F2320CC1502008E62DF /* ChannelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F2220CC1502008E62DF /* ChannelService.swift */; };
@@ -61,13 +65,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3FCED03D7489D157964ACF5A /* telephone-with-a-bolt-on-screen.svg */ = {isa = PBXFileReference; lastKnownFileType = file.svg; path = "telephone-with-a-bolt-on-screen.svg"; sourceTree = "<group>"; };
 		3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionViewController.swift; sourceTree = "<group>"; };
+		3FCED8158C92CF5AD12E3D0A /* telephone-with-a-bolt-on-screen-2.svg */ = {isa = PBXFileReference; lastKnownFileType = file.svg; path = "telephone-with-a-bolt-on-screen-2.svg"; sourceTree = "<group>"; };
 		4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInvoiceViewController.swift; sourceTree = "<group>"; };
 		6A059A2820CC7327008EBDD4 /* InvoiceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceService.swift; sourceTree = "<group>"; };
 		6A059A2A20CC7441008EBDD4 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
 		6A059A2E20CD9243008EBDD4 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		6A059A3320CDA4FC008EBDD4 /* code-generation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "code-generation.md"; sourceTree = "<group>"; };
+		6A3FDE9920DD765100A06E9D /* telephone-with-a-bolt-on-screen-2.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "telephone-with-a-bolt-on-screen-2.svg"; sourceTree = "<group>"; };
+		6A3FDE9A20DD765100A06E9D /* telephone-with-a-bolt-on-screen.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "telephone-with-a-bolt-on-screen.svg"; sourceTree = "<group>"; };
 		6A9AC56420D04DC000EFF6ED /* ChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelViewController.swift; sourceTree = "<group>"; };
 		6ACEF8C8F91B98293A4AA069 /* Pods-nanozapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapUITests/Pods-nanozapUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		6ADB0F1F20CC0C25008E62DF /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
@@ -138,12 +146,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3FCED3D54BDEB44F8DB1942A /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				3FCED03D7489D157964ACF5A /* telephone-with-a-bolt-on-screen.svg */,
+				3FCED8158C92CF5AD12E3D0A /* telephone-with-a-bolt-on-screen-2.svg */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
 		6A059A3220CDA4CE008EBDD4 /* docs */ = {
 			isa = PBXGroup;
 			children = (
 				6A059A3320CDA4FC008EBDD4 /* code-generation.md */,
 			);
 			path = docs;
+			sourceTree = "<group>";
+		};
+		6A3FDE9820DD763C00A06E9D /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				6A3FDE9920DD765100A06E9D /* telephone-with-a-bolt-on-screen-2.svg */,
+				6A3FDE9A20DD765100A06E9D /* telephone-with-a-bolt-on-screen.svg */,
+			);
+			path = resources;
 			sourceTree = "<group>";
 		};
 		6ADB0F1E20CC0BFB008E62DF /* models */ = {
@@ -220,6 +246,7 @@
 		7267D97020C7198300549631 /* nanozap */ = {
 			isa = PBXGroup;
 			children = (
+				6A3FDE9820DD763C00A06E9D /* resources */,
 				9876FE3D20D4570900D0A7AD /* view */,
 				6A059A3220CDA4CE008EBDD4 /* docs */,
 				6ADB0F2120CC14F1008E62DF /* service */,
@@ -232,6 +259,7 @@
 				7267D97820C7198500549631 /* Assets.xcassets */,
 				7267D97A20C7198500549631 /* LaunchScreen.storyboard */,
 				7267D97D20C7198500549631 /* Info.plist */,
+				3FCED3D54BDEB44F8DB1942A /* resources */,
 			);
 			path = nanozap;
 			sourceTree = "<group>";
@@ -405,11 +433,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9876A86820CDA563002E824F /* README.md in Resources */,
+				6A3FDE9C20DD765100A06E9D /* telephone-with-a-bolt-on-screen.svg in Resources */,
 				9876A86720CDA563002E824F /* Podfile in Resources */,
 				7267D97C20C7198500549631 /* LaunchScreen.storyboard in Resources */,
 				7267D97920C7198500549631 /* Assets.xcassets in Resources */,
 				9876A86620CDA563002E824F /* Podfile.lock in Resources */,
 				7267D97720C7198300549631 /* Main.storyboard in Resources */,
+				3FCED5E3FF25EC5B2EB14BA0 /* telephone-with-a-bolt-on-screen.svg in Resources */,
+				6A3FDE9B20DD765100A06E9D /* telephone-with-a-bolt-on-screen-2.svg in Resources */,
+				3FCED1F354DD079835C2E51F /* telephone-with-a-bolt-on-screen-2.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
