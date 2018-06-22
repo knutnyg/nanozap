@@ -1,13 +1,13 @@
-rsvg-convert -h 40 icon.svg > icon-40.png
-rsvg-convert -h 60 icon.svg > icon-60.png
-rsvg-convert -h 58 icon.svg > icon-58.png
-rsvg-convert -h 87 icon.svg > icon-87.png
-rsvg-convert -h 80 icon.svg > icon-80.png
-rsvg-convert -h 120 icon.svg > icon-120.png
-rsvg-convert -h 180 icon.svg > icon-180.png
-rsvg-convert -h 20 icon.svg > icon-20.png
-rsvg-convert -h 29 icon.svg > icon-29.png
-rsvg-convert -h 76 icon.svg > icon-76.png
-rsvg-convert -h 152 icon.svg > icon-152.png
-rsvg-convert -h 167 icon.svg > icon-167.png
-rsvg-convert -h 1024 icon.svg > icon-1024.png
+rsvg-convert -h 40 -b white icon.svg > icon-40.png
+rsvg-convert -h 60 -b white icon.svg > icon-60.png
+rsvg-convert -h 58 -b white icon.svg > icon-58.png
+rsvg-convert -h 87 -b white icon.svg > icon-87.png
+rsvg-convert -h 80 -b white icon.svg > icon-80.png
+rsvg-convert -h 120 -b white icon.svg > icon-120.png
+rsvg-convert -h 180 -b white icon.svg > icon-180.png
+rsvg-convert -h 20 -b white icon.svg > icon-20.png
+rsvg-convert -h 29 -b white icon.svg > icon-29.png
+rsvg-convert -h 76 -b white icon.svg > icon-76.png
+rsvg-convert -h 152 -b white icon.svg > icon-152.png
+rsvg-convert -h 167 -b white icon.svg > icon-167.png
+rsvg-convert -h 1024 -b white icon.svg > icon-1024.png

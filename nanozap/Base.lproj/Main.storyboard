@@ -45,6 +45,20 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vy8-9y-jHO">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="95"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="NanoZap ⚡️" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wvm-dY-tEP">
+                                        <rect key="frame" x="101" y="44" width="182" height="41"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -65,6 +79,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Wallet" id="1zB-4O-dOF"/>
                     <connections>
+                        <outlet property="headerView" destination="vy8-9y-jHO" id="kPo-nV-W4f"/>
                         <outlet property="transactionsView" destination="Le9-tg-OiY" id="iGS-Wo-5wm"/>
                         <outlet property="walletbalanceLabel" destination="Slu-Z7-yzH" id="2MV-hO-PzD"/>
                     </connections>

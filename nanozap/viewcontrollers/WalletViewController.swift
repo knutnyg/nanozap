@@ -4,6 +4,7 @@ import RxSwift
 import RxCocoa
 
 class WalletViewController: UIViewController {
+    @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var transactionsView: UITableView!
     @IBOutlet weak var walletbalanceLabel: UILabel!
 
@@ -21,6 +22,8 @@ class WalletViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         txDateFormatter.dateFormat = "MM.dd"
+        
+        headerView.backgroundColor = UIColor.blue
 
         loadSubject.asObservable()
                 // do network activity in background thread
