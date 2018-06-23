@@ -39,6 +39,7 @@
 		9876FE4120D56C5200D0A7AD /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876FE4020D56C5200D0A7AD /* Optional.swift */; };
 		9876FE4320D56C8D00D0A7AD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876FE4220D56C8D00D0A7AD /* String.swift */; };
 		9899353020CD31D800498280 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9899352F20CD31D800498280 /* AppState.swift */; };
+		98E150D420DD8F5D001FD985 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E150D320DD8F5D001FD985 /* Colors.swift */; };
 		A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */; };
 		BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0BB283F89D9AB5E995ECF /* SecretService.swift */; };
 /* End PBXBuildFile section */
@@ -104,6 +105,7 @@
 		9876FE4020D56C5200D0A7AD /* Optional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Optional.swift; path = nanozap/extentions/Optional.swift; sourceTree = SOURCE_ROOT; };
 		9876FE4220D56C8D00D0A7AD /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = String.swift; path = nanozap/extentions/String.swift; sourceTree = SOURCE_ROOT; };
 		9899352F20CD31D800498280 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		98E150D320DD8F5D001FD985 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFD0BB283F89D9AB5E995ECF /* SecretService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretService.swift; sourceTree = "<group>"; };
@@ -551,6 +553,7 @@
 				6A059A2B20CC7441008EBDD4 /* Invoice.swift in Sources */,
 				6A9AC56520D04DC000EFF6ED /* ChannelViewController.swift in Sources */,
 				9876FE3F20D4571A00D0A7AD /* ChannelCell.swift in Sources */,
+				98E150D420DD8F5D001FD985 /* Colors.swift in Sources */,
 				9899353020CD31D800498280 /* AppState.swift in Sources */,
 				7221654620C8591F00A429DE /* ChannelsTableViewController.swift in Sources */,
 				7221654B20C85AC000A429DE /* RpcManager.swift in Sources */,
