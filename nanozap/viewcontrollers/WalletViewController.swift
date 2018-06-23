@@ -8,6 +8,8 @@ class WalletViewController: UIViewController {
     @IBOutlet weak var transactionsView: UITableView!
     @IBOutlet weak var walletbalanceLabel: UILabel!
 
+    let headerColor = NanoColors.deepBlue
+
     let rpcmanager: RpcManager = RpcManager.shared
     let disposeBag = DisposeBag()
 
@@ -23,7 +25,7 @@ class WalletViewController: UIViewController {
         super.viewDidLoad()
         txDateFormatter.dateFormat = "MM.dd"
         
-        headerView.backgroundColor = UIColor.blue
+        headerView.backgroundColor = headerColor
 
         loadSubject.asObservable()
                 // do network activity in background thread
