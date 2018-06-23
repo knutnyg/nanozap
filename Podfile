@@ -15,6 +15,7 @@ target 'nanozap' do
   pod 'QRCodeReader.swift', '~> 8.2.0'
   pod 'RxSwift',    '~> 4.0'
   pod 'RxCocoa',    '~> 4.0'
+  pod 'Result', '~> 4.0.0'
 
   target 'nanozapTests' do
     inherit! :search_paths

@@ -20,6 +20,7 @@ PODS:
   - nanopb/encode (0.3.8)
   - PasswordExtension (4.1.0)
   - QRCodeReader.swift (8.2.0)
+  - Result (4.0.0)
   - RxCocoa (4.2.0):
     - RxSwift (~> 4.0)
   - RxSwift (4.2.0)
@@ -34,6 +35,7 @@ PODS:
 DEPENDENCIES:
   - PasswordExtension
   - QRCodeReader.swift (~> 8.2.0)
+  - Result (~> 4.0.0)
   - RxCocoa (~> 4.0)
   - RxSwift (~> 4.0)
   - SwiftGRPC
@@ -48,6 +50,7 @@ SPEC REPOS:
     - nanopb
     - PasswordExtension
     - QRCodeReader.swift
+    - Result
     - RxCocoa
     - RxSwift
     - SwiftGRPC
@@ -67,6 +70,7 @@ SPEC CHECKSUMS:
   SwiftLint: 87a43a7423cc6a9e23de6ec21cf148ddeece4b1f
   SwiftProtobuf: 4725f04098622c30bf46c80eff73330ebe9d8730
   Valet: 3b27cb8f4187d1ab39f7158698f5baf360fa989e
+  Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
 
 PODFILE CHECKSUM: f3e5f76d6556eef8a1feef200ed11078f40d35e8
 
