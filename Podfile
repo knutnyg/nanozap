@@ -7,14 +7,14 @@ target 'nanozap' do
   inhibit_all_warnings!
 
   # Pods for nanozap
-  pod 'SwiftProtobuf' , '~> 1.0'
+  pod 'SwiftProtobuf', '~> 1.0'
   pod 'SwiftGRPC', :inhibit_warnings => true
   pod 'Valet'
   pod 'SwiftLint'
   pod 'PasswordExtension'
   pod 'QRCodeReader.swift', '~> 8.2.0'
-  pod 'RxSwift',    '~> 4.0'
-  pod 'RxCocoa',    '~> 4.0'
+  pod 'RxSwift', '~> 4.0'
+  pod 'RxCocoa', '~> 4.0'
   pod 'Result', '~> 4.0.0'
 
   target 'nanozapTests' do
