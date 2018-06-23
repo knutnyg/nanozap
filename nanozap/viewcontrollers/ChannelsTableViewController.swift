@@ -20,7 +20,7 @@ class ChannelsTableViewController: UITableViewController {
                         cellIdentifier: "ChannelCell",
                         cellType: ChannelCell.self
                 )) { (row, channel, cell : ChannelCell) in
-                    let cellColor : UIColor = channel.active ? .green : .gray
+                    let cellColor : UIColor = channel.active ? NanoColors.green : NanoColors.gray
 
                     cell.topLeftLabel?.textColor = cellColor
                     cell.topLeftLabel?.text = "ID: \(channel.channelId)"
