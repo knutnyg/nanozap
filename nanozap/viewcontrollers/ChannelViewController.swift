@@ -70,7 +70,7 @@ class ChannelViewController: UIViewController {
 
                         let alert = UIAlertController(
                                 title: "Closing channel",
-                                message: "You sure want to close channel?",
+                                message: "Sure you want to close channel?",
                                 preferredStyle: .actionSheet
                         )
                         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
