@@ -38,6 +38,7 @@
 		9876FE3F20D4571A00D0A7AD /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876FE3E20D4571A00D0A7AD /* ChannelCell.swift */; };
 		9876FE4120D56C5200D0A7AD /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876FE4020D56C5200D0A7AD /* Optional.swift */; };
 		9876FE4320D56C8D00D0A7AD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876FE4220D56C8D00D0A7AD /* String.swift */; };
+		9876FE4520D576C300D0A7AD /* UIButton+Rounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876FE4420D576C300D0A7AD /* UIButton+Rounded.swift */; };
 		9899353020CD31D800498280 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9899352F20CD31D800498280 /* AppState.swift */; };
 		98E150D420DD8F5D001FD985 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E150D320DD8F5D001FD985 /* Colors.swift */; };
 		A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */; };
@@ -104,6 +105,7 @@
 		9876FE3E20D4571A00D0A7AD /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		9876FE4020D56C5200D0A7AD /* Optional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Optional.swift; path = nanozap/extentions/Optional.swift; sourceTree = SOURCE_ROOT; };
 		9876FE4220D56C8D00D0A7AD /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = String.swift; path = nanozap/extentions/String.swift; sourceTree = SOURCE_ROOT; };
+		9876FE4420D576C300D0A7AD /* UIButton+Rounded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIButton+Rounded.swift"; path = "nanozap/view/UIButton+Rounded.swift"; sourceTree = SOURCE_ROOT; };
 		9899352F20CD31D800498280 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		98E150D320DD8F5D001FD985 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +159,7 @@
 				6ADB0F2620CC1D60008E62DF /* Errors.swift */,
 				6A059A2A20CC7441008EBDD4 /* Invoice.swift */,
 				6A059A2E20CD9243008EBDD4 /* Transaction.swift */,
+				98E150D320DD8F5D001FD985 /* Colors.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				9876FE3E20D4571A00D0A7AD /* ChannelCell.swift */,
+				9876FE4420D576C300D0A7AD /* UIButton+Rounded.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -563,6 +567,7 @@
 				72A1662020C7266D00F85D71 /* api.grpc.swift in Sources */,
 				6ADB0F2520CC1D33008E62DF /* WalletService.swift in Sources */,
 				6A059A2F20CD9243008EBDD4 /* Transaction.swift in Sources */,
+				9876FE4520D576C300D0A7AD /* UIButton+Rounded.swift in Sources */,
 				6ADB0F2720CC1D60008E62DF /* Errors.swift in Sources */,
 				6A059A2720CC651C008EBDD4 /* PayInvoiceViewController.swift in Sources */,
 				6ADB0F2020CC0C25008E62DF /* Channel.swift in Sources */,
