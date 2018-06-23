@@ -4,6 +4,9 @@ import UIKit
 struct Channel {
     let active:Bool
     let remotePubkey:String
+    ///The outpoint (txid:index) of the funding transaction. With this value, Bob
+    ///will be able to generate a signature for Alice's version of the commitment
+    ///transaction.
     let channelPoint:String
     let channelId: Int
     let capacity: Int

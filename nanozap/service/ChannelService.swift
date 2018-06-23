@@ -38,12 +38,54 @@ struct LndNode {
     let numChannels : Int
 }
 
+struct CloseChannelResult {
+    let txId : String
+}
+
 class ChannelService : Channeler {
     static let shared: ChannelService = ChannelService()
 
     let rpcmanager: RpcManager = RpcManager.shared
 
-    public func getNodeInfo(pubkey : String) -> Observable<LndNode?> {
+    public func closeChannel(channel : Channel) -> Observable<CloseChannelResult> {
+        return Observable.deferred {
+            let parts = channel.channelPoint.split(separator: ":")
+            let fundingTxId = String(parts[0])
+            let outputIdx = UInt32(parts[1])
+            
+            var channelPoint = Lnrpc_ChannelPoint()
+            channelPoint.fundingTxid = .fundingTxidStr(fundingTxId)
+            channelPoint.outputIndex = outputIdx!
+            
+            var req = Lnrpc_CloseChannelRequest()
+            req.force = !channel.active
+            req.channelPoint = channelPoint
+            
+            //TODO: set a timeout in receive.
+            if let res = try self.rpcmanager.client()?.closeChannel(req, completion: nil).receive() {
+                if let update = res.update {
+                    switch (update) {
+                    case .closePending(let closepending):
+                        let txId = closepending.txid.hexString()
+                        
+                        return Observable.just(CloseChannelResult(txId: txId))
+                    case .confirmation(_):
+                        return Observable.empty()
+                    case .chanClose(let chanClosed):
+                        let txId = chanClosed.closingTxid.hexString()
+
+                        return Observable.just(CloseChannelResult(txId: txId))
+                    }
+                } else {
+                    return Observable.error(RPCErrors.unableToAccessClient)
+                }
+            } else {
+                return Observable.error(RPCErrors.unableToAccessClient)
+            }
+        }
+    }
+    
+    public func getNodeInfo(pubkey : String) -> Observable<LndNode> {
         return Observable.deferred {
             var req = Lnrpc_NodeInfoRequest()
             req.pubKey = pubkey
