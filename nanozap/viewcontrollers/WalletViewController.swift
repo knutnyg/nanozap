@@ -4,9 +4,9 @@ import RxSwift
 import RxCocoa
 
 class WalletViewController: UIViewController {
-    @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var transactionsView: UITableView!
-    @IBOutlet weak var walletbalanceLabel: UILabel!
+    var headerView: UIView!
+    var transactionsView: UITableView!
+    var walletbalanceLabel: UILabel!
 
     let headerColor = NanoColors.deepBlue
 
@@ -23,8 +23,33 @@ class WalletViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = UIColor.white
+
+        headerView = UIView()
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.backgroundColor = UIColor.cyan
+        transactionsView = UITableView()
+        transactionsView.register(UITableViewCell.self, forCellReuseIdentifier: "TransactionCell")
+        transactionsView.translatesAutoresizingMaskIntoConstraints = false
+        walletbalanceLabel = UILabel()
+        walletbalanceLabel.text = ""
+        walletbalanceLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(headerView)
+        view.addSubview(transactionsView)
+        view.addSubview(walletbalanceLabel)
+
+        let views: [String: UIView] = [
+            "headerView":headerView,
+            "walletbalanceLabel":walletbalanceLabel,
+            "transactionsView": transactionsView
+        ]
+
+        setConstraints(views: views)
+
         txDateFormatter.dateFormat = "MM.dd"
-        
+
         headerView.backgroundColor = headerColor
 
         loadSubject.asObservable()
@@ -66,7 +91,7 @@ class WalletViewController: UIViewController {
                 self.present(view, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
-        
+
         transactionsSubject.asObservable()
                 .observeOn(MainScheduler.instance)
                 .bind(to: self.transactionsView.rx.items(
@@ -118,6 +143,25 @@ class WalletViewController: UIViewController {
                 })
                 .disposed(by: disposeBag)
 
+    }
+
+    private func setConstraints(views: [String: UIView]) {
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "V:|-0-[headerView(100)]-100-[walletbalanceLabel(40)]-100-[transactionsView]-0-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[walletbalanceLabel]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-0-[headerView]-0-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-10-[transactionsView]-10-|",
+                metrics: nil,
+                views: views))
     }
 
     override func didReceiveMemoryWarning() {

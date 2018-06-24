@@ -12,6 +12,7 @@
 		6A059A2920CC7327008EBDD4 /* InvoiceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2820CC7327008EBDD4 /* InvoiceService.swift */; };
 		6A059A2B20CC7441008EBDD4 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2A20CC7441008EBDD4 /* Invoice.swift */; };
 		6A059A2F20CD9243008EBDD4 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2E20CD9243008EBDD4 /* Transaction.swift */; };
+		6A3FDE9E20DFAA8700A06E9D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A3FDE9D20DFAA8700A06E9D /* Launch Screen.storyboard */; };
 		6A9AC56520D04DC000EFF6ED /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9AC56420D04DC000EFF6ED /* ChannelViewController.swift */; };
 		6ADB0F2020CC0C25008E62DF /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F1F20CC0C25008E62DF /* Channel.swift */; };
 		6ADB0F2320CC1502008E62DF /* ChannelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F2220CC1502008E62DF /* ChannelService.swift */; };
@@ -23,9 +24,7 @@
 		7221654B20C85AC000A429DE /* RpcManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7221654A20C85AC000A429DE /* RpcManager.swift */; };
 		7267D97220C7198300549631 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D97120C7198300549631 /* AppDelegate.swift */; };
 		7267D97420C7198300549631 /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D97320C7198300549631 /* WalletViewController.swift */; };
-		7267D97720C7198300549631 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7267D97520C7198300549631 /* Main.storyboard */; };
 		7267D97920C7198500549631 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7267D97820C7198500549631 /* Assets.xcassets */; };
-		7267D97C20C7198500549631 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7267D97A20C7198500549631 /* LaunchScreen.storyboard */; };
 		7267D98720C7198500549631 /* NanozapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D98620C7198500549631 /* NanozapTests.swift */; };
 		7267D99220C7198500549631 /* nanozapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D99120C7198500549631 /* nanozapUITests.swift */; };
 		7267D9A220C71A5B00549631 /* api.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D9A120C71A5A00549631 /* api.pb.swift */; };
@@ -63,15 +62,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3FCED03D7489D157964ACF5A /* telephone-with-a-bolt-on-screen.svg */ = {isa = PBXFileReference; lastKnownFileType = file.svg; path = "telephone-with-a-bolt-on-screen.svg"; sourceTree = "<group>"; };
 		3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionViewController.swift; sourceTree = "<group>"; };
-		3FCED8158C92CF5AD12E3D0A /* telephone-with-a-bolt-on-screen-2.svg */ = {isa = PBXFileReference; lastKnownFileType = file.svg; path = "telephone-with-a-bolt-on-screen-2.svg"; sourceTree = "<group>"; };
 		4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInvoiceViewController.swift; sourceTree = "<group>"; };
 		6A059A2820CC7327008EBDD4 /* InvoiceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceService.swift; sourceTree = "<group>"; };
 		6A059A2A20CC7441008EBDD4 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
 		6A059A2E20CD9243008EBDD4 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		6A059A3320CDA4FC008EBDD4 /* code-generation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "code-generation.md"; sourceTree = "<group>"; };
+		6A3FDE9D20DFAA8700A06E9D /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		6A9AC56420D04DC000EFF6ED /* ChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelViewController.swift; sourceTree = "<group>"; };
 		6ACEF8C8F91B98293A4AA069 /* Pods-nanozapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapUITests/Pods-nanozapUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		6ADB0F1F20CC0C25008E62DF /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
@@ -85,9 +83,7 @@
 		7267D96E20C7198300549631 /* nanozap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nanozap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7267D97120C7198300549631 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7267D97320C7198300549631 /* WalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewController.swift; sourceTree = "<group>"; };
-		7267D97620C7198300549631 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7267D97820C7198500549631 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7267D97B20C7198500549631 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7267D97D20C7198500549631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7267D98220C7198500549631 /* nanozapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nanozapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7267D98620C7198500549631 /* NanozapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanozapTests.swift; sourceTree = "<group>"; };
@@ -235,11 +231,9 @@
 				7221650820C8514700A429DE /* rpc */,
 				72A1662420C833AF00F85D71 /* extentions */,
 				7267D97120C7198300549631 /* AppDelegate.swift */,
-				7267D97520C7198300549631 /* Main.storyboard */,
 				7267D97820C7198500549631 /* Assets.xcassets */,
-				7267D97A20C7198500549631 /* LaunchScreen.storyboard */,
 				7267D97D20C7198500549631 /* Info.plist */,
-				3FCED3D54BDEB44F8DB1942A /* resources */,
+				6A3FDE9D20DFAA8700A06E9D /* Launch Screen.storyboard */,
 			);
 			path = nanozap;
 			sourceTree = "<group>";
@@ -415,12 +409,9 @@
 			files = (
 				9876A86820CDA563002E824F /* README.md in Resources */,
 				9876A86720CDA563002E824F /* Podfile in Resources */,
-				7267D97C20C7198500549631 /* LaunchScreen.storyboard in Resources */,
 				7267D97920C7198500549631 /* Assets.xcassets in Resources */,
+				6A3FDE9E20DFAA8700A06E9D /* Launch Screen.storyboard in Resources */,
 				9876A86620CDA563002E824F /* Podfile.lock in Resources */,
-				7267D97720C7198300549631 /* Main.storyboard in Resources */,
-				3FCED5E3FF25EC5B2EB14BA0 /* telephone-with-a-bolt-on-screen.svg in Resources */,
-				3FCED1F354DD079835C2E51F /* telephone-with-a-bolt-on-screen-2.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,25 +602,6 @@
 			targetProxy = 7267D98E20C7198500549631 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		7267D97520C7198300549631 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7267D97620C7198300549631 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		7267D97A20C7198500549631 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7267D97B20C7198500549631 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		7267D99420C7198500549631 /* Debug */ = {
