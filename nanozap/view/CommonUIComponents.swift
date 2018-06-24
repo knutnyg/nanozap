@@ -37,6 +37,17 @@ func createWarnButton(text: String) -> UIButton! {
     return button
 }
 
+func createOKButton(text: String) -> UIButton! {
+    let button = createButton(text: text)
+    button.tintColor = .white
+    button.backgroundColor = NanoColors.green
+    button.borderColor = NanoColors.green
+    button.layer.cornerRadius = 5
+    button.layer.borderWidth = 1
+
+    return button
+}
+
 func createButton(text:String) -> UIButton {
     let button = UIButton(type: .system)
     button.translatesAutoresizingMaskIntoConstraints = false
