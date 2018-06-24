@@ -7,6 +7,7 @@ class WalletViewController: UIViewController {
     var headerView: UIView!
     var transactionsView: UITableView!
     var walletbalanceLabel: UILabel!
+    var payInvoiceButton: UIButton!
 
     let headerColor = NanoColors.deepBlue
 
@@ -32,18 +33,21 @@ class WalletViewController: UIViewController {
         transactionsView = UITableView()
         transactionsView.register(UITableViewCell.self, forCellReuseIdentifier: "TransactionCell")
         transactionsView.translatesAutoresizingMaskIntoConstraints = false
-        walletbalanceLabel = UILabel()
-        walletbalanceLabel.text = ""
-        walletbalanceLabel.translatesAutoresizingMaskIntoConstraints = false
+        walletbalanceLabel = createLabel(text: "")
+
+        payInvoiceButton = createButton(text: "Pay invoice")
+        payInvoiceButton.addTarget(self, action: #selector(payInvoiceClicked), for: .touchUpInside)
 
         view.addSubview(headerView)
         view.addSubview(transactionsView)
         view.addSubview(walletbalanceLabel)
+        view.addSubview(payInvoiceButton)
 
         let views: [String: UIView] = [
             "headerView":headerView,
-            "walletbalanceLabel":walletbalanceLabel,
-            "transactionsView": transactionsView
+            "transactionsView": transactionsView,
+            "payInvoiceButton": payInvoiceButton,
+            "walletbalanceLabel":walletbalanceLabel
         ]
 
         setConstraints(views: views)
@@ -147,11 +151,15 @@ class WalletViewController: UIViewController {
 
     private func setConstraints(views: [String: UIView]) {
         view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-0-[headerView(100)]-100-[walletbalanceLabel(40)]-100-[transactionsView]-0-|",
+                withVisualFormat: "V:|-0-[headerView(100)]-100-[walletbalanceLabel(40)]-[payInvoiceButton]-100-[transactionsView]-0-|",
                 metrics: nil,
                 views: views))
         view.addConstraints(NSLayoutConstraint.constraints(
                 withVisualFormat: "H:|-20-[walletbalanceLabel]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[payInvoiceButton]-20-|",
                 metrics: nil,
                 views: views))
         view.addConstraints(NSLayoutConstraint.constraints(
@@ -162,6 +170,12 @@ class WalletViewController: UIViewController {
                 withVisualFormat: "H:|-10-[transactionsView]-10-|",
                 metrics: nil,
                 views: views))
+    }
+
+    @objc func payInvoiceClicked(sender: UIButton!) {
+        var invoiceVC = PayInvoiceViewController()
+        invoiceVC.modalPresentationStyle = .popover
+        present(invoiceVC, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {

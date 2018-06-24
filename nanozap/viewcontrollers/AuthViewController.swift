@@ -31,31 +31,19 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
 
         view.backgroundColor = UIColor.white
 
-        hostnameTextField = UITextField()
+        hostnameTextField = createTextField(placeholder: "hostname:port")
         hostnameTextField.translatesAutoresizingMaskIntoConstraints = false
-        hostnameTextField.text = ""
 
-        certLabel = UILabel()
-        certLabel.translatesAutoresizingMaskIntoConstraints = false
-        certLabel.text = ""
+        certLabel = createLabel(text: "")
+        macaroonLabel = createLabel(text: "")
 
-        macaroonLabel = UILabel()
-        macaroonLabel.translatesAutoresizingMaskIntoConstraints = false
-        macaroonLabel.text = ""
-
-        testSecretsButton = UIButton(type: .system)
-        testSecretsButton.translatesAutoresizingMaskIntoConstraints = false
-        testSecretsButton.setTitle("test", for: .normal)
+        testSecretsButton = createButton(text: "test secrets")
         testSecretsButton.addTarget(self, action: #selector(testAuthClicked), for: .touchUpInside)
 
-        scanCert = UIButton(type: .system)
-        scanCert.translatesAutoresizingMaskIntoConstraints = false
-        scanCert.setTitle("Scan Cert", for: .normal)
+        scanCert = createButton(text: "Scan Cert")
         scanCert.addTarget(self, action: #selector(scanCertClicked), for: .touchUpInside)
 
-        scanMacaroon = UIButton(type: .system)
-        scanMacaroon.translatesAutoresizingMaskIntoConstraints = false
-        scanMacaroon.setTitle("Scan Macaroon", for: .normal)
+        scanMacaroon = createButton(text: "Scan Macaroon")
         scanMacaroon.addTarget(self, action: #selector(scanMacaroonClicked), for: .touchUpInside)
 
         self.view.addSubview(hostnameTextField)
@@ -124,7 +112,7 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
 
     private func setConstraints(views: [String: UIView]) {
         view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-100-[hostnameTextField(100)]-20-[certLabel(40)]-20-[macaroonLabel(40)]-20-[testSecretsButton(40)]-20-[scanCert(40)]-20-[scanMacaroon(40)]",
+                withVisualFormat: "V:|-100-[hostnameTextField(50)]-20-[certLabel(40)]-20-[macaroonLabel(40)]-20-[testSecretsButton(40)]-20-[scanCert(40)]-20-[scanMacaroon(40)]",
                 metrics: nil,
                 views: views))
         view.addConstraints(NSLayoutConstraint.constraints(
