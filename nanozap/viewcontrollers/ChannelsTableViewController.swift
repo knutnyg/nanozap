@@ -34,18 +34,27 @@ class ChannelsTableViewController: UITableViewController {
         self.tableView.rx.modelSelected(Channel.self)
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { (channel : Channel) in
-                    ChannelService.shared.getNodeInfo(pubkey: channel.remotePubkey)
-                        .retry(3)
-                        .map { (node) in ChannelDetailModel(channel: channel, node: node) }
+                    self.getNodeInfo(channel.remotePubkey)
+                        .map { result in result.map { nodeinfo in
+                            ChannelDetailModel(channel: channel, node: nodeinfo)
+                         } }
                 }
-                .map { (model) in ChannelViewController.make(model: model) }
+                .map { result in result.map { model in ChannelViewController.make(model: model) } }
+                //.map { (model) in ChannelViewController.make(model: model) }
                 .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (view) in
+                .subscribe(onNext: { (result) in
                     //self.navigationController.pushViewController(nextViewController, animated: true)
-                    self.present(view, animated: true, completion: nil)
+                    switch (result) {
+                    case .success(let view):
+                        self.present(view, animated: true, completion: nil)
+                    case .failure(let err):
+                        print("load channel error", err)
+                        displayError(message: "Error loading channel data.")
+                    }
+                    
                 }, onError: { err in
-                    print("error", err)
-                    //TODO: display some message
+                    print("fatal error", err)
+                    fatalError("observable died")
                 })
                 .disposed(by: disposeBag)
 
@@ -92,16 +101,29 @@ class ChannelsTableViewController: UITableViewController {
                             case .failure(let error):
                                 print("got error on refresh: ", error)
                                 refreshControl.endRefreshing()
+                                displayError(message: "Error refreshing channels.")
                             }
                         },
                         onError: { (error) in
-                            print("got error on refresh: ", error)
-                            refreshControl.endRefreshing()
+                            print("refreshcontrol died: ", error)
+                            fatalError("refreshcontrol died!")
                         },
                         onCompleted: {
                             refreshControl.endRefreshing()
                         })
                 .disposed(by: disposeBag)
+    }
+
+    private func getNodeInfo(_ pubkey: String) -> Observable<Result<LndNode, RPCError>> {
+        return ChannelService.shared
+                .getNodeInfo(pubkey: pubkey)
+                .retry(3)
+                //.map { (node) in ChannelDetailModel(channel: channel, node: node) }
+                //.map { model -> Result<LndNode, RPCError> in Result(value: model) }
+                .catchError { (errors) in
+                    let val : Result<LndNode, RPCError> = Result(error: RPCError.genericError(error: errors))
+                    return Observable.just(val)
+                }
     }
 
     private func getChannels() -> Result<[Channel], AnyError> {

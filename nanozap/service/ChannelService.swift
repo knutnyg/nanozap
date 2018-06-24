@@ -1,4 +1,5 @@
 import RxSwift
+import Result
 
 protocol Channeler {
     func getChannels() throws -> [Channel]
@@ -84,15 +85,15 @@ class ChannelService : Channeler {
                         return Observable.just(CloseChannelResult(txId: txId))
                     }
                 } else {
-                    return Observable.error(RPCErrors.unableToAccessClient)
+                    return Observable.error(RPCError.unableToAccessClient)
                 }
             } else {
-                return Observable.error(RPCErrors.unableToAccessClient)
+                return Observable.error(RPCError.unableToAccessClient)
             }
         }
     }
     
-    public func getNodeInfo(pubkey : String) -> Observable<LndNode> {
+    public func getNodeInfo(pubkey : String) -> Observable<Result<LndNode, RPCError>> {
         return Observable.deferred {
             var req = Lnrpc_NodeInfoRequest()
             req.pubKey = pubkey
@@ -112,10 +113,10 @@ class ChannelService : Channeler {
                             totalCapacity: res.totalCapacity,
                             numChannels: Int(res.numChannels)
                     )
-                    return Observable.just(lndNode)
+                    return Observable.just(Result(lndNode))
                 }
             } else {
-                return Observable.error(RPCErrors.unableToAccessClient)
+                return Observable.just(Result(error: RPCError.unableToAccessClient))
             }
         }
     }
@@ -142,7 +143,7 @@ class ChannelService : Channeler {
 
                 return Observable.just(chans)
             } else {
-                return Observable.error(RPCErrors.unableToAccessClient)
+                return Observable.error(RPCError.unableToAccessClient)
             }
         }
     }
@@ -169,7 +170,7 @@ class ChannelService : Channeler {
             }
         } catch {
             print("Unexpected error: \(error).")
-            throw RPCErrors.failedToFetchChannels
+            throw RPCError.failedToFetchChannels
         }
     }
 }

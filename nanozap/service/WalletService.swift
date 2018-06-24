@@ -46,11 +46,11 @@ class WalletService {
             if let res = try rpcmanager.client()?.walletBalance(Lnrpc_WalletBalanceRequest()) {
                 return Int(res.totalBalance)
             } else {
-                throw RPCErrors.unableToAccessClient
+                throw RPCError.unableToAccessClient
             }
         } catch {
             print("Unexpected error: \(error).")
-            throw RPCErrors.unableToAccessClient
+            throw RPCError.unableToAccessClient
         }
     }
 
@@ -76,7 +76,7 @@ class WalletService {
             } else {
                 //throw RPCErrors.unableToAccessClient
                 // return Observable.empty()
-                return Observable.error(RPCErrors.unableToAccessClient)
+                return Observable.error(RPCError.unableToAccessClient)
             }
         }
     }
@@ -105,7 +105,7 @@ class WalletService {
             } else {
                 //throw RPCErrors.unableToAccessClient
                 // return Observable.empty()
-                return Observable.error(RPCErrors.unableToAccessClient)
+                return Observable.error(RPCError.unableToAccessClient)
             }
         }
     }

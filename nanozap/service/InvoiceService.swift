@@ -21,14 +21,14 @@ class InvoiceService {
             )
         } catch {
             print("Unexpected error decoding payreq: \(error).")
-            throw RPCErrors.failedToDecodePayReq
+            throw RPCError.failedToDecodePayReq
         }
     }
     
     public func payInvoice(invoice:Invoice) throws -> Bool {
         guard let client = RpcManager.shared.client() else {
             print("Could not load client")
-            throw RPCErrors.unableToAccessClient
+            throw RPCError.unableToAccessClient
         }
         do {
             var request = Lnrpc_SendRequest()
