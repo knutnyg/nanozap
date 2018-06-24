@@ -60,6 +60,13 @@ class ChannelService : Channeler {
             var req = Lnrpc_CloseChannelRequest()
             req.force = !channel.active
             req.channelPoint = channelPoint
+            req.satPerByte = 1
+            // number of confirmation blocks
+            req.targetConf = 6
+            // set a much higher confirmation if we are force closing
+            if req.force {
+                req.targetConf = 192
+            }
             
             //TODO: set a timeout in receive.
             if let res = try self.rpcmanager.client()?.closeChannel(req, completion: nil).receive() {
