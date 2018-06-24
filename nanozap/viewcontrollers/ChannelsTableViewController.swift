@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import RxSwift
 import RxCocoa
+import Result
 
 class ChannelsTableViewController: UITableViewController {
     private let disposeBag = DisposeBag()
@@ -49,27 +50,30 @@ class ChannelsTableViewController: UITableViewController {
 
         let refreshControl = UIRefreshControl()
         self.refreshControl = refreshControl
-        
+
         loadChannels
             // do network activity in background thread
             .observeOn(AppState.userInitiatedBgScheduler)
-            .map { (_) throws in
-                return try self.getChannels()
+            .map { (_) in self.getChannels() }
+            .flatMap { result -> Observable<[Channel]> in
+                switch (result) {
+                case .success(let chans):
+                    return Observable.just(chans)
+                case .failure(let error):
+                    print("caught error", error)
+                    return Observable.empty()
+                }
             }
-            .catchError({ (error) -> Observable<[Channel]> in
-                print("caught error", error)
-                return Observable.empty()
-            })
             .bind(to: channelsObs)
             .disposed(by: disposeBag)
-        
+
         refreshControl.rx
                 .controlEvent(.valueChanged)
                 .map { [refreshControl] _ in refreshControl.isRefreshing }
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .filter { val in val == true }
-                .map { [unowned self] _ in try self.getChannels() }
+                .map { [unowned self] _ in self.getChannels() }
                 .do(onNext: { (_) in
                     // since we are in another thread, we can sleep without locking the UI!
                     print("sleep 1")
@@ -77,23 +81,31 @@ class ChannelsTableViewController: UITableViewController {
                 })
                 // go back to main thread to touch UI
                 .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (channels) in
-                    print("some refresh")
-                    self.channelsObs.onNext(channels)
-                    refreshControl.endRefreshing()
-                }, onError: { (error) in
-                    print("got error on refresh: ", error)
-                    refreshControl.endRefreshing()
-                })
+                .subscribe(
+                        onNext: { [weak self] (result) in
+                            print("some refresh result")
+                            switch (result) {
+                            case .success(let chans):
+                                self?.channelsObs.onNext(chans)
+                                refreshControl.endRefreshing()
+                            case .failure(let error):
+                                print("got error on refresh: ", error)
+                                refreshControl.endRefreshing()
+                            }
+                        },
+                        onError: { (error) in
+                            print("got error on refresh: ", error)
+                            refreshControl.endRefreshing()
+                        },
+                        onCompleted: {
+                            refreshControl.endRefreshing()
+                        })
                 .disposed(by: disposeBag)
     }
 
-    private func getChannels() throws -> [Channel] {
-        let channelService = ChannelService()
-        let channels = try channelService.getChannels()
-                .sorted(by: { $0.localBalance > $1.localBalance })
-
-        return channels
+    private func getChannels() -> Result<[Channel], AnyError> {
+        return Result(attempt: { () throws -> [Channel] in try ChannelService.shared.getChannels() } )
+            .map { chans in chans.sorted(by: { $0.localBalance > $1.localBalance }) }
     }
 
     private func refreshChannels() {
@@ -108,7 +120,7 @@ class ChannelsTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         do {
             return try self.channelsObs.value().count
