@@ -27,19 +27,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         walletVC.title = "Wallet"
         walletVC.tabBarItem = UITabBarItem(title: "Wallet", image: exchangeIcon, tag: 0)
 
+        let channelsIcon = UIImage.fontAwesomeIcon(name: .connectdevelop, textColor: iconColor, size: iconSize)
         let channelsVC = ChannelsTableViewController()
         channelsVC.title = "Channels"
-        channelsVC.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 1)
+        channelsVC.tabBarItem = UITabBarItem(title: "Channels", image: channelsIcon, tag: 1)
 
+        let authIcon = UIImage.fontAwesomeIcon(name: .cog, textColor: iconColor, size: iconSize)
         let authVC = AuthViewController()
         authVC.title = "Auth"
-        authVC.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 2)
+        authVC.tabBarItem = UITabBarItem(title: "Settings", image: authIcon, tag: 2)
 
         let tabBarController: UITabBarController = UITabBarController()
 
         let controllers = [walletVC, channelsVC, authVC]
         tabBarController.viewControllers = controllers
-
 
         window!.rootViewController = tabBarController
         window!.makeKeyAndVisible()
