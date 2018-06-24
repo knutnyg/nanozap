@@ -12,13 +12,13 @@
 4. fetch dependencies and use it as workdir for generation 
 `git clone https://github.com/googleapis/googleapis.git`
 `cd googleapis`
-`wget https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto`
+`wget https://raw.githubusercontent.com/lightningnetwork/lnd/master/lnrpc/rpc.proto`
 
 5. Build API
 ```
-protoc proto.rpc \
---plugin=protoc-gen-swiftgrpc=../../grpc-swift/protoc-gen-swiftgrpc \
---plugin=protoc-gen-swift=../../grpc-swift/protoc-gen-swift \
+protoc rpc.proto \
+--plugin=protoc-gen-swiftgrpc=../grpc-swift/protoc-gen-swiftgrpc \
+--plugin=protoc-gen-swift=../grpc-swift/protoc-gen-swift \
 --swift_out=. \
 --swiftgrpc_out=Client=true,Server=true:.
 ```
