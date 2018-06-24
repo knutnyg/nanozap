@@ -7,13 +7,15 @@ import RxSwift
 import RxCocoa
 
 class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate {
-    
-    @IBOutlet weak var onePasswordButton: UIButton!
-    @IBOutlet weak var hostnameTextField: UITextField!
-    @IBOutlet weak var certLabel: UILabel!
-    @IBOutlet weak var macaroonLabal: UILabel!
-    @IBOutlet weak var testSecretsButton: UIButton!
-    
+
+    var onePasswordButton: UIButton!
+    var hostnameTextField: UITextField!
+    var certLabel: UILabel!
+    var macaroonLabel: UILabel!
+    var testSecretsButton: UIButton!
+    var scanCert: UIButton!
+    var scanMacaroon: UIButton!
+
     let disposeBag = DisposeBag()
     var scanType:String = "none"
     
@@ -26,13 +28,49 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
     let macaroonObs = PublishSubject<String>()
     
     override func viewDidLoad() {
+
+        view.backgroundColor = UIColor.white
+
+        hostnameTextField = createTextField(placeholder: "hostname:port")
+        hostnameTextField.translatesAutoresizingMaskIntoConstraints = false
+
+        certLabel = createLabel(text: "")
+        macaroonLabel = createLabel(text: "")
+
+        testSecretsButton = createButton(text: "test secrets")
+        testSecretsButton.addTarget(self, action: #selector(testAuthClicked), for: .touchUpInside)
+
+        scanCert = createButton(text: "Scan Cert")
+        scanCert.addTarget(self, action: #selector(scanCertClicked), for: .touchUpInside)
+
+        scanMacaroon = createButton(text: "Scan Macaroon")
+        scanMacaroon.addTarget(self, action: #selector(scanMacaroonClicked), for: .touchUpInside)
+
+        self.view.addSubview(hostnameTextField)
+        self.view.addSubview(certLabel)
+        self.view.addSubview(macaroonLabel)
+        self.view.addSubview(testSecretsButton)
+        self.view.addSubview(scanCert)
+        self.view.addSubview(scanMacaroon)
+
+        let views: [String:UIView] = [
+            "hostnameTextField":hostnameTextField,
+            "certLabel":certLabel,
+            "macaroonLabel": macaroonLabel,
+            "testSecretsButton":testSecretsButton,
+            "scanCert":scanCert,
+            "scanMacaroon":scanMacaroon
+        ]
+
+        setConstraints(views: views)
+
         self.macaroon = AppState.sharedState.macaroon
         self.cert = AppState.sharedState.cert
         self.hostname = AppState.sharedState.hostname
         self.hostnameObs = BehaviorSubject<String?>(value: AppState.sharedState.hostname)
         
-        certLabel.text = (self.cert != nil) ? "✅" : "❌"
-        macaroonLabal.text = (self.macaroon != nil) ? "✅" : "❌"
+        certLabel.text = (self.cert != nil) ? "Cert: ✅" : "Cert: ❌"
+        macaroonLabel.text = (self.macaroon != nil) ? "Macaroon: ✅" : "Macaroon: ❌"
         hostnameTextField.text = self.hostname ?? ""
 
         hostnameTextField.rx.text
@@ -71,7 +109,34 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
             .bind(to: AppState.sharedState.updater)
             .disposed(by: disposeBag)
     }
-    
+
+    private func setConstraints(views: [String: UIView]) {
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "V:|-100-[hostnameTextField(50)]-20-[certLabel(40)]-20-[macaroonLabel(40)]-20-[testSecretsButton(40)]-20-[scanCert(40)]-20-[scanMacaroon(40)]",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[certLabel]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[macaroonLabel]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[testSecretsButton]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[scanCert]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[scanMacaroon]-20-|",
+                metrics: nil,
+                views: views))
+    }
+
     @IBAction func onePasswordButtonClicked(_ sender: Any) {
         // Using the provided classes
         let domain = self.hostname ?? "https://github.com"
@@ -101,6 +166,18 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
                 }
         }
     }
+
+    @objc func scanCertClicked(sender: UIButton!) {
+        readerVC.delegate = self
+        readerVC.modalPresentationStyle = .formSheet
+        present(readerVC, animated: true, completion: { self.scanType = "cert"})
+    }
+
+    @objc func scanMacaroonClicked(sender: UIButton!) {
+        readerVC.delegate = self
+        readerVC.modalPresentationStyle = .formSheet
+        present(readerVC, animated: true, completion: { self.scanType = "macaroon"})
+    }
     
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
@@ -108,20 +185,10 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         }
         return QRCodeReaderViewController(builder: builder)
     }()
-    
-    @IBAction func scanCert(_ sender: AnyObject) {
-        readerVC.delegate = self
-        readerVC.modalPresentationStyle = .formSheet
-        present(readerVC, animated: true, completion: { self.scanType = "cert"})
-    }
-    
-    @IBAction func scanMacaroon(_ sender: AnyObject) {
-        readerVC.delegate = self
-        readerVC.modalPresentationStyle = .formSheet
-        present(readerVC, animated: true, completion: { self.scanType = "macaroon"})
-    }
-    
-    @IBAction func testAuth(_ sender: Any) {
+
+
+
+    @objc func testAuthClicked(sender: UIButton!) {
         do {
             _ = try WalletService.shared.getBalance()
             let alert = UIAlertController(
@@ -170,7 +237,7 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
             
             macaroon = base64Macaroon.hexString()
             macaroonObs.onNext(macaroon ?? "")
-            macaroonLabal.text = "✅"
+            macaroonLabel.text = "✅"
             
         default:
             print(result.value)

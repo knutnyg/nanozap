@@ -16,7 +16,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+
+        window = UIWindow(frame: UIScreen.main.bounds)
+        let walletVC: WalletViewController = WalletViewController()
+        walletVC.title = "Wallet"
+        walletVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
+
+        let channelsVC = ChannelsTableViewController()
+        channelsVC.title = "Channels"
+        channelsVC.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 1)
+
+        let authVC = AuthViewController()
+        authVC.title = "Auth"
+        authVC.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 2)
+
+        let tabBarController: UITabBarController = UITabBarController()
+
+        let controllers = [walletVC, channelsVC, authVC]
+        tabBarController.viewControllers = controllers
+
+        window!.rootViewController = tabBarController
+        window!.makeKeyAndVisible()
+
         return true
     }
 

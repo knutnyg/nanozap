@@ -18,18 +18,103 @@ class ChannelViewController: UIViewController {
 
     var model: ChannelDetailModel?
 
-    @IBOutlet weak var channlIdLabel: UILabel!
-    @IBOutlet weak var dismissButton: UIButton!
-    @IBOutlet weak var heading: UILabel!
-    @IBOutlet weak var firstLine: UILabel!
-    @IBOutlet weak var secondLine: UILabel!
-    @IBOutlet weak var thirdLine: UILabel!
-    @IBOutlet weak var fourthLine: UILabel!
-    @IBOutlet weak var fifthLine: UILabel!
-    @IBOutlet weak var sixthLine: UILabel!
-    @IBOutlet weak var closeChannelBtn: UIButton!
+    var channlIdLabel: UILabel!
+    var dismissButton: UIButton!
+    var heading: UILabel!
+    var firstLine: UILabel!
+    var secondLine: UILabel!
+    var thirdLine: UILabel!
+    var fourthLine: UILabel!
+    var fifthLine: UILabel!
+    var sixthLine: UILabel!
+    var closeChannelBtn: UIButton!
 
     let closeChannelObs = PublishSubject<Channel>()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.view.backgroundColor = UIColor.white
+
+        channlIdLabel = createLabel(text: "")
+        heading = createLabel(text: "")
+        firstLine = createLabel(text: "")
+        secondLine = createLabel(text: "")
+        thirdLine = createLabel(text: "")
+        fourthLine = createLabel(text: "")
+        fifthLine = createLabel(text: "")
+        sixthLine = createLabel(text: "")
+        dismissButton = createButton(text: "dismiss")
+        dismissButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
+        closeChannelBtn = createButton(text: "close")
+
+        self.view.addSubview(channlIdLabel)
+        self.view.addSubview(dismissButton)
+        self.view.addSubview(heading)
+        self.view.addSubview(firstLine)
+        self.view.addSubview(secondLine)
+        self.view.addSubview(thirdLine)
+        self.view.addSubview(fourthLine)
+        self.view.addSubview(fifthLine)
+        self.view.addSubview(sixthLine)
+        self.view.addSubview(closeChannelBtn)
+
+        let views: [String:UIView] = [
+            "channlIdLabel":channlIdLabel,
+            "dismissButton":dismissButton,
+            "heading":heading,
+            "firstLine":firstLine,
+            "secondLine":secondLine,
+            "thirdLine":thirdLine,
+            "fourthLine":fourthLine,
+            "fifthLine":fifthLine,
+            "sixthLine":sixthLine,
+            "closeChannelBtn":closeChannelBtn
+        ]
+
+        setConstraints(views: views)
+    }
+
+    private func setConstraints(views: [String: UIView]) {
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "V:|-100-[channlIdLabel]-[heading]-[firstLine]-[secondLine]-[thirdLine]-[fourthLine]-[fifthLine]-[sixthLine]-[closeChannelBtn]-[dismissButton]",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[heading]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[firstLine]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[secondLine]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[thirdLine]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[fourthLine]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[sixthLine]-20-|",
+                metrics: nil,
+                views: views))
+
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[closeChannelBtn]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[dismissButton]-20-|",
+                metrics: nil,
+                views: views))
+    }
+
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -126,16 +211,12 @@ class ChannelViewController: UIViewController {
         
     }
 
-    @IBAction func dismiss(_ sender: Any) {
+    @objc func dismiss(sender: UIButton!) {
         dismiss(animated: true, completion: nil)
     }
 
     public static func make(model: ChannelDetailModel) -> ChannelViewController {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-
-        let chanView: ChannelViewController = storyBoard.instantiateViewController(
-                withIdentifier: "ChannelViewController"
-        ) as! ChannelViewController
+        let chanView = ChannelViewController()
         chanView.model = model
 
         return chanView

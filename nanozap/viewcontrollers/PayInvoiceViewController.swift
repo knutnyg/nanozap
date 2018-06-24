@@ -4,18 +4,80 @@ import AVFoundation
 import QRCodeReader
 
 class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDelegate {
-    @IBOutlet weak var saveButton: UIButton!
-    @IBOutlet weak var scanButton: UIButton!
-    @IBOutlet weak var payButton: UIButton!
+    var scanButton: UIButton!
+    var payButton: UIButton!
     
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var descLabel: UILabel!
-    @IBOutlet weak var amountLabel: UILabel!
-    @IBOutlet weak var expiryLabel: UILabel!
+    var timeLabel: UILabel!
+    var descLabel: UILabel!
+    var amountLabel: UILabel!
+    var expiryLabel: UILabel!
     
     var invoice:Invoice?
-    
-    @IBAction func click(sender: UIButton) {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.backgroundColor = UIColor.white
+
+        scanButton = createButton(text: "Scan")
+        scanButton.addTarget(self, action: #selector(scanPayRequest), for: .touchUpInside)
+
+        payButton = createButton(text: "Pay!")
+        payButton.addTarget(self, action: #selector(pay), for: .touchUpInside)
+
+        timeLabel = createLabel(text: "")
+        descLabel = createLabel(text: "")
+        amountLabel = createLabel(text: "")
+        expiryLabel = createLabel(text: "")
+
+        view.addSubview(scanButton)
+        view.addSubview(payButton)
+        view.addSubview(timeLabel)
+        view.addSubview(descLabel)
+        view.addSubview(amountLabel)
+        view.addSubview(expiryLabel)
+
+        let views: [String:UIView] = [
+            "scanButton":scanButton,
+            "payButton":payButton,
+            "timeLabel":timeLabel,
+            "descLabel":descLabel,
+            "amountLabel":amountLabel,
+            "expiryLabel":expiryLabel
+        ]
+
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "V:|-100-[scanButton]-[timeLabel]-[descLabel]-[amountLabel]-[expiryLabel]-50-[payButton]",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[scanButton]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[payButton]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[timeLabel]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[descLabel]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[amountLabel]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[expiryLabel]-20-|",
+                metrics: nil,
+                views: views))
+
+    }
+
+    @objc func click(sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
     
@@ -27,13 +89,13 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
         return QRCodeReaderViewController(builder: builder)
     }()
     
-    @IBAction func scanPayRequest(sender: UIButton) {
+    @objc func scanPayRequest(sender: UIButton) {
         readerVC.delegate = self
         readerVC.modalPresentationStyle = .formSheet
         present(readerVC, animated: true, completion: nil)
     }
-    
-    @IBAction func pay(_ sender: Any) {
+
+    @objc func pay(_ sender: Any) {
         if let invoice = self.invoice {
             let alert = UIAlertController(
                 title: "Pay?",

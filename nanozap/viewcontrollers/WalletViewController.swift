@@ -4,9 +4,10 @@ import RxSwift
 import RxCocoa
 
 class WalletViewController: UIViewController {
-    @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var transactionsView: UITableView!
-    @IBOutlet weak var walletbalanceLabel: UILabel!
+    var headerView: UIView!
+    var transactionsView: UITableView!
+    var walletbalanceLabel: UILabel!
+    var payInvoiceButton: UIButton!
 
     let headerColor = NanoColors.deepBlue
 
@@ -23,8 +24,36 @@ class WalletViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = UIColor.white
+
+        headerView = UIView()
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.backgroundColor = UIColor.cyan
+        transactionsView = UITableView()
+        transactionsView.register(UITableViewCell.self, forCellReuseIdentifier: "TransactionCell")
+        transactionsView.translatesAutoresizingMaskIntoConstraints = false
+        walletbalanceLabel = createLabel(text: "")
+
+        payInvoiceButton = createButton(text: "Pay invoice")
+        payInvoiceButton.addTarget(self, action: #selector(payInvoiceClicked), for: .touchUpInside)
+
+        view.addSubview(headerView)
+        view.addSubview(transactionsView)
+        view.addSubview(walletbalanceLabel)
+        view.addSubview(payInvoiceButton)
+
+        let views: [String: UIView] = [
+            "headerView":headerView,
+            "transactionsView": transactionsView,
+            "payInvoiceButton": payInvoiceButton,
+            "walletbalanceLabel":walletbalanceLabel
+        ]
+
+        setConstraints(views: views)
+
         txDateFormatter.dateFormat = "MM.dd"
-        
+
         headerView.backgroundColor = headerColor
 
         loadSubject.asObservable()
@@ -66,7 +95,7 @@ class WalletViewController: UIViewController {
                 self.present(view, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
-        
+
         transactionsSubject.asObservable()
                 .observeOn(MainScheduler.instance)
                 .bind(to: self.transactionsView.rx.items(
@@ -118,6 +147,35 @@ class WalletViewController: UIViewController {
                 })
                 .disposed(by: disposeBag)
 
+    }
+
+    private func setConstraints(views: [String: UIView]) {
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "V:|-0-[headerView(100)]-100-[walletbalanceLabel(40)]-[payInvoiceButton]-100-[transactionsView]-0-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[walletbalanceLabel]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[payInvoiceButton]-20-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-0-[headerView]-0-|",
+                metrics: nil,
+                views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-10-[transactionsView]-10-|",
+                metrics: nil,
+                views: views))
+    }
+
+    @objc func payInvoiceClicked(sender: UIButton!) {
+        var invoiceVC = PayInvoiceViewController()
+        invoiceVC.modalPresentationStyle = .popover
+        present(invoiceVC, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {

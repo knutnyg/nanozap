@@ -14,6 +14,7 @@ class ChannelsTableViewController: UITableViewController {
         super.viewDidLoad()
 
         self.tableView.dataSource = nil
+        self.tableView.register(ChannelCell.self, forCellReuseIdentifier: "ChannelCell")
 
         channelsObs.asObservable()
                 .observeOn(MainScheduler.instance)
