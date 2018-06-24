@@ -44,9 +44,9 @@ class ChannelViewController: UIViewController {
         fourthLine = createLabel(text: "")
         fifthLine = createLabel(text: "")
         sixthLine = createLabel(text: "")
-        dismissButton = createButton(text: "dismiss")
+        dismissButton = createButton(text: "Dismiss")
         dismissButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
-        closeChannelBtn = createButton(text: "close")
+        closeChannelBtn = createWarnButton(text: "Close channel")
 
         self.view.addSubview(channlIdLabel)
         self.view.addSubview(dismissButton)
@@ -73,11 +73,12 @@ class ChannelViewController: UIViewController {
         ]
 
         setConstraints(views: views)
+
     }
 
     private func setConstraints(views: [String: UIView]) {
         view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-100-[channlIdLabel]-[heading]-[firstLine]-[secondLine]-[thirdLine]-[fourthLine]-[fifthLine]-[sixthLine]-[closeChannelBtn]-[dismissButton]",
+                withVisualFormat: "V:|-100-[channlIdLabel]-[heading]-[firstLine]-[secondLine]-[thirdLine]-[fourthLine]-[fifthLine]-[sixthLine]-[closeChannelBtn]-40-[dismissButton]",
                 metrics: nil,
                 views: views))
         view.addConstraints(NSLayoutConstraint.constraints(
@@ -106,11 +107,11 @@ class ChannelViewController: UIViewController {
                 views: views))
 
         view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[closeChannelBtn]-20-|",
+                withVisualFormat: "H:|-100-[closeChannelBtn]-100-|",
                 metrics: nil,
                 views: views))
         view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[dismissButton]-20-|",
+                withVisualFormat: "H:|-50-[dismissButton]-50-|",
                 metrics: nil,
                 views: views))
     }
@@ -118,8 +119,6 @@ class ChannelViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        closeChannelBtn.layer.cornerRadius = 5
-//        closeChannelBtn.layer.borderWidth = 1
 
         if let model = self.model {
             let channel = model.channel
