@@ -30,6 +30,9 @@ PODS:
     - gRPC-Core (~> 1.11.0)
     - SwiftProtobuf (~> 1.0.3)
   - SwiftLint (0.26.0)
+  - SwiftMessages (4.1.4):
+    - SwiftMessages/App (= 4.1.4)
+  - SwiftMessages/App (4.1.4)
   - SwiftProtobuf (1.0.3)
   - Valet (3.1.3)
 
@@ -42,6 +45,7 @@ DEPENDENCIES:
   - RxSwift (~> 4.0)
   - SwiftGRPC
   - SwiftLint
+  - SwiftMessages
   - SwiftProtobuf (~> 1.0)
   - Valet
 
@@ -58,6 +62,7 @@ SPEC REPOS:
     - RxSwift
     - SwiftGRPC
     - SwiftLint
+    - SwiftMessages
     - SwiftProtobuf
     - Valet
 
@@ -75,6 +80,7 @@ SPEC CHECKSUMS:
   SwiftLint: f6b83e8d95ee1e91e11932d843af4fdcbf3fc764
   SwiftProtobuf: 4725f04098622c30bf46c80eff73330ebe9d8730
   Valet: 3b27cb8f4187d1ab39f7158698f5baf360fa989e
+  SwiftMessages: 2c33fdee8b8f38dfc7e1036684456b505891da8c
 
 PODFILE CHECKSUM: d0abb7f70f66245acaa0550dcbcb6e657298ddc6
 
