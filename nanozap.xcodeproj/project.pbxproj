@@ -42,6 +42,7 @@
 		98E150D420DD8F5D001FD985 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E150D320DD8F5D001FD985 /* Colors.swift */; };
 		A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */; };
 		BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0BB283F89D9AB5E995ECF /* SecretService.swift */; };
+		BFD0BD2585942D101789BF85 /* NanoErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0B814847826EE39BF6422 /* NanoErrors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		98E150D320DD8F5D001FD985 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFD0B814847826EE39BF6422 /* NanoErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NanoErrors.swift; sourceTree = "<group>"; };
 		BFD0BB283F89D9AB5E995ECF /* SecretService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretService.swift; sourceTree = "<group>"; };
 		CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F50E6AFFC8D24F78019970 /* Pods-nanozapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */,
 				6A9AC56420D04DC000EFF6ED /* ChannelViewController.swift */,
 				3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */,
+				BFD0B814847826EE39BF6422 /* NanoErrors.swift */,
 			);
 			path = viewcontrollers;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftGRPC/SwiftGRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/Valet/Valet.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
@@ -480,6 +484,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftProtobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Valet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
@@ -571,6 +576,7 @@
 				BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */,
 				3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */,
 				3FCED39F61A06721C1FA9566 /* CommonUIComponents.swift in Sources */,
+				BFD0BD2585942D101789BF85 /* NanoErrors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
