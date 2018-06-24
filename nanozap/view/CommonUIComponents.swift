@@ -26,6 +26,17 @@ func createButton(text:String, font:UIFont) -> UIButton {
     return button
 }
 
+func createWarnButton(text: String) -> UIButton! {
+    let button = createButton(text: text)
+    button.tintColor = .white
+    button.backgroundColor = NanoColors.red
+    button.borderColor = NanoColors.red
+    button.layer.cornerRadius = 5
+    button.layer.borderWidth = 1
+
+    return button
+}
+
 func createButton(text:String) -> UIButton {
     let button = UIButton(type: .system)
     button.translatesAutoresizingMaskIntoConstraints = false
