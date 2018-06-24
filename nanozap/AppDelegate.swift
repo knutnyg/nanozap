@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FontAwesome_swift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,10 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
+        let iconSize = CGSize(width: 30, height: 30)
+        let iconColor = NanoColors.blue
+        let exchangeIcon = UIImage.fontAwesomeIcon(name: .exchange, textColor: iconColor, size: iconSize)
+
         window = UIWindow(frame: UIScreen.main.bounds)
         let walletVC: WalletViewController = WalletViewController()
         walletVC.title = "Wallet"
-        walletVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
+        walletVC.tabBarItem = UITabBarItem(title: "Wallet", image: exchangeIcon, tag: 0)
 
         let channelsVC = ChannelsTableViewController()
         channelsVC.title = "Channels"
@@ -34,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let controllers = [walletVC, channelsVC, authVC]
         tabBarController.viewControllers = controllers
+
 
         window!.rootViewController = tabBarController
         window!.makeKeyAndVisible()
