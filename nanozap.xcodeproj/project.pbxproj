@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3FCED39F61A06721C1FA9566 /* CommonUIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */; };
 		3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */; };
 		6A059A2720CC651C008EBDD4 /* PayInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */; };
 		6A059A2920CC7327008EBDD4 /* InvoiceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2820CC7327008EBDD4 /* InvoiceService.swift */; };
@@ -63,6 +64,7 @@
 
 /* Begin PBXFileReference section */
 		3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionViewController.swift; sourceTree = "<group>"; };
+		3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonUIComponents.swift; sourceTree = "<group>"; };
 		4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInvoiceViewController.swift; sourceTree = "<group>"; };
 		6A059A2820CC7327008EBDD4 /* InvoiceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceService.swift; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 			children = (
 				9876FE3E20D4571A00D0A7AD /* ChannelCell.swift */,
 				9876FE4420D576C300D0A7AD /* UIButton+Rounded.swift */,
+				3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				7267D97220C7198300549631 /* AppDelegate.swift in Sources */,
 				BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */,
 				3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */,
+				3FCED39F61A06721C1FA9566 /* CommonUIComponents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
