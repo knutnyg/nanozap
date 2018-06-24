@@ -30,7 +30,7 @@ func createWarnButton(text: String) -> UIButton! {
     let button = createButton(text: text)
     button.tintColor = .white
     button.backgroundColor = NanoColors.red
-    button.borderColor = NanoColors.red
+    button.layer.borderColor = NanoColors.red.cgColor
     button.layer.cornerRadius = 5
     button.layer.borderWidth = 1
 
@@ -41,7 +41,7 @@ func createOKButton(text: String) -> UIButton! {
     let button = createButton(text: text)
     button.tintColor = .white
     button.backgroundColor = NanoColors.green
-    button.borderColor = NanoColors.green
+    button.layer.borderColor = NanoColors.green.cgColor
     button.layer.cornerRadius = 5
     button.layer.borderWidth = 1
 
