@@ -3,6 +3,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Result
+import FontAwesome_swift
 
 class ChannelsTableViewController: UITableViewController {
     private let disposeBag = DisposeBag()
@@ -22,9 +23,26 @@ class ChannelsTableViewController: UITableViewController {
                         cellIdentifier: "ChannelCell",
                         cellType: ChannelCell.self
                 )) { (row, channel, cell : ChannelCell) in
-                    let cellColor : UIColor = channel.active ? NanoColors.green : NanoColors.gray
+                    let iconSize = CGSize(width: 30, height: 30)
+                    let activeImage = UIImage.fontAwesomeIcon(name: .link, textColor: NanoColors.green, size: iconSize)
+                    let inactiveImage = UIImage.fontAwesomeIcon(name: .link, textColor: NanoColors.gray, size: iconSize)
+                    
+                    let attachment = NSTextAttachment()
+                    attachment.image = channel.active ? activeImage : inactiveImage
+                    let imageOffsetY:CGFloat = 0.0;
+                    attachment.bounds = CGRect(x: 0, y: imageOffsetY, width: attachment.image!.size.width, height: attachment.image!.size.height)
 
-                    cell.topLeftLabel?.textColor = cellColor
+                    let attachmentString = NSAttributedString(attachment: attachment)
+
+                    let myString = NSMutableAttributedString(string: "")
+                    myString.append(attachmentString)
+                    
+                    //let myString1 = NSMutableAttributedString(string: "My label text")
+                    //myString.append(myString1)
+
+                    //let cellColor : UIColor = channel.active ? NanoColors.green : NanoColors.gray
+                    //cell.topLeftLabel?.textColor = cellColor
+                    cell.leftLabel?.attributedText = myString
                     cell.topLeftLabel?.text = "ID: \(channel.channelId)"
                     cell.botRightLabel?.text = "Fee: \(channel.feePerKw)"
                     cell.botLeftLabel?.text = "Sat: \(channel.localBalance)"
@@ -79,20 +97,15 @@ class ChannelsTableViewController: UITableViewController {
 
         refreshControl.rx
                 .controlEvent(.valueChanged)
-                .map { [refreshControl] _ in refreshControl.isRefreshing }
+                .map { [weak refreshControl] _ in refreshControl?.isRefreshing ?? false }
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .filter { val in val == true }
                 .map { [unowned self] _ in self.getChannels() }
-                .do(onNext: { (_) in
-                    // since we are in another thread, we can sleep without locking the UI!
-                    print("sleep 1")
-                    sleep(1)
-                })
                 // go back to main thread to touch UI
                 .observeOn(MainScheduler.instance)
                 .subscribe(
-                        onNext: { [weak self] (result) in
+                        onNext: { [weak self] result in
                             print("some refresh result")
                             switch (result) {
                             case .success(let chans):

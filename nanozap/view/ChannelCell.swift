@@ -6,6 +6,7 @@ struct ChannelCellModel {
 }
 
 class ChannelCell : UITableViewCell {
+    var leftLabel : UILabel!
     var topLeftLabel : UILabel!
     var botLeftLabel : UILabel!
     var botRightLabel : UILabel!
@@ -14,10 +15,14 @@ class ChannelCell : UITableViewCell {
 
     override public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: "ChannelCell")
+        leftLabel = UILabel()
+        leftLabel.translatesAutoresizingMaskIntoConstraints = false
+        leftLabel.text = ""
+
         topLeftLabel = UILabel()
         topLeftLabel.translatesAutoresizingMaskIntoConstraints = false
         topLeftLabel.text = "topLeft"
-
+        
         botLeftLabel = UILabel()
         botLeftLabel.translatesAutoresizingMaskIntoConstraints = false
         botLeftLabel.text = "bottomLeft"
@@ -26,13 +31,15 @@ class ChannelCell : UITableViewCell {
         botRightLabel.translatesAutoresizingMaskIntoConstraints = false
         botRightLabel.text = "bottomRight"
 
+        self.addSubview(leftLabel)
         self.addSubview(topLeftLabel)
         self.addSubview(botLeftLabel)
         self.addSubview(botRightLabel)
 
         let views: [String: UIView] = [
-            "topLeftLabel":topLeftLabel,
-            "botLeftLabel":botLeftLabel,
+            "leftLabel": leftLabel,
+            "topLeftLabel": topLeftLabel,
+            "botLeftLabel": botLeftLabel,
             "botRightLabel": botRightLabel
         ]
 
@@ -45,11 +52,15 @@ class ChannelCell : UITableViewCell {
                 metrics: nil,
                 views: views))
         self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-5-[topLeftLabel]-5-|",
+                withVisualFormat: "V:|-[leftLabel]-|",
                 metrics: nil,
                 views: views))
         self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-5-[botLeftLabel]-5-[botRightLabel]-5-|",
+                withVisualFormat: "H:|-5-[leftLabel(35)]-5-[topLeftLabel]-5-|",
+                metrics: nil,
+                views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-5-[leftLabel(35)]-5-[botLeftLabel]-5-[botRightLabel]-5-|",
                 metrics: nil,
                 views: views))
     }
