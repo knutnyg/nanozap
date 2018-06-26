@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SnapKit
 
 struct ChannelCellModel {
     let channel : Channel
@@ -36,33 +37,32 @@ class ChannelCell : UITableViewCell {
         self.addSubview(botLeftLabel)
         self.addSubview(botRightLabel)
 
-        let views: [String: UIView] = [
-            "leftLabel": leftLabel,
-            "topLeftLabel": topLeftLabel,
-            "botLeftLabel": botLeftLabel,
-            "botRightLabel": botRightLabel
-        ]
-
-        self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-[topLeftLabel(20)]-10-[botLeftLabel(20)]-|",
-                metrics: nil,
-                views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-[topLeftLabel]-10-[botRightLabel(20)]-|",
-                metrics: nil,
-                views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-[leftLabel]-|",
-                metrics: nil,
-                views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-5-[leftLabel(35)]-5-[topLeftLabel]-5-|",
-                metrics: nil,
-                views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-5-[leftLabel(35)]-5-[botLeftLabel]-5-[botRightLabel]-5-|",
-                metrics: nil,
-                views: views))
+        let rowHeight = 50
+        let rowWidth = 120
+        leftLabel.snp.makeConstraints { make in
+            make.height.width.equalTo(35)
+            make.centerY.equalTo(self)
+            make.left.equalTo(self.snp.left).offset(10)
+        }
+        topLeftLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(leftLabel.snp.right).offset(10)
+            make.width.equalTo(rowWidth)
+            make.height.equalTo(rowHeight)
+            make.top.equalTo(self.snp.top).offset(20)
+        }
+        botLeftLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(leftLabel.snp.right).offset(20)
+            make.width.equalTo(rowWidth)
+            make.height.equalTo(rowHeight)
+            make.bottom.equalTo(self.snp.bottom).offset(-10)
+        }
+        botRightLabel.snp.makeConstraints { (make) in
+            make.right.equalTo(self.snp.right).offset(-1)
+            make.width.equalTo(rowWidth)
+            make.height.equalTo(rowHeight)
+            make.top.equalTo(botLeftLabel.snp.top)
+            make.bottom.equalTo(self.snp.bottom).offset(-10)
+        }
     }
 
     public static func make(model: ChannelCellModel) -> ChannelCell {
