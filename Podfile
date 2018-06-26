@@ -18,6 +18,7 @@ target 'nanozap' do
   pod 'Result', '~> 4.0.0'
   pod 'FontAwesome.swift'
   pod 'SwiftMessages'
+  pod 'SnapKit', '~> 4.0'
 
   target 'nanozapTests' do
     inherit! :search_paths

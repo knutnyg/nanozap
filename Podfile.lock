@@ -25,6 +25,7 @@ PODS:
   - RxCocoa (4.2.0):
     - RxSwift (~> 4.0)
   - RxSwift (4.2.0)
+  - SnapKit (4.0.0)
   - SwiftGRPC (0.4.3):
     - BoringSSL (~> 10.0)
     - gRPC-Core (~> 1.11.0)
@@ -43,6 +44,7 @@ DEPENDENCIES:
   - Result (~> 4.0.0)
   - RxCocoa (~> 4.0)
   - RxSwift (~> 4.0)
+  - SnapKit (~> 4.0)
   - SwiftGRPC
   - SwiftLint
   - SwiftMessages
@@ -60,6 +62,7 @@ SPEC REPOS:
     - Result
     - RxCocoa
     - RxSwift
+    - SnapKit
     - SwiftGRPC
     - SwiftLint
     - SwiftMessages
@@ -77,6 +80,7 @@ SPEC CHECKSUMS:
   RxSwift: 0e194f183ab1c859e3705f1283f25014b101d0dc
   SwiftGRPC: 0a0e23fe1dfbc2ef28c5d73062d54282ee8cb484
   FontAwesome.swift: b4e4c8ccbbecb12f9b592bc533ff237af3706667
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftLint: f6b83e8d95ee1e91e11932d843af4fdcbf3fc764
   SwiftProtobuf: 4725f04098622c30bf46c80eff73330ebe9d8730
   Valet: 3b27cb8f4187d1ab39f7158698f5baf360fa989e
