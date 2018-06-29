@@ -43,7 +43,7 @@ class ChannelCell : UITableViewCell {
         leftLabel.snp.makeConstraints { make in
             make.height.width.equalTo(35)
             make.centerY.equalTo(self)
-            make.left.equalTo(self).offset(0)
+            make.left.equalTo(self).offset(10)
         }
         topLeftLabel.snp.makeConstraints { (make) in
             make.left.equalTo(leftLabel.snp.right).offset(10)
