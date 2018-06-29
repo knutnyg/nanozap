@@ -2,12 +2,14 @@ import UIKit
 import Foundation
 import RxSwift
 import RxCocoa
+import SnapKit
 
 class WalletViewController: UIViewController {
     var headerView: UIView!
     var transactionsView: UITableView!
     var walletbalanceLabel: UILabel!
     var payInvoiceButton: UIButton!
+    var createInvoiceButton: UIButton!
 
     let headerColor = NanoColors.deepBlue
 
@@ -34,19 +36,28 @@ class WalletViewController: UIViewController {
         transactionsView.register(UITableViewCell.self, forCellReuseIdentifier: "TransactionCell")
         transactionsView.translatesAutoresizingMaskIntoConstraints = false
         walletbalanceLabel = createLabel(text: "")
+        walletbalanceLabel.textAlignment = .center
 
         payInvoiceButton = createButton(text: "Pay invoice")
         payInvoiceButton.addTarget(self, action: #selector(payInvoiceClicked), for: .touchUpInside)
 
+        createInvoiceButton = createButton(text: "Create invoice")
+        
         view.addSubview(headerView)
         view.addSubview(transactionsView)
         view.addSubview(walletbalanceLabel)
         view.addSubview(payInvoiceButton)
+        view.addSubview(createInvoiceButton)
 
+        createInvoiceButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(self.payInvoiceButton).offset(30)
+            make.centerX.equalTo(self.payInvoiceButton)
+        }
         let views: [String: UIView] = [
             "headerView":headerView,
             "transactionsView": transactionsView,
             "payInvoiceButton": payInvoiceButton,
+            "createInvoiceButton": createInvoiceButton,
             "walletbalanceLabel":walletbalanceLabel
         ]
 
@@ -146,7 +157,19 @@ class WalletViewController: UIViewController {
                     refreshControl.endRefreshing()
                 })
                 .disposed(by: disposeBag)
-
+        
+        createInvoiceButton.rx.tap.asObservable()
+            .map { _ in true }
+            .map { _ in CreatePaymentViewController() }
+            .subscribe(
+                onNext: { [weak self] val in
+                    self?.present(val, animated: true, completion: nil)
+                },
+                onError: { error in
+                    print("error handling tap", error)
+                    fatalError("died handling tap")
+                }
+            ).disposed(by: disposeBag)
     }
 
     private func setConstraints(views: [String: UIView]) {
