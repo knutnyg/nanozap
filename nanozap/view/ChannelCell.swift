@@ -31,37 +31,36 @@ class ChannelCell : UITableViewCell {
         botRightLabel = UILabel()
         botRightLabel.translatesAutoresizingMaskIntoConstraints = false
         botRightLabel.text = "bottomRight"
-
+        botRightLabel.textAlignment = .right
+        
         self.addSubview(leftLabel)
         self.addSubview(topLeftLabel)
         self.addSubview(botLeftLabel)
         self.addSubview(botRightLabel)
 
-        let rowHeight = 50
-        let rowWidth = 120
+        let rowWidth = 240
+        
         leftLabel.snp.makeConstraints { make in
             make.height.width.equalTo(35)
             make.centerY.equalTo(self)
-            make.left.equalTo(self.snp.left).offset(10)
+            make.left.equalTo(self).offset(0)
         }
         topLeftLabel.snp.makeConstraints { (make) in
             make.left.equalTo(leftLabel.snp.right).offset(10)
+            make.top.equalTo(self)
             make.width.equalTo(rowWidth)
-            make.height.equalTo(rowHeight)
-            make.top.equalTo(self.snp.top).offset(20)
         }
         botLeftLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(leftLabel.snp.right).offset(20)
+            make.left.equalTo(leftLabel.snp.right).offset(10)
             make.width.equalTo(rowWidth)
-            make.height.equalTo(rowHeight)
-            make.bottom.equalTo(self.snp.bottom).offset(-10)
+            make.bottom.equalTo(self)
         }
+        
         botRightLabel.snp.makeConstraints { (make) in
-            make.right.equalTo(self.snp.right).offset(-1)
-            make.width.equalTo(rowWidth)
-            make.height.equalTo(rowHeight)
-            make.top.equalTo(botLeftLabel.snp.top)
-            make.bottom.equalTo(self.snp.bottom).offset(-10)
+            make.right.equalTo(self.snp.right)
+            make.width.equalTo(rowWidth/2)
+            //make.top.equalTo(botLeftLabel.snp.top)
+            make.bottom.equalTo(self).offset(0)
         }
     }
 
