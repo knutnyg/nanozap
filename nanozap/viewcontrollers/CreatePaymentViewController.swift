@@ -68,14 +68,17 @@ class CreatePaymentViewController: UIViewController {
                     print("tap createPaymentButton")
                 }
 
-        Observable
-                .combineLatest(self.amount.asObservable(), self.descriptionSub.asObservable(), taps)
-                .map { (amount, desc, _) in
+        let latestData = Observable
+                .combineLatest(self.descriptionSub.asObservable(), self.amount.asObservable())
+                .map { (desc, amount) in
                     CreateInvoiceRequest(
                             amount: Int64(amount),
                             description: desc
                     )
                 }
+
+        Observable.zip(latestData, taps)
+                .map { (data, _) in data }
                 .do(onNext: { request in print("got latest", request) })
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { req in
