@@ -44,9 +44,7 @@ class CreatePaymentViewController: UIViewController {
         createPaymentButton.snp.makeConstraints { make in
             make.centerY.equalTo(dismissButton).offset(-50)
             make.centerX.equalTo(self.view)
-
         }
-
 
         connectDismissButton()
         connectFields()
@@ -54,6 +52,12 @@ class CreatePaymentViewController: UIViewController {
     }
 
     func connectCreatePaymentButton() {
+        enum CreatePaymentState {
+            case errorState(String)
+            case loading
+            case successful(AddInvoiceResponse)
+        }
+
         amount.asObservable()
                 .subscribe(
                         onNext: { val in print("got amount", val) }
@@ -64,7 +68,7 @@ class CreatePaymentViewController: UIViewController {
                     print("tap createPaymentButton")
                 }
 
-        let latestData = Observable
+        Observable
                 .combineLatest(self.amount.asObservable(), self.descriptionSub.asObservable(), taps)
                 .map { (amount, desc, _) in
                     CreateInvoiceRequest(
@@ -73,27 +77,36 @@ class CreatePaymentViewController: UIViewController {
                     )
                 }
                 .do(onNext: { request in print("got latest", request) })
+                .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { req in
                     InvoiceService.shared
                             .createInvoice(cir: req)
                             .retry(3)
-                            .map {
-                                Result(value: $0)
+                            .map { res in .successful(res) }
+                            .catchError { error -> Observable<CreatePaymentState> in
+                                return Observable.just(.errorState("Oops, something went wrong!"))
                             }
-                            .catchError { error -> Observable<Result<AddInvoiceResponse, AnyError>> in
-                                let res: Result<AddInvoiceResponse, AnyError> = Result(error: AnyError.error(from: error))
-                                return Observable.just(res)
-                            }
+                            .startWith(.loading)
                 }
+                .observeOn(MainScheduler.instance)
                 .subscribe(
-                        onNext: { res in
+                        onNext: { [weak self] res in
                             switch (res) {
-                            case .success(let value):
+                            case .successful(let value):
+                                self?.createPaymentButton.isEnabled = true
                                 print("win! value", value)
-                            case .failure(let error):
+                            case .errorState(let error):
+                                self?.createPaymentButton.isEnabled = true
                                 print("createPayment got error", error)
                                 displayError(message: "That did not work...")
+                            case .loading:
+                                print("loading")
+                                self?.createPaymentButton.isEnabled = false
                             }
+                        },
+                        onError: { error in
+                            print("error in stream, createPaymentButton must die.", error)
+                            fatalError("error in stream, createPaymentButton must die.")
                         }
                 ).disposed(by: disposeBag)
 
