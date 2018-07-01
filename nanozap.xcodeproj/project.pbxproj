@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3FCED39F61A06721C1FA9566 /* CommonUIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */; };
+		3FCED65E9CA1A3741A1FBACC /* InvoicesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED4FEFAC6BF8D3CE92844 /* InvoicesTableViewController.swift */; };
 		3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */; };
+		3FCEDA7496CB4E79D8E7876B /* InvoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED0D55DCF1791DE3621AB /* InvoiceCell.swift */; };
 		6A059A2720CC651C008EBDD4 /* PayInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */; };
 		6A059A2920CC7327008EBDD4 /* InvoiceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2820CC7327008EBDD4 /* InvoiceService.swift */; };
 		6A059A2B20CC7441008EBDD4 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2A20CC7441008EBDD4 /* Invoice.swift */; };
@@ -64,6 +66,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3FCED0D55DCF1791DE3621AB /* InvoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceCell.swift; sourceTree = "<group>"; };
+		3FCED4FEFAC6BF8D3CE92844 /* InvoicesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoicesTableViewController.swift; sourceTree = "<group>"; };
 		3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionViewController.swift; sourceTree = "<group>"; };
 		3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonUIComponents.swift; sourceTree = "<group>"; };
 		4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -197,6 +201,7 @@
 				3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */,
 				BFD0B814847826EE39BF6422 /* NanoErrors.swift */,
 				984CA58B20E68C0D00BA99BA /* CreatePaymentViewController.swift */,
+				3FCED4FEFAC6BF8D3CE92844 /* InvoicesTableViewController.swift */,
 			);
 			path = viewcontrollers;
 			sourceTree = "<group>";
@@ -277,6 +282,7 @@
 			children = (
 				9876FE3E20D4571A00D0A7AD /* ChannelCell.swift */,
 				3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */,
+				3FCED0D55DCF1791DE3621AB /* InvoiceCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -583,6 +589,8 @@
 				3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */,
 				3FCED39F61A06721C1FA9566 /* CommonUIComponents.swift in Sources */,
 				BFD0BD2585942D101789BF85 /* NanoErrors.swift in Sources */,
+				3FCED65E9CA1A3741A1FBACC /* InvoicesTableViewController.swift in Sources */,
+				3FCEDA7496CB4E79D8E7876B /* InvoiceCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
