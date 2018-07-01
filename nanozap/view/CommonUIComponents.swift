@@ -18,6 +18,13 @@ func createTextField(placeholder:String?) -> UITextField {
     return textField
 }
 
+func createImage(image: UIImage?) -> UIImageView {
+    let img = UIImageView(image: image)
+    img.translatesAutoresizingMaskIntoConstraints = false
+
+    return img
+}
+
 func createButton(text:String, font:UIFont) -> UIButton {
     let button = UIButton(type: .system)
     button.translatesAutoresizingMaskIntoConstraints = false

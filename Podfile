@@ -19,6 +19,7 @@ target 'nanozap' do
   pod 'FontAwesome.swift'
   pod 'SwiftMessages'
   pod 'SnapKit', '~> 4.0'
+  pod "QRCode", :git => "https://github.com/ekscrypto/QRCode.git"
 
   target 'nanozapTests' do
     inherit! :search_paths
