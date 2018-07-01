@@ -16,51 +16,41 @@ class ChannelCell : UITableViewCell {
 
     override public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: "ChannelCell")
-        leftLabel = UILabel()
-        leftLabel.translatesAutoresizingMaskIntoConstraints = false
-        leftLabel.text = ""
 
-        topLeftLabel = UILabel()
-        topLeftLabel.translatesAutoresizingMaskIntoConstraints = false
-        topLeftLabel.text = "topLeft"
-        
-        botLeftLabel = UILabel()
-        botLeftLabel.translatesAutoresizingMaskIntoConstraints = false
-        botLeftLabel.text = "bottomLeft"
+        leftLabel = createLabel(text: "")
+        topLeftLabel = createLabel(text: "topLeft", font: UIFont(name: "Helvetica", size: 14)!)
+        botLeftLabel = createLabel(text: "bottomLeft")
+        botRightLabel = createLabel(text: "bottomRight")
 
-        botRightLabel = UILabel()
-        botRightLabel.translatesAutoresizingMaskIntoConstraints = false
-        botRightLabel.text = "bottomRight"
-        botRightLabel.textAlignment = .right
-        
         self.addSubview(leftLabel)
         self.addSubview(topLeftLabel)
         self.addSubview(botLeftLabel)
         self.addSubview(botRightLabel)
 
-        let rowWidth = 240
-        
+        let rowWidth = 120
+        let topBottomMargin = 7
+
         leftLabel.snp.makeConstraints { make in
             make.height.width.equalTo(35)
             make.centerY.equalTo(self)
-            make.left.equalTo(self).offset(10)
+            make.left.equalTo(self.snp.left).offset(10)
         }
         topLeftLabel.snp.makeConstraints { (make) in
             make.left.equalTo(leftLabel.snp.right).offset(10)
-            make.top.equalTo(self)
-            make.width.equalTo(rowWidth)
+            make.height.equalTo(15)
+            make.top.equalTo(self.snp.top).offset(topBottomMargin)
         }
         botLeftLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(leftLabel.snp.right).offset(10)
+            make.left.equalTo(topLeftLabel.snp.left)
             make.width.equalTo(rowWidth)
-            make.bottom.equalTo(self)
+            make.height.equalTo(15)
+            make.bottom.equalTo(self.snp.bottom).offset(-topBottomMargin)
         }
-        
         botRightLabel.snp.makeConstraints { (make) in
-            make.right.equalTo(self.snp.right)
-            make.width.equalTo(rowWidth/2)
-            //make.top.equalTo(botLeftLabel.snp.top)
-            make.bottom.equalTo(self).offset(0)
+            make.right.equalTo(self.snp.right).offset(-1)
+            make.width.equalTo(rowWidth)
+            make.height.equalTo(15)
+            make.bottom.equalTo(self.snp.bottom).offset(-topBottomMargin)
         }
     }
 
