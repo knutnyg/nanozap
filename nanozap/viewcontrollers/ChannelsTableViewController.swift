@@ -16,6 +16,7 @@ class ChannelsTableViewController: UITableViewController {
 
         self.tableView.dataSource = nil
         self.tableView.register(ChannelCell.self, forCellReuseIdentifier: "ChannelCell")
+        self.tableView.rowHeight = 50
 
         channelsObs.asObservable()
                 .observeOn(MainScheduler.instance)
