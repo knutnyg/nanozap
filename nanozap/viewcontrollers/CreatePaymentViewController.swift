@@ -12,7 +12,7 @@ class CreatePaymentViewController: UIViewController {
     let descriptionField = createTextField(placeholder: "Description")
     let dismissButton = createButton(text: "Cancel")
 
-    let createPaymentButton = createButton(text: "Create payment")
+    let createPaymentButton = createButton(text: "Create invoice")
 
     let amount: PublishSubject<Int> = PublishSubject()
     let descriptionSub: BehaviorSubject<String> = BehaviorSubject(value: "")
@@ -68,18 +68,22 @@ class CreatePaymentViewController: UIViewController {
                     print("tap createPaymentButton")
                 }
 
-        let latestData = Observable
-                .combineLatest(self.descriptionSub.asObservable(), self.amount.asObservable())
+        let requestSubject = BehaviorSubject<CreateInvoiceRequest?>(value: Optional.none)
+
+        Observable.combineLatest(self.descriptionSub.asObservable(), self.amount.asObservable())
                 .map { (desc, amount) in
                     CreateInvoiceRequest(
                             amount: Int64(amount),
                             description: desc
                     )
-                }
+                }.bind(to: requestSubject)
+                .disposed(by: disposeBag)
 
-        Observable.zip(latestData, taps)
-                .map { (data, _) in data }
+        taps
+                //.map { (data, _) in data }
+                .map { _ in try requestSubject.value() }
                 .do(onNext: { request in print("got latest", request) })
+                .flatMap { val in Observable.from(optional: val) }
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { req in
                     InvoiceService.shared
