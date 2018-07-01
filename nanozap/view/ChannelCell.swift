@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SnapKit
 
 struct ChannelCellModel {
     let channel : Channel
@@ -15,54 +16,42 @@ class ChannelCell : UITableViewCell {
 
     override public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: "ChannelCell")
-        leftLabel = UILabel()
-        leftLabel.translatesAutoresizingMaskIntoConstraints = false
-        leftLabel.text = ""
 
-        topLeftLabel = UILabel()
-        topLeftLabel.translatesAutoresizingMaskIntoConstraints = false
-        topLeftLabel.text = "topLeft"
-        
-        botLeftLabel = UILabel()
-        botLeftLabel.translatesAutoresizingMaskIntoConstraints = false
-        botLeftLabel.text = "bottomLeft"
-
-        botRightLabel = UILabel()
-        botRightLabel.translatesAutoresizingMaskIntoConstraints = false
-        botRightLabel.text = "bottomRight"
+        leftLabel = createLabel(text: "")
+        topLeftLabel = createLabel(text: "topLeft", font: UIFont(name: "Helvetica", size: 14)!)
+        botLeftLabel = createLabel(text: "bottomLeft")
+        botRightLabel = createLabel(text: "bottomRight")
 
         self.addSubview(leftLabel)
         self.addSubview(topLeftLabel)
         self.addSubview(botLeftLabel)
         self.addSubview(botRightLabel)
 
-        let views: [String: UIView] = [
-            "leftLabel": leftLabel,
-            "topLeftLabel": topLeftLabel,
-            "botLeftLabel": botLeftLabel,
-            "botRightLabel": botRightLabel
-        ]
+        let rowWidth = 120
+        let topBottomMargin = 7
 
-        self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-[topLeftLabel(20)]-10-[botLeftLabel(20)]-|",
-                metrics: nil,
-                views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-[topLeftLabel]-10-[botRightLabel(20)]-|",
-                metrics: nil,
-                views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-[leftLabel]-|",
-                metrics: nil,
-                views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-5-[leftLabel(35)]-5-[topLeftLabel]-5-|",
-                metrics: nil,
-                views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-5-[leftLabel(35)]-5-[botLeftLabel]-5-[botRightLabel]-5-|",
-                metrics: nil,
-                views: views))
+        leftLabel.snp.makeConstraints { make in
+            make.height.width.equalTo(35)
+            make.centerY.equalTo(self)
+            make.left.equalTo(self.snp.left).offset(10)
+        }
+        topLeftLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(leftLabel.snp.right).offset(10)
+            make.height.equalTo(15)
+            make.top.equalTo(self.snp.top).offset(topBottomMargin)
+        }
+        botLeftLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(topLeftLabel.snp.left)
+            make.width.equalTo(rowWidth)
+            make.height.equalTo(15)
+            make.bottom.equalTo(self.snp.bottom).offset(-topBottomMargin)
+        }
+        botRightLabel.snp.makeConstraints { (make) in
+            make.right.equalTo(self.snp.right).offset(-1)
+            make.width.equalTo(rowWidth)
+            make.height.equalTo(15)
+            make.bottom.equalTo(self.snp.bottom).offset(-topBottomMargin)
+        }
     }
 
     public static func make(model: ChannelCellModel) -> ChannelCell {
