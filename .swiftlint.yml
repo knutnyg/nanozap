@@ -57,6 +57,7 @@ identifier_name:
   excluded: # excluded via string array
     - i
     - n
+    - vc
     - id
     - tx
     - URL

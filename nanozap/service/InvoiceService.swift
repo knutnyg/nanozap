@@ -23,7 +23,7 @@ class InvoiceService {
     let rpcmanager: RpcManager = RpcManager.shared
     static let shared = InvoiceService()
 
-    public func decodeInvoice(payreqString: String) throws -> Invoice {
+    public func decodeInvoice(payreqString: String) throws -> DecodedInvoice {
         do {
             var payreq = Lnrpc_PayReqString()
             payreq.payReq = payreqString
@@ -31,7 +31,7 @@ class InvoiceService {
             let timestamp = Date.init(timeIntervalSince1970: TimeInterval(res.timestamp))
             let expiry = Date.init(timeIntervalSince1970: TimeInterval(res.expiry))
 
-            return Invoice(
+            return DecodedInvoice(
                     timestamp: timestamp,
                     amount: Int(res.numSatoshis),
                     description: res.description_p,
@@ -101,7 +101,8 @@ class InvoiceService {
                             description: lndInvoice.memo,
                             expiry: expiry,
                             payreq: lndInvoice.paymentRequest,
-                            settled: lndInvoice.settled
+                            settled: lndInvoice.settled,
+                            rHash: lndInvoice.rHash
                     )
                 })
             } else {

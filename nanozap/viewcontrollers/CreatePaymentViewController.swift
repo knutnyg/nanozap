@@ -99,9 +99,17 @@ class CreatePaymentViewController: UIViewController {
                 .subscribe(
                         onNext: { [weak self] res in
                             switch (res) {
-                            case .successful(let value):
+                            case .successful(let value as AddInvoiceResponse):
                                 self?.createPaymentButton.isEnabled = true
                                 print("win! value", value)
+                                let model = PaymentCreatedModel(
+                                        amount: Int(value.req.amount),
+                                        description: value.req.description,
+                                        paymentHash: value.paymentRequest,
+                                        rHash: value.rHash
+                                )
+                                let pvc = PaymentCreatedVC.make(model: model)
+                                self?.present(pvc, animated: true)
                             case .errorState(let error):
                                 self?.createPaymentButton.isEnabled = true
                                 print("createPayment got error", error)

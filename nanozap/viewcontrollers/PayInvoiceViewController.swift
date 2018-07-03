@@ -12,7 +12,7 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
     var amountLabel: UILabel!
     var expiryLabel: UILabel!
     
-    var invoice:Invoice?
+    var invoice:DecodedInvoice?
 
     override func viewDidLoad() {
         super.viewDidLoad()

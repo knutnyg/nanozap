@@ -20,6 +20,7 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - PasswordExtension (4.1.0)
+  - QRCode (2.0.1)
   - QRCodeReader.swift (8.2.0)
   - Result (4.0.0)
   - RxCocoa (4.2.0):
@@ -40,6 +41,7 @@ PODS:
 DEPENDENCIES:
   - FontAwesome.swift
   - PasswordExtension
+  - QRCode (from `https://github.com/ekscrypto/QRCode.git`)
   - QRCodeReader.swift (~> 8.2.0)
   - Result (~> 4.0.0)
   - RxCocoa (~> 4.0)
@@ -69,23 +71,33 @@ SPEC REPOS:
     - SwiftProtobuf
     - Valet
 
+EXTERNAL SOURCES:
+  QRCode:
+    :git: https://github.com/ekscrypto/QRCode.git
+
+CHECKOUT OPTIONS:
+  QRCode:
+    :commit: 0c7df79bca39e8593e09eaa02bede3bb030f493c
+    :git: https://github.com/ekscrypto/QRCode.git
+
 SPEC CHECKSUMS:
   BoringSSL: cf3f1793eb6e3c445c4d150456341f149c268a35
-  FontAwesome.swift: a5399d2a6c2e8fa10e66207b61f36f019ea417a7
-  gRPC-Core: 5fee7fa47b9cd12b2858e7e0dcf7bb0c61aeb23f
-  nanopb: 7ff14b1dce580107a15de90796e901596d5529bd
-  PasswordExtension: dc963ca5b5c95d93c145d5d44a465918f7fc3930
-  QRCodeReader.swift: 33dbaad979a6d080a0ff1bbe2c2aa02f8d2ea1eb
-  Result: b9031c3b8089ffe1f2eced4dcb793b604471c55f
-  RxCocoa: 5a90a61f3b93b7066c08e8b64ff32a322b047de5
-  RxSwift: 0e194f183ab1c859e3705f1283f25014b101d0dc
-  SnapKit: e3f1f139fb01f4bc0c8a20d85b472092e0b255de
-  SwiftGRPC: 0a0e23fe1dfbc2ef28c5d73062d54282ee8cb484
+  FontAwesome.swift: b4e4c8ccbbecb12f9b592bc533ff237af3706667
+  gRPC-Core: 164639cd8ae18ca8b65477fafb2efbaecf4f181a
+  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  PasswordExtension: 80a57bdae651d04437c8d2e07d90d5f18fe73180
+  QRCode: 0eeb4fe53620fa1e2ffd96737c829697607e493a
+  QRCodeReader.swift: 003eb32f18a5a675b936ec82ba0ff368cddbff45
+  Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
+  RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
+  RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SwiftGRPC: e582ede5791867075513a3757faa41be215b7e5a
   SwiftLint: f6b83e8d95ee1e91e11932d843af4fdcbf3fc764
-  SwiftMessages: 14520b67ccab1b8e16bac80b4ab1c97550b0a159
-  SwiftProtobuf: 4725f04098622c30bf46c80eff73330ebe9d8730
-  Valet: 3b27cb8f4187d1ab39f7158698f5baf360fa989e
+  SwiftMessages: 2c33fdee8b8f38dfc7e1036684456b505891da8c
+  SwiftProtobuf: 5ccc0e4054e37c75800e5744acb2aa80bb72b39c
+  Valet: fae4295525b1f13048147d30a38f66d266af9338
 
-PODFILE CHECKSUM: c079977dbc13c2f6ecea82edd7166505c765576f
+PODFILE CHECKSUM: d91a6324b83f384099b122d5165b9b771dc8bb11
 
 COCOAPODS: 1.5.3
