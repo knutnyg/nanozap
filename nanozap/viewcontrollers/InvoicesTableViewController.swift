@@ -24,15 +24,20 @@ class InvoicesTableViewController: UITableViewController {
                 .bind(to: self.tableView.rx.items(
                         cellIdentifier: "InvoiceCell",
                         cellType: InvoiceCell.self
-                )) { (row, invoice:Invoice, cell : InvoiceCell) in
+                )) { (row, invoice: Invoice, cell: InvoiceCell) in
                     let iconSize = CGSize(width: 30, height: 30)
                     let settled = UIImage.fontAwesomeIcon(name: .money, textColor: NanoColors.green, size: iconSize)
                     let unsettled = UIImage.fontAwesomeIcon(name: .money, textColor: NanoColors.gray, size: iconSize)
-                    
+
                     let attachment = NSTextAttachment()
                     attachment.image = invoice.settled ? settled : unsettled
-                    let imageOffsetY:CGFloat = 0.0;
-                    attachment.bounds = CGRect(x: 0, y: imageOffsetY, width: attachment.image!.size.width, height: attachment.image!.size.height)
+                    let imageOffsetY: CGFloat = 0.0
+                    attachment.bounds = CGRect(
+                            x: 0,
+                            y: imageOffsetY,
+                            width: attachment.image!.size.width,
+                            height: attachment.image!.size.height
+                    )
 
                     let attachmentString = NSAttributedString(attachment: attachment)
 
@@ -48,52 +53,74 @@ class InvoicesTableViewController: UITableViewController {
                     cell.botLeftLabel?.text = "\(invoice.description)"
                 }
                 .disposed(by: disposeBag)
+        
+        self.tableView.rx.modelSelected(Invoice.self)
+                .map { (invoice: Invoice) in
+                    let model = PaymentCreatedModel(
+                            amount: invoice.amount,
+                            description: invoice.description,
+                            paymentHash: invoice.payreq,
+                            rHash: invoice.rHash
+                    )
+                    return model
+                }
+                .map { model in
+                    PaymentCreatedVC.make(model: model)
+                }
+                .map { vc in
+                    Result<PaymentCreatedVC, AnyError>(value: vc)
+                }
+                .observeOn(MainScheduler.instance)
+                .subscribe(onNext: { (result) in
+                    //self.navigationController.pushViewController(nextViewController, animated: true)
+                    switch (result) {
+                    case .success(let view):
+                        self.present(view, animated: true, completion: nil)
+                    case .failure(let err):
+                        print("load channel error", err)
+                        displayError(message: "Error loading channel data.")
+                    }
 
-//        self.tableView.rx.modelSelected(Invoice.self)
-//                .observeOn(AppState.userInitiatedBgScheduler)
-//                .observeOn(MainScheduler.instance)
-//                .subscribe(onNext: { (result) in
-//                    //self.navigationController.pushViewController(nextViewController, animated: true)
-//                    switch (result) {
-//                    case .success(let view):
-//                        self.present(view, animated: true, completion: nil)
-//                    case .failure(let err):
-//                        print("load channel error", err)
-//                        displayError(message: "Error loading channel data.")
-//                    }
-//
-//                }, onError: { err in
-//                    print("fatal error", err)
-//                    fatalError("observable died")
-//                })
-//                .disposed(by: disposeBag)
+                }, onError: { err in
+                    print("fatal error", err)
+                    fatalError("observable died")
+                })
+                .disposed(by: disposeBag)
 
         let refreshControl = UIRefreshControl()
         self.refreshControl = refreshControl
 
         loadInvoices
-            // do network activity in background thread
-            .observeOn(AppState.userInitiatedBgScheduler)
-            .map { (_) in self.getInvoices() }
-            .flatMap { result -> Observable<[Invoice]> in
-                switch (result) {
-                case .success(let invoices):
-                    return Observable.just(invoices)
-                case .failure(let error):
-                    print("caught error", error)
-                    return Observable.empty()
+                // do network activity in background thread
+                .observeOn(AppState.userInitiatedBgScheduler)
+                .map { (_) in
+                    self.getInvoices()
                 }
-            }
-            .bind(to: invoicesObs)
-            .disposed(by: disposeBag)
+                .flatMap { result -> Observable<[Invoice]> in
+                    switch (result) {
+                    case .success(let invoices):
+                        return Observable.just(invoices)
+                    case .failure(let error):
+                        print("caught error", error)
+                        return Observable.empty()
+                    }
+                }
+                .bind(to: invoicesObs)
+                .disposed(by: disposeBag)
 
         refreshControl.rx
                 .controlEvent(.valueChanged)
-                .map { [weak refreshControl] _ in refreshControl?.isRefreshing ?? false }
+                .map { [weak refreshControl] _ in
+                    refreshControl?.isRefreshing ?? false
+                }
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
-                .filter { val in val == true }
-                .map { [unowned self] _ in self.getInvoices() }
+                .filter { val in
+                    val == true
+                }
+                .map { [unowned self] _ in
+                    self.getInvoices()
+                }
                 // go back to main thread to touch UI
                 .observeOn(MainScheduler.instance)
                 .subscribe(
@@ -120,8 +147,10 @@ class InvoicesTableViewController: UITableViewController {
     }
 
     private func getInvoices() -> Result<[Invoice], AnyError> {
-        return Result(attempt: { () throws -> [Invoice] in try InvoiceService.shared.listInvoices() } )
-                .map { invoices in invoices.sorted(by: { $0.timestamp > $1.timestamp}) }
+        return Result(attempt: { () throws -> [Invoice] in try InvoiceService.shared.listInvoices() })
+                .map { invoices in
+                    invoices.sorted(by: { $0.timestamp > $1.timestamp })
+                }
     }
 
     private func refreshInvoices() {
