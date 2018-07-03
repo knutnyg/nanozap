@@ -11,6 +11,8 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
     var descLabel: UILabel!
     var amountLabel: UILabel!
     var expiryLabel: UILabel!
+
+    let dismissButton = createButton(text: "Cancel")
     
     var invoice:Invoice?
 
@@ -19,12 +21,13 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
 
         view.backgroundColor = UIColor.white
 
+        dismissButton.addTarget(self, action: #selector(dismissMe), for: .touchUpInside)
+
         scanButton = createButton(text: "Scan")
         scanButton.addTarget(self, action: #selector(scanPayRequest), for: .touchUpInside)
 
         payButton = createButton(text: "Pay!")
         payButton.addTarget(self, action: #selector(pay), for: .touchUpInside)
-
         timeLabel = createLabel(text: "")
         descLabel = createLabel(text: "")
         amountLabel = createLabel(text: "")
@@ -36,6 +39,7 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
         view.addSubview(descLabel)
         view.addSubview(amountLabel)
         view.addSubview(expiryLabel)
+        view.addSubview(dismissButton)
 
         let views: [String:UIView] = [
             "scanButton":scanButton,
@@ -43,11 +47,12 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
             "timeLabel":timeLabel,
             "descLabel":descLabel,
             "amountLabel":amountLabel,
-            "expiryLabel":expiryLabel
+            "expiryLabel":expiryLabel,
+            "dismissButton":dismissButton
         ]
 
         view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-100-[scanButton]-[timeLabel]-[descLabel]-[amountLabel]-[expiryLabel]-50-[payButton]",
+                withVisualFormat: "V:|-100-[scanButton]-[timeLabel]-[descLabel]-[amountLabel]-[expiryLabel]-50-[payButton]-30-[dismissButton]-|",
                 metrics: nil,
                 views: views))
         view.addConstraints(NSLayoutConstraint.constraints(
@@ -74,6 +79,10 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
                 withVisualFormat: "H:|-20-[expiryLabel]-20-|",
                 metrics: nil,
                 views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-20-[dismissButton]-20-|",
+                metrics: nil,
+                views: views))
 
     }
 
@@ -88,7 +97,11 @@ class PayInvoiceViewController : UIViewController, QRCodeReaderViewControllerDel
         }
         return QRCodeReaderViewController(builder: builder)
     }()
-    
+
+    @objc func dismissMe(sender : UIButton) {
+        self.dismiss(animated: true)
+    }
+
     @objc func scanPayRequest(sender: UIButton) {
         readerVC.delegate = self
         readerVC.modalPresentationStyle = .formSheet
