@@ -5,6 +5,7 @@ import AVFoundation
 import QRCodeReader
 import RxSwift
 import RxCocoa
+import SnapKit
 
 class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate {
 
@@ -53,16 +54,32 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         self.view.addSubview(scanCert)
         self.view.addSubview(scanMacaroon)
 
-        let views: [String:UIView] = [
-            "hostnameTextField":hostnameTextField,
-            "certLabel":certLabel,
-            "macaroonLabel": macaroonLabel,
-            "testSecretsButton":testSecretsButton,
-            "scanCert":scanCert,
-            "scanMacaroon":scanMacaroon
-        ]
-
-        setConstraints(views: views)
+        hostnameTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(self.view).offset(100)
+            make.left.equalTo(self.view).offset(20)
+            make.right.equalTo(self.view).offset(-20)
+            make.centerX.equalTo(self.view)
+        }
+        certLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(hostnameTextField.snp.bottom).offset(20)
+            make.centerX.equalTo(self.view)
+        }
+        macaroonLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(certLabel.snp.bottom).offset(20)
+            make.centerX.equalTo(self.view)
+        }
+        testSecretsButton.snp.makeConstraints { (make) in
+            make.top.equalTo(macaroonLabel.snp.bottom).offset(20)
+            make.centerX.equalTo(self.view)
+        }
+        scanCert.snp.makeConstraints { (make) in
+            make.top.equalTo(testSecretsButton.snp.bottom).offset(20)
+            make.centerX.equalTo(self.view)
+        }
+        scanMacaroon.snp.makeConstraints { (make) in
+            make.top.equalTo(scanCert.snp.bottom).offset(20)
+            make.centerX.equalTo(self.view)
+        }
 
         self.macaroon = AppState.sharedState.macaroon
         self.cert = AppState.sharedState.cert
@@ -108,33 +125,6 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
             }
             .bind(to: AppState.sharedState.updater)
             .disposed(by: disposeBag)
-    }
-
-    private func setConstraints(views: [String: UIView]) {
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-100-[hostnameTextField(50)]-20-[certLabel(40)]-20-[macaroonLabel(40)]-20-[testSecretsButton(40)]-20-[scanCert(40)]-20-[scanMacaroon(40)]",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[certLabel]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[macaroonLabel]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[testSecretsButton]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[scanCert]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[scanMacaroon]-20-|",
-                metrics: nil,
-                views: views))
     }
 
     @IBAction func onePasswordButtonClicked(_ sender: Any) {
