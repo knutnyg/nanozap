@@ -45,7 +45,7 @@ class InvoiceService {
         }
     }
 
-    public func payInvoice(invoice: Invoice) throws -> Bool {
+    public func payInvoice(invoice: DecodedInvoice) throws -> Bool {
         guard let client = RpcManager.shared.client() else {
             print("Could not load client")
             throw RPCError.unableToAccessClient
