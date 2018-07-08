@@ -33,6 +33,13 @@ func createButton(text:String, font:UIFont) -> UIButton {
     return button
 }
 
+func createFAButton(icon: UIImage) -> UIButton {
+    let button = UIButton(type: .custom)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setImage(icon, for: .normal)
+    return button
+}
+
 func createWarnButton(text: String) -> UIButton! {
     let button = createButton(text: text)
     button.tintColor = .white
