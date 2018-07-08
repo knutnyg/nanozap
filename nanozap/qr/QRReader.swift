@@ -2,6 +2,10 @@ import UIKit
 import QRCodeReader
 import RxSwift
 
+struct QRData {
+    let data: String
+}
+
 class QRReader : QRCodeReaderViewControllerDelegate{
 
     weak var delegate:UIViewController?

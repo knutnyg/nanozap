@@ -19,56 +19,103 @@ struct AddInvoiceResponse {
     }
 }
 
+struct DecodeInvoiceResponse {
+
+    let decodedInvoice: DecodedInvoice
+
+    init(from: Lnrpc_PayReq, payreq: String) {
+        let timestamp = Date.init(timeIntervalSince1970: TimeInterval(from.timestamp))
+        let expiry = Date.init(timeIntervalSince1970: TimeInterval(from.expiry))
+
+        self.decodedInvoice = DecodedInvoice(
+                timestamp: timestamp,
+                amount: Int(from.numSatoshis),
+                description: from.description_p,
+                expiry: expiry,
+                payreq: payreq
+        )
+    }
+
+}
+
+struct PayInvoiceResponse {
+    let response: Lnrpc_SendResponse
+}
+
 class InvoiceService {
     let rpcmanager: RpcManager = RpcManager.shared
     static let shared = InvoiceService()
 
-    public func decodeInvoice(payreqString: String) throws -> DecodedInvoice {
-        do {
-            var payreq = Lnrpc_PayReqString()
-            payreq.payReq = payreqString
-            let res = try rpcmanager.client()!.decodePayReq(payreq)
-            let timestamp = Date.init(timeIntervalSince1970: TimeInterval(res.timestamp))
-            let expiry = Date.init(timeIntervalSince1970: TimeInterval(res.expiry))
+    public func decodeInvoice(payreqString: String) -> Observable<DecodeInvoiceResponse> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
+                var payreq = Lnrpc_PayReqString()
+                payreq.payReq = payreqString
 
-            return DecodedInvoice(
-                    timestamp: timestamp,
-                    amount: Int(res.numSatoshis),
-                    description: res.description_p,
-                    expiry: expiry,
-                    payreq: payreqString,
-                    settled: false
-            )
-        } catch {
-            print("Unexpected error decoding payreq: \(error).")
-            throw RPCError.failedToDecodePayReq
+                let res = Result(attempt: { () throws in try client.decodePayReq(payreq) })
+                        .map { res in
+                            DecodeInvoiceResponse(from: res, payreq: payreqString)
+                        }
+
+                switch res {
+                case .success(let value):
+                    obs.onNext(value)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
+            } else {
+                obs.onError(RPCError.unableToAccessClient)
+            }
+
+            return Disposables.create(with: { () in obs.onCompleted() })
         }
     }
 
     public func listPayables() -> Observable<[Payable]> {
         let payments = self.listPayments()
-            .map { payments in payments.map { payment in Payable.payment(p: payment) }}
+                .map { payments in
+                    payments.map { payment in
+                        Payable.payment(p: payment)
+                    }
+                }
         let invoices = self.listInvoices()
-            .map { invoices in invoices.map { invoice in Payable.invoice(i: invoice) }}
+                .map { invoices in
+                    invoices.map { invoice in
+                        Payable.invoice(i: invoice)
+                    }
+                }
 
         return Observable.zip(payments, invoices) { (payms, invs) in
-            return [payms, invs].flatMap { $0 }
+            return [payms, invs].flatMap {
+                $0
+            }
         }
     }
 
-    public func payInvoice(invoice: Invoice) throws -> Bool {
-        guard let client = RpcManager.shared.client() else {
-            print("Could not load client")
-            throw RPCError.unableToAccessClient
-        }
-        do {
-            var request = Lnrpc_SendRequest()
-            request.paymentRequest = invoice.payreq
-            _ = try client.sendPaymentSync(request)
-            return true
-        } catch {
-            print("Failed to pay")
-            return false
+    public func payInvoice(invoice: PayableInvoice) -> Observable<PayInvoiceResponse> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
+                var request = Lnrpc_SendRequest()
+                request.paymentRequest = invoice.payreq
+
+                let res = Result(attempt: { () throws in try client.sendPaymentSync(request) })
+                        .map { res in
+                            PayInvoiceResponse(response: res)
+                        }
+
+                switch res {
+                case .success(let value):
+                    obs.onNext(value)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
+            } else {
+                obs.onError(RPCError.unableToAccessClient)
+            }
+
+            return Disposables.create(with: { () in obs.onCompleted() })
         }
     }
 

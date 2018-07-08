@@ -86,6 +86,8 @@ class InvoicesTableViewController: UITableViewController {
         super.viewDidLoad()
 
         self.tableView.dataSource = nil
+        self.tableView.rowHeight = 60
+        self.tableView.register(InvoiceCell.self, forCellReuseIdentifier: "InvoiceCell")
         self.tableView.rowHeight = 50
         self.tableView.register(InvoiceCell.self, forCellReuseIdentifier: InvoiceCell.ReuseIdentifier)
 
