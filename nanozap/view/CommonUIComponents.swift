@@ -64,8 +64,9 @@ func createOKButton(text: String) -> UIButton! {
 
 func createTextBox(text: String) -> UITextView {
     let view = UITextView()
+    view.text = text
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.font = UIFont(name: "Verdana", size: 14)
+    view.font = UIFont(name: "Verdana", size: 16)
     view.textColor = UIColor.black
 
     return view

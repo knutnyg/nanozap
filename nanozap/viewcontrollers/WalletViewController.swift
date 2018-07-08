@@ -6,8 +6,14 @@ import SnapKit
 
 class WalletViewController: UIViewController {
     var headerView: UIViewController!
+    var introTextView: UITextView!
+
     var transactionsView: UITableView!
     var walletbalanceLabel: UILabel!
+
+    var sendBTCButton: UIButton!
+    var receiveBTCButton: UIButton!
+
     var payInvoiceButton: UIButton!
     var createInvoiceButton: UIButton!
 
@@ -30,6 +36,8 @@ class WalletViewController: UIViewController {
         view.backgroundColor = UIColor.white
 
         headerView = Header()
+        introTextView = createTextBox(text: "This is your lightning wallet. You can interact with the blockchain though sending, receiving, opening and closing channels.")
+
         transactionsView = UITableView()
         transactionsView.register(UITableViewCell.self, forCellReuseIdentifier: "TransactionCell")
         transactionsView.translatesAutoresizingMaskIntoConstraints = false
@@ -39,27 +47,69 @@ class WalletViewController: UIViewController {
         payInvoiceButton = createButton(text: "Pay invoice")
         payInvoiceButton.addTarget(self, action: #selector(payInvoiceClicked), for: .touchUpInside)
 
+        sendBTCButton = createButton(text: "Send BTC")
+        receiveBTCButton = createButton(text: "Receive BTC")
+
         createInvoiceButton = createButton(text: "Create invoice")
 
         view.addSubview(headerView.view)
+        view.addSubview(introTextView)
         view.addSubview(transactionsView)
         view.addSubview(walletbalanceLabel)
         view.addSubview(payInvoiceButton)
         view.addSubview(createInvoiceButton)
+        view.addSubview(sendBTCButton)
+        view.addSubview(receiveBTCButton)
 
-        createInvoiceButton.snp.makeConstraints { (make) in
-            make.centerY.equalTo(self.payInvoiceButton).offset(30)
-            make.centerX.equalTo(self.payInvoiceButton)
+        headerView.view.snp.makeConstraints { (make) in
+            make.top.equalTo(self.view)
+            make.centerX.equalTo(self.view)
+            make.width.equalTo(self.view)
+            make.height.equalTo(100)
         }
-        let views: [String: UIView] = [
-            "headerView":headerView.view,
-            "transactionsView": transactionsView,
-            "payInvoiceButton": payInvoiceButton,
-            "createInvoiceButton": createInvoiceButton,
-            "walletbalanceLabel":walletbalanceLabel
-        ]
 
-        setConstraints(views: views)
+        introTextView.snp.makeConstraints({ (make) in
+            make.top.equalTo(headerView.view.snp.bottom).offset(15)
+            make.centerX.equalTo(self.view)
+            make.height.equalTo(100)
+            make.width.equalTo(self.view).inset(10)
+        })
+
+        walletbalanceLabel.snp.makeConstraints({(make) in
+            make.top.equalTo(introTextView.snp.bottom).offset(15)
+            make.centerX.equalTo(self.view)
+            make.height.equalTo(30)
+        })
+
+        payInvoiceButton.snp.makeConstraints({(make) in
+            make.top.equalTo(walletbalanceLabel.snp.bottom).offset(15)
+            make.centerX.equalTo(self.view).offset(-100)
+            make.height.equalTo(30)
+        })
+
+        createInvoiceButton.snp.makeConstraints({(make) in
+            make.top.equalTo(payInvoiceButton.snp.bottom).offset(15)
+            make.centerX.equalTo(payInvoiceButton.snp.centerX)
+            make.height.equalTo(30)
+        })
+
+        sendBTCButton.snp.makeConstraints({(make) in
+            make.top.equalTo(walletbalanceLabel.snp.bottom).offset(15)
+            make.centerX.equalTo(self.view).offset(100)
+            make.height.equalTo(30)
+        })
+
+        receiveBTCButton.snp.makeConstraints({(make) in
+            make.top.equalTo(payInvoiceButton.snp.bottom).offset(15)
+            make.centerX.equalTo(sendBTCButton.snp.centerX)
+            make.height.equalTo(30)
+        })
+
+        transactionsView.snp.makeConstraints({(make) in
+            make.top.equalTo(createInvoiceButton.snp.bottom).offset(15)
+            make.width.equalTo(self.view)
+            make.bottom.equalTo(self.view)
+        })
 
         txDateFormatter.dateFormat = "MM.dd"
 
@@ -84,24 +134,28 @@ class WalletViewController: UIViewController {
                 .disposed(by: disposeBag)
 
         balanceSubject.asObservable()
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (bal) in
-                self.walletbalanceLabel.text! = "\(bal.confirmedBalance)"
-            })
-            .disposed(by: disposeBag)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onNext: { (bal) in
+                    self.walletbalanceLabel.text! = "\(bal.confirmedBalance)"
+                })
+                .disposed(by: disposeBag)
 
         transactionsView.rx
-            .modelSelected(Transaction.self)
-            .asObservable()
-            .observeOn(AppState.userInitiatedBgScheduler)
-            .do ( onNext: { tx in print("selected tx=", tx.txHash) })
-            .map { (tx) in TransactionDetailViewModel(tx: tx) }
-            .map { (model) in TransactionDetailViewController.make(model: model) }
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (view) in
-                self.present(view, animated: true, completion: nil)
-            })
-            .disposed(by: disposeBag)
+                .modelSelected(Transaction.self)
+                .asObservable()
+                .observeOn(AppState.userInitiatedBgScheduler)
+                .do(onNext: { tx in print("selected tx=", tx.txHash) })
+                .map { (tx) in
+                    TransactionDetailViewModel(tx: tx)
+                }
+                .map { (model) in
+                    TransactionDetailViewController.make(model: model)
+                }
+                .observeOn(MainScheduler.instance)
+                .subscribe(onNext: { (view) in
+                    self.present(view, animated: true, completion: nil)
+                })
+                .disposed(by: disposeBag)
 
         transactionsSubject.asObservable()
                 .observeOn(MainScheduler.instance)
@@ -153,42 +207,25 @@ class WalletViewController: UIViewController {
                     refreshControl.endRefreshing()
                 })
                 .disposed(by: disposeBag)
-        
-        createInvoiceButton.rx.tap.asObservable()
-            .map { _ in true }
-            .map { _ in CreatePaymentViewController() }
-            .subscribe(
-                onNext: { [weak self] val in
-                    self?.present(val, animated: true, completion: nil)
-                },
-                onError: { error in
-                    print("error handling tap", error)
-                    fatalError("died handling tap")
-                }
-            ).disposed(by: disposeBag)
-    }
 
-    private func setConstraints(views: [String: UIView]) {
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-0-[headerView(100)]-100-[walletbalanceLabel(40)]-[payInvoiceButton]-100-[transactionsView]-0-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[walletbalanceLabel]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[payInvoiceButton]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-0-[headerView]-0-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-10-[transactionsView]-10-|",
-                metrics: nil,
-                views: views))
+        createInvoiceButton.rx.tap.asObservable()
+                .map { _ in
+                    true
+                }
+                .map { _ in
+                    CreatePaymentViewController()
+                }
+                .subscribe(
+                        onNext: { [weak self] val in
+                            self?.present(val, animated: true, completion: nil)
+                        },
+                        onError: { error in
+                            print("error handling tap", error)
+                            fatalError("died handling tap")
+                        }
+                ).disposed(by: disposeBag)
+
+
     }
 
     @objc func payInvoiceClicked(sender: UIButton!) {
