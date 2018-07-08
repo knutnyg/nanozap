@@ -5,7 +5,7 @@ import RxCocoa
 import SnapKit
 
 class WalletViewController: UIViewController {
-    var headerView: UIView!
+    var headerView: UIViewController!
     var transactionsView: UITableView!
     var walletbalanceLabel: UILabel!
     var payInvoiceButton: UIButton!
@@ -29,9 +29,7 @@ class WalletViewController: UIViewController {
 
         view.backgroundColor = UIColor.white
 
-        headerView = UIView()
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.backgroundColor = UIColor.cyan
+        headerView = Header()
         transactionsView = UITableView()
         transactionsView.register(UITableViewCell.self, forCellReuseIdentifier: "TransactionCell")
         transactionsView.translatesAutoresizingMaskIntoConstraints = false
@@ -42,8 +40,8 @@ class WalletViewController: UIViewController {
         payInvoiceButton.addTarget(self, action: #selector(payInvoiceClicked), for: .touchUpInside)
 
         createInvoiceButton = createButton(text: "Create invoice")
-        
-        view.addSubview(headerView)
+
+        view.addSubview(headerView.view)
         view.addSubview(transactionsView)
         view.addSubview(walletbalanceLabel)
         view.addSubview(payInvoiceButton)
@@ -54,7 +52,7 @@ class WalletViewController: UIViewController {
             make.centerX.equalTo(self.payInvoiceButton)
         }
         let views: [String: UIView] = [
-            "headerView":headerView,
+            "headerView":headerView.view,
             "transactionsView": transactionsView,
             "payInvoiceButton": payInvoiceButton,
             "createInvoiceButton": createInvoiceButton,
@@ -64,8 +62,6 @@ class WalletViewController: UIViewController {
         setConstraints(views: views)
 
         txDateFormatter.dateFormat = "MM.dd"
-
-        headerView.backgroundColor = headerColor
 
         loadSubject.asObservable()
                 // do network activity in background thread
