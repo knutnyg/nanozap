@@ -20,13 +20,13 @@ struct Invoice {
     let rHash: Data
 
     init(
-        timestamp: Date,
-        amount: Int,
-        description: String,
-        expiry: Date,
-        payreq: String,
-        settled: Bool,
-        rHash: Data
+            timestamp: Date,
+            amount: Int,
+            description: String,
+            expiry: Date,
+            payreq: String,
+            settled: Bool,
+            rHash: Data
     ) {
         self.timestamp = timestamp
         self.amount = amount
@@ -36,6 +36,14 @@ struct Invoice {
         self.settled = settled
         self.rHash = rHash
     }
+}
 
+struct PayableInvoice {
+    let payreq: String
+    let amount: Int
 
+    init(payreq: String, amount: Int) {
+        self.payreq = payreq
+        self.amount = amount
+    }
 }
