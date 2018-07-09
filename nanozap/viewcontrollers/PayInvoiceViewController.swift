@@ -2,6 +2,13 @@ import Foundation
 import UIKit
 import AVFoundation
 import QRCodeReader
+import RxSwift
+import RxCocoa
+
+enum FinalizePaymentChoice {
+    case yes(payableInvoice: PayableInvoice)
+    case cancel
+}
 
 class PayInvoiceViewController: UIViewController, QRCodeReaderViewControllerDelegate {
     var scanButton: UIButton!
@@ -11,6 +18,8 @@ class PayInvoiceViewController: UIViewController, QRCodeReaderViewControllerDele
     var descLabel: UILabel!
     var amountLabel: UILabel!
     var expiryLabel: UILabel!
+
+    let disposeBag = DisposeBag()
 
     let dismissButton = createButton(text: "Cancel")
 
@@ -27,7 +36,7 @@ class PayInvoiceViewController: UIViewController, QRCodeReaderViewControllerDele
         scanButton.addTarget(self, action: #selector(scanPayRequest), for: .touchUpInside)
 
         payButton = createButton(text: "Pay!")
-        payButton.addTarget(self, action: #selector(pay), for: .touchUpInside)
+
         timeLabel = createLabel(text: "")
         descLabel = createLabel(text: "")
         amountLabel = createLabel(text: "")
@@ -84,6 +93,80 @@ class PayInvoiceViewController: UIViewController, QRCodeReaderViewControllerDele
                 metrics: nil,
                 views: views))
 
+        let paymentResult: Observable<FinalizePaymentChoice> = self.payButton.rx.tap.asObservable()
+                .filter { _ in
+                    self.invoice != nil
+                    print("invoice is nil")
+                }
+                .map { _ in
+                    PayableInvoice(
+                            payreq: self.invoice!.payreq,
+                            amount: self.invoice!.amount
+                    )
+                }
+                .flatMap { payableInvoice in
+                    return Observable.create { [weak self] sub in
+                        guard let `self` = self else {
+                            sub.onCompleted()
+                            return Disposables.create()
+                        }
+
+                        let alert = UIAlertController(
+                                title: "Pay?",
+                                message: "Confirm paying \(payableInvoice.amount) SAT",
+                                preferredStyle: .actionSheet
+                        )
+                        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                            print("Yes was clicked")
+                            sub.onNext(.yes(payableInvoice: payableInvoice))
+                            sub.onCompleted()
+                        }))
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
+                            print("Cancel was clocked")
+                            sub.onNext(.cancel)
+                            sub.onCompleted()
+                        }))
+
+                        self.present(alert, animated: true)
+
+                        return Disposables.create {
+                            alert.dismiss(animated: true, completion: nil)
+                        }
+                    }
+                }
+
+        paymentResult
+                .observeOn(AppState.userInitiatedBgScheduler)
+                .map { (choice: FinalizePaymentChoice) -> PayableInvoice? in
+                    switch (choice) {
+                    case .yes(let invoice):
+                        return invoice
+                    case .cancel:
+                        return nil
+                    }
+                }
+                .flatMap { (maybeInvoice: PayableInvoice?) -> Observable<PayInvoiceResponse> in
+                    if let invoice = maybeInvoice {
+                        return InvoiceService.shared.payInvoice(invoice: invoice)
+                    } else {
+                        return Observable.empty()
+                    }
+                }
+                .observeOn(MainScheduler.instance)
+                .subscribe(
+                        onNext: { [weak self] res in
+                            // maybe we were already gone by this time, so exit:
+                            guard let `self` = self else {
+                                return
+                            }
+                        },
+                        onError: { [weak self] error in
+                            print("Error paying: \(error)")
+                        }
+
+                        //, onError: , onCompleted: , onDisposed: ,
+                )
+                .disposed(by: self.disposeBag)
     }
 
     @objc func click(sender: UIButton) {
@@ -106,80 +189,40 @@ class PayInvoiceViewController: UIViewController, QRCodeReaderViewControllerDele
         readerVC.delegate = self
         readerVC.modalPresentationStyle = .formSheet
         present(readerVC, animated: true, completion: nil)
-    }
 
-    @objc func pay(_ sender: Any) {
-        if let invoice = self.invoice {
-            let alert = UIAlertController(
-                    title: "Pay?",
-                    message: "Confirm paying \(invoice.amount) satoshis",
-                    preferredStyle: .alert
-            )
+        func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
+            reader.stopScanning()
 
-            alert.addAction(UIAlertAction(
-                    title: "Yes",
-                    style: .default,
-                    handler: { action in
-                        print("Paying..")
-                        do {
-                            let success = try InvoiceService.shared.payInvoice(invoice: invoice)
-                            if (success) {
-                                print("Payment successful!")
-                                self.dismiss(animated: true, completion: nil)
-                            } else {
-                                print("Payment failed..")
-                            }
+            print(result.value)
 
-                        } catch {
-                            print("Payment failed")
-                        }
+            let payreq: String
 
-                    }
-            ))
-            alert.addAction(UIAlertAction(
-                    title: "No",
-                    style: .cancel,
-                    handler: { action in print("cancel") }
-            ))
+            let charList = result.value
+            if let colon = charList.index(of: ":") {
+                payreq = String(result.value[charList.index(after: colon)..<result.value.endIndex])
+            } else {
+                payreq = ""
+            }
 
-            self.present(alert, animated: true)
-        } else {
-            return
-        }
-    }
+            print("Payreq: \(payreq)")
+            do {
+                let invoice = try InvoiceService.shared.decodeInvoice(payreqString: payreq)
+                timeLabel.text = invoice.timestamp.description
+                descLabel.text = invoice.description
+                amountLabel.text = String(invoice.amount)
+                expiryLabel.text = invoice.expiry.description
+                self.invoice = invoice
+            } catch {
 
-    func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
-        reader.stopScanning()
-
-        print(result.value)
-
-        let payreq: String
-
-        let charList = result.value
-        if let colon = charList.index(of: ":") {
-            payreq = String(result.value[charList.index(after: colon)..<result.value.endIndex])
-        } else {
-            payreq = ""
+            }
+            dismiss(animated: true, completion: nil)
         }
 
-        print("Payreq: \(payreq)")
-        do {
-            let invoice = try InvoiceService.shared.decodeInvoice(payreqString: payreq)
-            timeLabel.text = invoice.timestamp.description
-            descLabel.text = invoice.description
-            amountLabel.text = String(invoice.amount)
-            expiryLabel.text = invoice.expiry.description
-            self.invoice = invoice
-        } catch {
-
+        func readerDidCancel(_ reader: QRCodeReaderViewController) {
+            reader.stopScanning()
+            dismiss(animated: true, completion: nil)
         }
-        dismiss(animated: true, completion: nil)
-    }
-
-    func readerDidCancel(_ reader: QRCodeReaderViewController) {
-        reader.stopScanning()
-        dismiss(animated: true, completion: nil)
-    }
 
 // End QRCode
+    }
 }

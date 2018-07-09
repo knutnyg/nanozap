@@ -19,6 +19,10 @@ struct AddInvoiceResponse {
     }
 }
 
+struct PayInvoiceResponse {
+    let success: Bool
+}
+
 class InvoiceService {
     let rpcmanager: RpcManager = RpcManager.shared
     static let shared = InvoiceService()
@@ -45,19 +49,29 @@ class InvoiceService {
         }
     }
 
-    public func payInvoice(invoice: DecodedInvoice) throws -> Bool {
-        guard let client = RpcManager.shared.client() else {
-            print("Could not load client")
-            throw RPCError.unableToAccessClient
-        }
-        do {
-            var request = Lnrpc_SendRequest()
-            request.paymentRequest = invoice.payreq
-            _ = try client.sendPaymentSync(request)
-            return true
-        } catch {
-            print("Failed to pay")
-            return false
+    public func payInvoice(invoice: PayableInvoice) -> Observable<PayInvoiceResponse> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
+                var request = Lnrpc_SendRequest()
+                request.paymentRequest = invoice.payreq
+
+                let res = Result(attempt: { () throws in try client.sendPaymentSync(request) })
+                        .map { res in
+                            PayInvoiceResponse(success: true)
+                        }
+
+                switch res {
+                case .success(let value):
+                    obs.onNext(value)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
+            } else {
+                obs.onError(RPCError.unableToAccessClient)
+            }
+
+            return Disposables.create(with: { () in obs.onCompleted() })
         }
     }
 
@@ -143,4 +157,5 @@ class InvoiceService {
 
     private init() {
     }
+
 }
