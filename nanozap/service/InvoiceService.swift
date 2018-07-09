@@ -45,6 +45,17 @@ class InvoiceService {
         }
     }
 
+    public func listPayables() -> Observable<[Payable]> {
+        let payments = self.listPayments()
+            .map { payments in payments.map { payment in Payable.payment(p: payment) }}
+        let invoices = self.listInvoices()
+            .map { invoices in invoices.map { invoice in Payable.invoice(i: invoice) }}
+
+        return Observable.zip(payments, invoices) { (payms, invs) in
+            return [payms, invs].flatMap { $0 }
+        }
+    }
+
     public func payInvoice(invoice: Invoice) throws -> Bool {
         guard let client = RpcManager.shared.client() else {
             print("Could not load client")

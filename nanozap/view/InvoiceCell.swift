@@ -3,6 +3,8 @@ import UIKit
 import SnapKit
 
 struct InvoiceCellModel {
+    let payable : Payable
+    
     let leftVal : NSMutableAttributedString
     let topLeftVal : String
     let botLeftVal : String

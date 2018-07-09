@@ -10,8 +10,8 @@ func toInvoicData(vals: [Payable]) -> [InvoiceCellModel] {
         switch (payable) {
         case .invoice(let invoice):
             let iconSize = CGSize(width: 30, height: 30)
-            let settled = UIImage.fontAwesomeIcon(name: .money, textColor: NanoColors.green, size: iconSize)
-            let unsettled = UIImage.fontAwesomeIcon(name: .money, textColor: NanoColors.gray, size: iconSize)
+            let settled = UIImage.fontAwesomeIcon(name: .arrowRight, textColor: NanoColors.green, size: iconSize)
+            let unsettled = UIImage.fontAwesomeIcon(name: .arrowRight, textColor: NanoColors.gray, size: iconSize)
 
             let attachment = NSTextAttachment()
             attachment.image = invoice.settled ? settled : unsettled
@@ -32,6 +32,7 @@ func toInvoicData(vals: [Payable]) -> [InvoiceCellModel] {
             formatter.dateStyle = .medium
 
             return InvoiceCellModel(
+                    payable: payable,
                     leftVal: myString,
                     topLeftVal: "Amount: \(invoice.amount)",
                     botLeftVal: "\(invoice.description)",
@@ -39,9 +40,9 @@ func toInvoicData(vals: [Payable]) -> [InvoiceCellModel] {
             )
         case .payment(let payment):
             let icoSize = CGSize(width: 30, height: 30)
-            let settled = UIImage.fontAwesomeIcon(name: .arrowCircleORight, textColor: NanoColors.red, size: icoSize)
+            let settled = UIImage.fontAwesomeIcon(name: .arrowLeft, textColor: NanoColors.red, size: icoSize)
             let unsettled = UIImage.fontAwesomeIcon(
-                    name: .arrowCircleLeft,
+                    name: .arrowRight,
                     textColor: NanoColors.green,
                     size: icoSize
             )
@@ -65,6 +66,7 @@ func toInvoicData(vals: [Payable]) -> [InvoiceCellModel] {
             formatter.dateStyle = .medium
 
             return InvoiceCellModel(
+                    payable: payable,
                     leftVal: myString,
                     topLeftVal: "Amount: \(payment.amount)",
                     botLeftVal: "Fee: \(payment.fee)",
@@ -99,15 +101,25 @@ class InvoicesTableViewController: UITableViewController {
                 }
                 .disposed(by: disposeBag)
         
-        self.tableView.rx.modelSelected(Invoice.self)
-                .map { (invoice: Invoice) in
-                    let model = PaymentCreatedModel(
-                            amount: invoice.amount,
-                            description: invoice.description,
-                            paymentHash: invoice.payreq,
-                            rHash: invoice.rHash
-                    )
-                    return model
+        self.tableView.rx.modelSelected(InvoiceCellModel.self)
+                .map { (dataModel: InvoiceCellModel) in
+
+                    switch (dataModel.payable) {
+                    case .invoice(let invoice):
+                        return PaymentCreatedModel(
+                                amount: invoice.amount,
+                                description: invoice.description,
+                                paymentHash: invoice.payreq,
+                                rHash: invoice.rHash
+                        )
+                    case .payment(let payment):
+                        return PaymentCreatedModel(
+                                amount: Int(payment.amount),
+                                description: "Fee: \(payment.fee)",
+                                paymentHash: payment.paymentHash,
+                                rHash: Data()
+                        )
+                    }
                 }
                 .map { model in
                     PaymentCreatedVC.make(model: model)
@@ -198,7 +210,7 @@ class InvoicesTableViewController: UITableViewController {
         return InvoiceService.shared.listPayables()
                 .map { (values : [Payable]) in
                     return values.sorted(by: { (lhs, rhs) in
-                        return lhs < rhs
+                        return rhs < lhs
                     })
                 }
     }
