@@ -93,20 +93,17 @@ class InvoicesTableViewController: UITableViewController {
         loadInvoices
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
-                .map { (_) in
-                    self.getInvoices()
-                }
-                .flatMap { result -> Observable<[Invoice]> in
-                    switch (result) {
-                    case .success(let invoices):
-                        return Observable.just(invoices)
-                    case .failure(let error):
-                        print("caught error", error)
-                        return Observable.empty()
-                    }
+                .flatMap { [weak self] (_) in
+                    self?.getInvoices() ?? Observable.empty()
                 }
                 .bind(to: invoicesObs)
                 .disposed(by: disposeBag)
+
+        enum LoadInvoicesResult {
+            case loading()
+            case done(res : [Invoice])
+            case failure(error : Error)
+        }
 
         refreshControl.rx
                 .controlEvent(.valueChanged)
@@ -118,8 +115,11 @@ class InvoicesTableViewController: UITableViewController {
                 .filter { val in
                     val == true
                 }
-                .map { [unowned self] _ in
+                .flatMap { _ in
                     self.getInvoices()
+                        .map { invs in LoadInvoicesResult.done(res: invs) }
+                        .catchError { err in Observable.just(LoadInvoicesResult.failure(error: err)) }
+                        .startWith(LoadInvoicesResult.loading())
                 }
                 // go back to main thread to touch UI
                 .observeOn(MainScheduler.instance)
@@ -127,7 +127,10 @@ class InvoicesTableViewController: UITableViewController {
                         onNext: { [weak self] result in
                             print("some refresh result")
                             switch (result) {
-                            case .success(let invoices):
+                            case .loading:
+                                // do nothing
+                                print("loading")
+                            case .done(let invoices):
                                 self?.invoicesObs.onNext(invoices)
                                 refreshControl.endRefreshing()
                             case .failure(let error):
@@ -146,8 +149,8 @@ class InvoicesTableViewController: UITableViewController {
                 .disposed(by: disposeBag)
     }
 
-    private func getInvoices() -> Result<[Invoice], AnyError> {
-        return Result(attempt: { () throws -> [Invoice] in try InvoiceService.shared.listInvoices() })
+    private func getInvoices() -> Observable<[Invoice]> {
+        return InvoiceService.shared.listInvoices()
                 .map { invoices in
                     invoices.sorted(by: { $0.timestamp > $1.timestamp })
                 }

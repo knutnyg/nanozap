@@ -10,6 +10,14 @@ struct DecodedInvoice {
     let settled: Bool
 }
 
+struct Payment {
+    let amount: Int64
+    let fee: Int
+    let path: [String]
+    let paymentHash: String
+    let paymentPreimage: String
+    let creationDate: Date
+}
 struct Invoice {
     let timestamp: Date
     let amount: Int
