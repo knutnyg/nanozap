@@ -14,6 +14,7 @@ struct PayableInvoice {
 enum UIEvents {
     case startScan
     case startPayment
+    case dismissView
 }
 
 struct PayInvoiceViewModel {
@@ -77,12 +78,14 @@ class PayInvoiceViewController: UIViewController {
 
         connectScanButton()
         connectPayButton()
+        connectDismissButton()
 
         uiActions
                 .subscribe(onNext: { event in
                     switch (event) {
                     case .startScan: self.qrReader.present()
                     case .startPayment: self.present(self.confirmPay!, animated: true)
+                    case .dismissView: self.dismiss(animated: true)
                     }
                 })
                 .disposed(by: disposeBag)
@@ -141,6 +144,15 @@ class PayInvoiceViewController: UIViewController {
                     } else {
                         self.payButton.isEnabled = false
                     }
+                })
+                .disposed(by: disposeBag)
+    }
+
+    private func connectDismissButton() {
+        dismissButton.rx.tap
+                .asObservable()
+                .subscribe(onNext: { _ in
+                    self.uiActions.onNext(UIEvents.dismissView)
                 })
                 .disposed(by: disposeBag)
     }
@@ -225,9 +237,5 @@ class PayInvoiceViewController: UIViewController {
                 withVisualFormat: "H:|-20-[dismissButton]-20-|",
                 metrics: nil,
                 views: views))
-    }
-
-    @objc func click(sender: UIButton) {
-        dismiss(animated: true, completion: nil)
     }
 }
