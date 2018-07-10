@@ -4,7 +4,7 @@ import SnapKit
 
 struct InvoiceCellModel {
     let payable : Payable
-    
+
     let leftVal : NSMutableAttributedString
     let topLeftVal : String
     let botLeftVal : String
@@ -12,6 +12,8 @@ struct InvoiceCellModel {
 }
 
 class InvoiceCell : UITableViewCell {
+    public static let ReuseIdentifier = "InvoiceCell"
+
     let leftLabel = createLabel(text: "")
     let topLeftLabel = createLabel(text: "topLeft", font: UIFont(name: "Helvetica", size: 14)!)
     let botLeftLabel = createLabel(text: "bottomLeft", font: UIFont(name: "Helvetica", size: 14)!)
@@ -19,17 +21,17 @@ class InvoiceCell : UITableViewCell {
 
     var model: InvoiceCellModel?
 
-//    convenience init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-//        self.init(style: .default, reuseIdentifier: "InvoiceCell")
-//}
+    convenience init() {
+        self.init(style: .default, reuseIdentifier: InvoiceCell.ReuseIdentifier)
+    }
+
+    convenience init(model: InvoiceCellModel) {
+        self.init()
+        self.update(model: model)
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
-        //leftLabel = createLabel(text: "")
-        //topLeftLabel = createLabel(text: "topLeft", font: UIFont(name: "Helvetica", size: 14)!)
-        //botLeftLabel = createLabel(text: "bottomLeft", font: UIFont(name: "Helvetica", size: 14)!)
-        //botRightLabel = createLabel(text: "bottomRight")
 
         self.addSubview(leftLabel)
         self.addSubview(topLeftLabel)

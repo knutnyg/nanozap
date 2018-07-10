@@ -86,15 +86,14 @@ class InvoicesTableViewController: UITableViewController {
         super.viewDidLoad()
 
         self.tableView.dataSource = nil
-        self.tableView.rowHeight = 60
-        self.tableView.register(InvoiceCell.self, forCellReuseIdentifier: "InvoiceCell")
         self.tableView.rowHeight = 50
+        self.tableView.register(InvoiceCell.self, forCellReuseIdentifier: InvoiceCell.ReuseIdentifier)
 
         invoicesObs.asObservable()
                 .observeOn(MainScheduler.instance)
                 .map { toInvoicData(vals: $0) }
                 .bind(to: self.tableView.rx.items(
-                        cellIdentifier: "InvoiceCell",
+                        cellIdentifier: InvoiceCell.ReuseIdentifier,
                         cellType: InvoiceCell.self
                 )) { (row, aModel: InvoiceCellModel, cell: InvoiceCell) in
                     cell.update(model: aModel)
