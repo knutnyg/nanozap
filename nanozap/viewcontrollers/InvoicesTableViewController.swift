@@ -5,7 +5,7 @@ import RxCocoa
 import Result
 import FontAwesome_swift
 
-func toInvoicData(vals: [Payable]) -> [InvoiceCellModel] {
+func toInvoiceModel(vals: [Payable]) -> [InvoiceCellModel] {
     return vals.map { payable in
         switch (payable) {
         case .invoice(let invoice):
@@ -91,7 +91,7 @@ class InvoicesTableViewController: UITableViewController {
 
         invoicesObs.asObservable()
                 .observeOn(MainScheduler.instance)
-                .map { toInvoicData(vals: $0) }
+                .map { toInvoiceModel(vals: $0) }
                 .bind(to: self.tableView.rx.items(
                         cellIdentifier: InvoiceCell.ReuseIdentifier,
                         cellType: InvoiceCell.self

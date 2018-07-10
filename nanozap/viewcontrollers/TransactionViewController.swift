@@ -112,7 +112,6 @@ class TransactionDetailView : UIView {
             
         }
         
-        //self.setNeedsUpdateConstraints()
         self.closeButton.rx.tap.asObservable()
             .bind(to: self.model.closeTap)
             .disposed(by: disposeBag)
