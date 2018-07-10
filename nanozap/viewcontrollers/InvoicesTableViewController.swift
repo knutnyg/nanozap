@@ -146,7 +146,7 @@ class InvoicesTableViewController: UITableViewController {
                 .bind(to: invoicesObs)
                 .disposed(by: disposeBag)
 
-        enum LoadInvoicesResult {
+        enum LoadInvoicesState {
             case loading()
             case done(res : [Payable])
             case failure(error : Error)
@@ -164,9 +164,9 @@ class InvoicesTableViewController: UITableViewController {
                 }
                 .flatMap { _ in
                     self.getInvoices()
-                        .map { invs in LoadInvoicesResult.done(res: invs) }
-                        .catchError { err in Observable.just(LoadInvoicesResult.failure(error: err)) }
-                        .startWith(LoadInvoicesResult.loading())
+                        .map { invs in LoadInvoicesState.done(res: invs) }
+                        .catchError { err in Observable.just(LoadInvoicesState.failure(error: err)) }
+                        .startWith(LoadInvoicesState.loading())
                 }
                 // go back to main thread to touch UI
                 .observeOn(MainScheduler.instance)
