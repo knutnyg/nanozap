@@ -5,11 +5,82 @@ import RxCocoa
 import Result
 import FontAwesome_swift
 
+func toInvoicData(vals: [Payable]) -> [InvoiceCellModel] {
+    return vals.map { payable in
+        switch (payable) {
+        case .invoice(let invoice):
+            let iconSize = CGSize(width: 30, height: 30)
+            let settled = UIImage.fontAwesomeIcon(name: .arrowRight, textColor: NanoColors.green, size: iconSize)
+            let unsettled = UIImage.fontAwesomeIcon(name: .arrowRight, textColor: NanoColors.gray, size: iconSize)
+
+            let attachment = NSTextAttachment()
+            attachment.image = invoice.settled ? settled : unsettled
+            let imageOffsetY: CGFloat = 0.0
+            attachment.bounds = CGRect(
+                    x: 0,
+                    y: imageOffsetY,
+                    width: attachment.image!.size.width,
+                    height: attachment.image!.size.height
+            )
+
+            let attachmentString = NSAttributedString(attachment: attachment)
+
+            let myString = NSMutableAttributedString(string: "")
+            myString.append(attachmentString)
+
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+
+            return InvoiceCellModel(
+                    payable: payable,
+                    leftVal: myString,
+                    topLeftVal: "Amount: \(invoice.amount)",
+                    botLeftVal: "\(invoice.description)",
+                    botRightVal: "\(formatter.string(from: invoice.timestamp))"
+            )
+        case .payment(let payment):
+            let icoSize = CGSize(width: 30, height: 30)
+            let settled = UIImage.fontAwesomeIcon(name: .arrowLeft, textColor: NanoColors.red, size: icoSize)
+            let unsettled = UIImage.fontAwesomeIcon(
+                    name: .arrowRight,
+                    textColor: NanoColors.green,
+                    size: icoSize
+            )
+
+            let attachment = NSTextAttachment()
+            attachment.image = payment.amount > 0 ? settled : unsettled
+            let imageOffsetY: CGFloat = 0.0
+            attachment.bounds = CGRect(
+                    x: 0,
+                    y: imageOffsetY,
+                    width: attachment.image!.size.width,
+                    height: attachment.image!.size.height
+            )
+
+            let attachmentString = NSAttributedString(attachment: attachment)
+
+            let myString = NSMutableAttributedString(string: "")
+            myString.append(attachmentString)
+
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+
+            return InvoiceCellModel(
+                    payable: payable,
+                    leftVal: myString,
+                    topLeftVal: "Amount: \(payment.amount)",
+                    botLeftVal: "Fee: \(payment.fee)",
+                    botRightVal: "\(formatter.string(from: payment.creationDate))"
+            )
+        }
+    }
+}
+
 class InvoicesTableViewController: UITableViewController {
     private let disposeBag = DisposeBag()
 
     let loadInvoices = BehaviorSubject<Void>(value: ())
-    let invoicesObs = BehaviorSubject<[Invoice]>(value: [])
+    let invoicesObs = BehaviorSubject<[Payable]>(value: [])
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,48 +92,34 @@ class InvoicesTableViewController: UITableViewController {
 
         invoicesObs.asObservable()
                 .observeOn(MainScheduler.instance)
+                .map { toInvoicData(vals: $0) }
                 .bind(to: self.tableView.rx.items(
                         cellIdentifier: "InvoiceCell",
                         cellType: InvoiceCell.self
-                )) { (row, invoice: Invoice, cell: InvoiceCell) in
-                    let iconSize = CGSize(width: 30, height: 30)
-                    let settled = UIImage.fontAwesomeIcon(name: .money, textColor: NanoColors.green, size: iconSize)
-                    let unsettled = UIImage.fontAwesomeIcon(name: .money, textColor: NanoColors.gray, size: iconSize)
-
-                    let attachment = NSTextAttachment()
-                    attachment.image = invoice.settled ? settled : unsettled
-                    let imageOffsetY: CGFloat = 0.0
-                    attachment.bounds = CGRect(
-                            x: 0,
-                            y: imageOffsetY,
-                            width: attachment.image!.size.width,
-                            height: attachment.image!.size.height
-                    )
-
-                    let attachmentString = NSAttributedString(attachment: attachment)
-
-                    let myString = NSMutableAttributedString(string: "")
-                    myString.append(attachmentString)
-
-                    let formatter = DateFormatter()
-                    formatter.dateStyle = .medium
-
-                    cell.leftLabel?.attributedText = myString
-                    cell.topLeftLabel?.text = "\(formatter.string(from: invoice.timestamp))"
-                    cell.botRightLabel?.text = "Amount: \(invoice.amount)"
-                    cell.botLeftLabel?.text = "\(invoice.description)"
+                )) { (row, aModel: InvoiceCellModel, cell: InvoiceCell) in
+                    cell.update(model: aModel)
                 }
                 .disposed(by: disposeBag)
         
-        self.tableView.rx.modelSelected(Invoice.self)
-                .map { (invoice: Invoice) in
-                    let model = PaymentCreatedModel(
-                            amount: invoice.amount,
-                            description: invoice.description,
-                            paymentHash: invoice.payreq,
-                            rHash: invoice.rHash
-                    )
-                    return model
+        self.tableView.rx.modelSelected(InvoiceCellModel.self)
+                .map { (dataModel: InvoiceCellModel) in
+
+                    switch (dataModel.payable) {
+                    case .invoice(let invoice):
+                        return PaymentCreatedModel(
+                                amount: invoice.amount,
+                                description: invoice.description,
+                                paymentHash: invoice.payreq,
+                                rHash: invoice.rHash
+                        )
+                    case .payment(let payment):
+                        return PaymentCreatedModel(
+                                amount: Int(payment.amount),
+                                description: "Fee: \(payment.fee)",
+                                paymentHash: payment.paymentHash,
+                                rHash: Data()
+                        )
+                    }
                 }
                 .map { model in
                     PaymentCreatedVC.make(model: model)
@@ -93,20 +150,17 @@ class InvoicesTableViewController: UITableViewController {
         loadInvoices
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
-                .map { (_) in
-                    self.getInvoices()
-                }
-                .flatMap { result -> Observable<[Invoice]> in
-                    switch (result) {
-                    case .success(let invoices):
-                        return Observable.just(invoices)
-                    case .failure(let error):
-                        print("caught error", error)
-                        return Observable.empty()
-                    }
+                .flatMap { [weak self] (_) in
+                    self?.getInvoices() ?? Observable.empty()
                 }
                 .bind(to: invoicesObs)
                 .disposed(by: disposeBag)
+
+        enum LoadInvoicesResult {
+            case loading()
+            case done(res : [Payable])
+            case failure(error : Error)
+        }
 
         refreshControl.rx
                 .controlEvent(.valueChanged)
@@ -118,8 +172,11 @@ class InvoicesTableViewController: UITableViewController {
                 .filter { val in
                     val == true
                 }
-                .map { [unowned self] _ in
+                .flatMap { _ in
                     self.getInvoices()
+                        .map { invs in LoadInvoicesResult.done(res: invs) }
+                        .catchError { err in Observable.just(LoadInvoicesResult.failure(error: err)) }
+                        .startWith(LoadInvoicesResult.loading())
                 }
                 // go back to main thread to touch UI
                 .observeOn(MainScheduler.instance)
@@ -127,7 +184,10 @@ class InvoicesTableViewController: UITableViewController {
                         onNext: { [weak self] result in
                             print("some refresh result")
                             switch (result) {
-                            case .success(let invoices):
+                            case .loading:
+                                // do nothing
+                                print("loading")
+                            case .done(let invoices):
                                 self?.invoicesObs.onNext(invoices)
                                 refreshControl.endRefreshing()
                             case .failure(let error):
@@ -146,10 +206,12 @@ class InvoicesTableViewController: UITableViewController {
                 .disposed(by: disposeBag)
     }
 
-    private func getInvoices() -> Result<[Invoice], AnyError> {
-        return Result(attempt: { () throws -> [Invoice] in try InvoiceService.shared.listInvoices() })
-                .map { invoices in
-                    invoices.sorted(by: { $0.timestamp > $1.timestamp })
+    private func getInvoices() -> Observable<[Payable]> {
+        return InvoiceService.shared.listPayables()
+                .map { (values : [Payable]) in
+                    return values.sorted(by: { (lhs, rhs) in
+                        return rhs < lhs
+                    })
                 }
     }
 

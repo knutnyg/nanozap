@@ -45,6 +45,17 @@ class InvoiceService {
         }
     }
 
+    public func listPayables() -> Observable<[Payable]> {
+        let payments = self.listPayments()
+            .map { payments in payments.map { payment in Payable.payment(p: payment) }}
+        let invoices = self.listInvoices()
+            .map { invoices in invoices.map { invoice in Payable.invoice(i: invoice) }}
+
+        return Observable.zip(payments, invoices) { (payms, invs) in
+            return [payms, invs].flatMap { $0 }
+        }
+    }
+
     public func payInvoice(invoice: Invoice) throws -> Bool {
         guard let client = RpcManager.shared.client() else {
             print("Could not load client")
@@ -88,29 +99,76 @@ class InvoiceService {
         }
     }
 
-    public func listInvoices() throws -> [Invoice] {
-        do {
-            if let res = try rpcmanager.client()?.listInvoices(Lnrpc_ListInvoiceRequest()) {
-                return res.invoices.map({ (lndInvoice: Lnrpc_Invoice) in
-                    let timestamp = Date.init(timeIntervalSince1970: TimeInterval(lndInvoice.creationDate))
-                    let expiry = Date.init(timeIntervalSince1970: TimeInterval(lndInvoice.expiry))
+    public func listPayments() -> Observable<[Payment]> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
 
-                    return Invoice(
-                            timestamp: timestamp,
-                            amount: Int(lndInvoice.value),
-                            description: lndInvoice.memo,
-                            expiry: expiry,
-                            payreq: lndInvoice.paymentRequest,
-                            settled: lndInvoice.settled,
-                            rHash: lndInvoice.rHash
-                    )
-                })
+                let req = Lnrpc_ListPaymentsRequest()
+
+                let result = Result(attempt: { () in try client.listPayments(req) })
+
+                switch (result) {
+                case .success(let res):
+                    let payments = res.payments.map { (pay: Lnrpc_Payment) -> Payment in
+                        let timestamp = Date.init(timeIntervalSince1970: TimeInterval(pay.creationDate))
+
+                        return Payment(
+                                amount: pay.value,
+                                fee: Int(pay.fee),
+                                path: pay.path,
+                                paymentHash: pay.paymentHash,
+                                paymentPreimage: pay.paymentPreimage,
+                                creationDate: timestamp
+                        )
+                    }
+
+                    obs.onNext(payments)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
             } else {
-                return []
+                obs.onError(RPCError.unableToAccessClient)
             }
-        } catch {
-            print("Unexpected error: \(error).")
-            throw RPCError.failedToFetchInvoices
+
+            return Disposables.create()
+        }
+    }
+
+    public func listInvoices() -> Observable<[Invoice]> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
+                let req = Lnrpc_ListInvoiceRequest()
+
+                let result = Result(attempt: { () in try client.listInvoices(req) })
+
+                switch result {
+                case .success(let res):
+                    let invoices = res.invoices.map({ (lndInvoice: Lnrpc_Invoice) -> Invoice in
+                        let timestamp = Date.init(timeIntervalSince1970: TimeInterval(lndInvoice.creationDate))
+                        let expiry = Date.init(timeIntervalSince1970: TimeInterval(lndInvoice.expiry))
+
+                        return Invoice(
+                                timestamp: timestamp,
+                                amount: Int(lndInvoice.value),
+                                description: lndInvoice.memo,
+                                expiry: expiry,
+                                payreq: lndInvoice.paymentRequest,
+                                settled: lndInvoice.settled,
+                                rHash: lndInvoice.rHash
+                        )
+                    })
+                    obs.onNext(invoices)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
+
+            } else {
+                obs.onError(RPCError.unableToAccessClient)
+            }
+
+            return Disposables.create()
         }
     }
 

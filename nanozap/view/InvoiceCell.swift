@@ -3,24 +3,33 @@ import UIKit
 import SnapKit
 
 struct InvoiceCellModel {
-    let invoice : Invoice
+    let payable : Payable
+    
+    let leftVal : NSMutableAttributedString
+    let topLeftVal : String
+    let botLeftVal : String
+    let botRightVal : String
 }
 
 class InvoiceCell : UITableViewCell {
-    var leftLabel : UILabel!
-    var topLeftLabel : UILabel!
-    var botLeftLabel : UILabel!
-    var botRightLabel : UILabel!
-    
-    var model : InvoiceCellModel?
+    let leftLabel = createLabel(text: "")
+    let topLeftLabel = createLabel(text: "topLeft", font: UIFont(name: "Helvetica", size: 14)!)
+    let botLeftLabel = createLabel(text: "bottomLeft", font: UIFont(name: "Helvetica", size: 14)!)
+    let botRightLabel = createLabel(text: "bottomRight")
 
-    override public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: "InvoiceCell")
+    var model: InvoiceCellModel?
 
-        leftLabel = createLabel(text: "")
-        topLeftLabel = createLabel(text: "topLeft", font: UIFont(name: "Helvetica", size: 14)!)
-        botLeftLabel = createLabel(text: "bottomLeft", font: UIFont(name: "Helvetica", size: 14)!)
-        botRightLabel = createLabel(text: "bottomRight")
+//    convenience init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+//        self.init(style: .default, reuseIdentifier: "InvoiceCell")
+//}
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        //leftLabel = createLabel(text: "")
+        //topLeftLabel = createLabel(text: "topLeft", font: UIFont(name: "Helvetica", size: 14)!)
+        //botLeftLabel = createLabel(text: "bottomLeft", font: UIFont(name: "Helvetica", size: 14)!)
+        //botRightLabel = createLabel(text: "bottomRight")
 
         self.addSubview(leftLabel)
         self.addSubview(topLeftLabel)
@@ -54,14 +63,13 @@ class InvoiceCell : UITableViewCell {
         }
     }
 
-    public static func make(model: InvoiceCellModel) -> InvoiceCell {
-        let cell = InvoiceCell()
-        cell.model = model
-        return cell
+    public func update(model: InvoiceCellModel) {
+        self.model = model
+
+        self.leftLabel.attributedText = model.leftVal
+        self.topLeftLabel.text = model.topLeftVal
+        self.botLeftLabel.text = model.botLeftVal
+        self.botRightLabel.text = model.botRightVal
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
 }
