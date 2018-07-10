@@ -99,7 +99,7 @@ class InvoicesTableViewController: UITableViewController {
                     cell.update(model: aModel)
                 }
                 .disposed(by: disposeBag)
-        
+
         self.tableView.rx.modelSelected(InvoiceCellModel.self)
                 .map { (dataModel: InvoiceCellModel) in
 
@@ -123,24 +123,15 @@ class InvoicesTableViewController: UITableViewController {
                 .map { model in
                     PaymentCreatedVC.make(model: model)
                 }
-                .map { vc in
-                    Result<PaymentCreatedVC, AnyError>(value: vc)
-                }
                 .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (result) in
-                    //self.navigationController.pushViewController(nextViewController, animated: true)
-                    switch (result) {
-                    case .success(let view):
-                        self.present(view, animated: true, completion: nil)
-                    case .failure(let err):
-                        print("load channel error", err)
-                        displayError(message: "Error loading channel data.")
-                    }
-
-                }, onError: { err in
-                    print("fatal error", err)
-                    fatalError("observable died")
-                })
+                .subscribe(
+                        onNext: { [weak self] (view) in
+                            self?.present(view, animated: true, completion: nil)
+                        },
+                        onError: { err in
+                            print("fatal error", err)
+                            fatalError("observable died")
+                        })
                 .disposed(by: disposeBag)
 
         let refreshControl = UIRefreshControl()
@@ -163,8 +154,8 @@ class InvoicesTableViewController: UITableViewController {
 
         refreshControl.rx
                 .controlEvent(.valueChanged)
-                .map { [weak refreshControl] _ in
-                    refreshControl?.isRefreshing ?? false
+                .map { [weak self] _ in
+                    self?.refreshControl?.isRefreshing ?? false
                 }
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
@@ -188,10 +179,10 @@ class InvoicesTableViewController: UITableViewController {
                                 print("loading")
                             case .done(let invoices):
                                 self?.invoicesObs.onNext(invoices)
-                                refreshControl.endRefreshing()
+                                self?.refreshControl?.endRefreshing()
                             case .failure(let error):
                                 print("got error on refresh: ", error)
-                                refreshControl.endRefreshing()
+                                self?.refreshControl?.endRefreshing()
                                 displayError(message: "Error refreshing invoices.")
                             }
                         },
