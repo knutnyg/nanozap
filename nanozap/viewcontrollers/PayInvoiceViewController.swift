@@ -15,6 +15,8 @@ enum UIEvents {
     case startScan
     case startPayment
     case dismissView
+    case toastSuccess(message: String)
+    case toastFailure(message: String)
 }
 
 struct PayInvoiceViewModel {
@@ -25,10 +27,11 @@ class PayInvoiceViewController: UIViewController {
     var scanButton: UIButton!
     var payButton: UIButton!
 
-    var timeLabel: UILabel!
-    var descLabel: UILabel!
+    var descTextView: UITextView!
     var amountLabel: UILabel!
     var expiryLabel: UILabel!
+
+    let dateFormatter = DateFormatter()
 
     let disposeBag = DisposeBag()
 
@@ -48,33 +51,24 @@ class PayInvoiceViewController: UIViewController {
         view.backgroundColor = UIColor.white
         self.qrReader = QRReader(deletate: self, subject: qrSubject)
 
-        scanButton = createButton(text: "Scan")
-        payButton = createButton(text: "Pay!")
+        scanButton = createButton(text: "Scan Invoice", font: NanoFonts.bigButton)
+        payButton = createButton(text: "Pay", font: NanoFonts.bigButton)
 
-        timeLabel = createLabel(text: "")
-        descLabel = createLabel(text: "")
-        amountLabel = createLabel(text: "")
+        descTextView = UITextView()
+        descTextView.translatesAutoresizingMaskIntoConstraints = false
+        descTextView.font = NanoFonts.paragraph
+
+        amountLabel = createLabel(text: "", font: NanoFonts.paragraphHighlighted)
         expiryLabel = createLabel(text: "")
 
         view.addSubview(scanButton)
         view.addSubview(payButton)
-        view.addSubview(timeLabel)
-        view.addSubview(descLabel)
+        view.addSubview(descTextView)
         view.addSubview(amountLabel)
         view.addSubview(expiryLabel)
         view.addSubview(dismissButton)
 
-        let views: [String: UIView] = [
-            "scanButton": scanButton,
-            "payButton": payButton,
-            "timeLabel": timeLabel,
-            "descLabel": descLabel,
-            "amountLabel": amountLabel,
-            "expiryLabel": expiryLabel,
-            "dismissButton": dismissButton
-        ]
-
-        setUpConstraints(views: views)
+        setupConstraints()
 
         connectScanButton()
         connectPayButton()
@@ -86,6 +80,8 @@ class PayInvoiceViewController: UIViewController {
                     case .startScan: self.qrReader.present()
                     case .startPayment: self.present(self.confirmPay!, animated: true)
                     case .dismissView: self.dismiss(animated: true)
+                    case .toastSuccess(let message): displaySuccess(message: message)
+                    case .toastFailure(let message): displayError(message: message)
                     }
                 })
                 .disposed(by: disposeBag)
@@ -121,15 +117,14 @@ class PayInvoiceViewController: UIViewController {
                     InvoiceService.shared.payInvoice(invoice: payment)
                             .retry(3)
                             .catchError { error in
-                                print("Failed: \(error)")
-                                displayError(message: "Ops.. Something went wrong")
+                                self.uiActions.onNext(.toastFailure(message: "Ops.. Something went wrong"))
                                 return Observable.empty()
                             }
                 }
                 .observeOn(MainScheduler.instance)
                 .subscribe(onNext: { _ in
                     self.model.onNext(PayInvoiceViewModel())
-                    displayError(message: "Payment success!")
+                    self.uiActions.onNext(.toastSuccess(message: "Success!"))
                 })
                 .disposed(by: disposeBag)
 
@@ -137,8 +132,9 @@ class PayInvoiceViewController: UIViewController {
                 .asObservable()
                 .observeOn(MainScheduler.instance)
                 .subscribe(onNext: { (res: PayInvoiceViewModel) in
+                    self.updateInvoiceLabels(decodedInvoice: res.invoice)
+
                     if let invoice = res.invoice {
-                        self.updateInvoiceLabels(invoice: invoice)
                         self.updateConfirmPay(invoice: invoice)
                         self.payButton.isEnabled = true
                     } else {
@@ -146,6 +142,40 @@ class PayInvoiceViewController: UIViewController {
                     }
                 })
                 .disposed(by: disposeBag)
+    }
+
+    private func setupConstraints() {
+        expiryLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.view).offset(150)
+            make.left.equalTo(self.view.snp.left).offset(70)
+        }
+
+        descTextView.snp.makeConstraints { make in
+            make.top.equalTo(expiryLabel.snp.bottom).offset(10)
+            make.left.equalTo(self.view.snp.left).offset(70)
+            make.right.equalTo(self.view.snp.right).offset(-70)
+            make.height.equalTo(70)
+        }
+
+        amountLabel.snp.makeConstraints { make in
+            make.top.equalTo(descTextView.snp.bottom).offset(10)
+            make.centerX.equalTo(self.view)
+        }
+
+        scanButton.snp.makeConstraints { make in
+            make.bottom.equalTo(payButton.snp.top).offset(-30)
+            make.centerX.equalTo(self.view)
+        }
+
+        payButton.snp.makeConstraints { make in
+            make.bottom.equalTo(dismissButton.snp.top).offset(-30)
+            make.centerX.equalTo(self.view)
+        }
+
+        dismissButton.snp.makeConstraints { make in
+            make.bottom.equalTo(self.view).offset(-100)
+            make.centerX.equalTo(self.view)
+        }
     }
 
     private func connectDismissButton() {
@@ -157,11 +187,17 @@ class PayInvoiceViewController: UIViewController {
                 .disposed(by: disposeBag)
     }
 
-    private func updateInvoiceLabels(invoice: DecodedInvoice) {
-        self.descLabel.text = "\(invoice.description)"
-        self.amountLabel.text = "\(invoice.amount)"
-        self.expiryLabel.text = "\(invoice.expiry)"
-        self.timeLabel.text = "\(invoice.timestamp)"
+    private func updateInvoiceLabels(decodedInvoice: DecodedInvoice?) {
+        if let invoice = decodedInvoice {
+            dateFormatter.dateFormat = "dd.MM hh:mm:ss"
+            self.descTextView.text = "\(invoice.description)"
+            self.amountLabel.text = "Amount Payable: \(invoice.amount) sat"
+            self.expiryLabel.text = "Valid until \(dateFormatter.string(from: invoice.expiry))"
+        } else {
+            self.descTextView.text = ""
+            self.amountLabel.text = ""
+            self.expiryLabel.text = ""
+        }
     }
 
     private func updateConfirmPay(invoice: DecodedInvoice) {
@@ -202,40 +238,5 @@ class PayInvoiceViewController: UIViewController {
                     self.uiActions.onNext(UIEvents.startScan)
                 })
                 .disposed(by: disposeBag)
-    }
-
-    private func setUpConstraints(views: [String: UIView]) {
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-100-[scanButton]-[timeLabel]-[descLabel]-[amountLabel]-[expiryLabel]-50-[payButton]-30-[dismissButton]-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[scanButton]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[payButton]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[timeLabel]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[descLabel]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[amountLabel]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[expiryLabel]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[dismissButton]-20-|",
-                metrics: nil,
-                views: views))
     }
 }
