@@ -7,7 +7,6 @@ struct DecodedInvoice {
     let description: String
     let expiry: Date
     let payreq: String
-    let settled: Bool
 }
 
 struct Payment: Equatable {
