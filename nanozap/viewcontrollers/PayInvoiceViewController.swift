@@ -6,12 +6,7 @@ import RxSwift
 import RxCocoa
 import SwiftMessages
 
-struct PayableInvoice {
-    let payreq: String
-    let amount: Int
-}
-
-enum UIEvents {
+enum PayInvoiceEvents {
     case startScan
     case startPayment
     case dismissView
@@ -19,13 +14,24 @@ enum UIEvents {
     case toastFailure(message: String)
 }
 
+enum PayInvoiceActions {
+    case payInvoice(payableInvoice: PayableInvoice)
+    case decodeInvoice(invoiceRaw: String)
+}
+
+enum PayInvoiceActionResponse {
+    case invoicePaid(paymentResponse: PayInvoiceResponse)
+    case invoiceDecoded(decodedInvoice: DecodeInvoiceResponse)
+}
+
 struct PayInvoiceViewModel {
     var invoice: DecodedInvoice?
 }
 
-class PayInvoiceViewController: UIViewController {
+class PayInvoiceViewController: UIViewController, QRCodeReaderViewControllerDelegate {
     var scanButton: UIButton!
     var payButton: UIButton!
+    let dismissButton = createButton(text: "Cancel")
 
     var descTextView: UITextView!
     var amountLabel: UILabel!
@@ -33,23 +39,17 @@ class PayInvoiceViewController: UIViewController {
 
     let dateFormatter = DateFormatter()
 
+    let actions = PublishSubject<PayInvoiceActions>()
+    let uiActions = PublishSubject<PayInvoiceEvents>()
+    let model = BehaviorSubject<PayInvoiceViewModel>(value: PayInvoiceViewModel())
     let disposeBag = DisposeBag()
 
-    let dismissButton = createButton(text: "Cancel")
-
-    let qrSubject = PublishSubject<QRData>()
-    let uiActions = PublishSubject<UIEvents>()
-    let paySubject = PublishSubject<PayableInvoice>()
-    let model = BehaviorSubject<PayInvoiceViewModel>(value: PayInvoiceViewModel())
-
-    var qrReader: QRReader!
     var confirmPay: UIAlertController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.white
-        self.qrReader = QRReader(deletate: self, subject: qrSubject)
 
         scanButton = createButton(text: "Scan Invoice", font: NanoFonts.bigButton)
         payButton = createButton(text: "Pay", font: NanoFonts.bigButton)
@@ -77,54 +77,52 @@ class PayInvoiceViewController: UIViewController {
         uiActions
                 .subscribe(onNext: { event in
                     switch (event) {
-                    case .startScan: self.qrReader.present()
+                    case .startScan: self.present(self.readerVC, animated: true)
                     case .startPayment: self.present(self.confirmPay!, animated: true)
-                    case .dismissView: self.dismiss(animated: true)
                     case .toastSuccess(let message): displaySuccess(message: message)
                     case .toastFailure(let message): displayError(message: message)
+                    case .dismissView: self.dismiss(animated: true)
                     }
                 })
                 .disposed(by: disposeBag)
 
-        qrSubject
+        actions
                 .asObservable()
-                .map { (qrData: QRData) in
-                    let charList = qrData.data
-                    if let colon = charList.index(of: ":") {
-                        return String(charList[charList.index(after: colon)..<charList.endIndex])
-                    } else {
-                        return ""
+                .observeOn(AppState.userInitiatedBgScheduler)
+                .flatMap { (action: PayInvoiceActions) -> Observable<PayInvoiceActionResponse> in
+                    switch (action) {
+                    case .payInvoice(let invoice):
+                        return InvoiceService.shared.payInvoice(invoice: invoice)
+                                .retry(3)
+                                .catchError { error in
+                                    self.uiActions.onNext(.toastFailure(message: "Ops.. Something went wrong"))
+                                    return Observable.empty()
+                                }
+                                .map { res in
+                                    return .invoicePaid(paymentResponse: res)
+                                }
+                    case .decodeInvoice(let data):
+                        let payreq = self.stripPrefix(data: data)
+                        return InvoiceService.shared.decodeInvoice(payreqString: payreq)
+                                .retry(3)
+                                .catchError { error in
+                                    return Observable.empty()
+                                }
+                                .map { res in
+                                    return .invoiceDecoded(decodedInvoice: res)
+                                }
+
                     }
                 }
-                .observeOn(AppState.userInitiatedBgScheduler)
-                .flatMap { payreq in
-                    return InvoiceService.shared.decodeInvoice(payreqString: payreq)
-                            .retry(3)
-                            .catchError { error in
-                                return Observable.empty()
-                            }
-                }
                 .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (res: DecodeInvoiceResponse) in
-                    self.model.onNext(PayInvoiceViewModel(invoice: res.decodedInvoice))
-                })
-                .disposed(by: disposeBag)
-
-        paySubject
-                .asObservable()
-                .observeOn(AppState.userInitiatedBgScheduler)
-                .flatMap { payment in
-                    InvoiceService.shared.payInvoice(invoice: payment)
-                            .retry(3)
-                            .catchError { error in
-                                self.uiActions.onNext(.toastFailure(message: "Ops.. Something went wrong"))
-                                return Observable.empty()
-                            }
-                }
-                .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { _ in
-                    self.model.onNext(PayInvoiceViewModel())
-                    self.uiActions.onNext(.toastSuccess(message: "Success!"))
+                .subscribe(onNext: { (res: PayInvoiceActionResponse) in
+                    switch (res) {
+                    case .invoicePaid:
+                        self.model.onNext(PayInvoiceViewModel())
+                        self.uiActions.onNext(.toastSuccess(message: "Payments Success!"))
+                    case .invoiceDecoded(let res):
+                        self.model.onNext(PayInvoiceViewModel(invoice: res.decodedInvoice))
+                    }
                 })
                 .disposed(by: disposeBag)
 
@@ -142,6 +140,15 @@ class PayInvoiceViewController: UIViewController {
                     }
                 })
                 .disposed(by: disposeBag)
+    }
+
+    private func stripPrefix(data: String) -> String {
+        let charList = data
+        if let colon = charList.index(of: ":") {
+            return String(charList[charList.index(after: colon)..<charList.endIndex])
+        } else {
+            return ""
+        }
     }
 
     private func setupConstraints() {
@@ -182,7 +189,7 @@ class PayInvoiceViewController: UIViewController {
         dismissButton.rx.tap
                 .asObservable()
                 .subscribe(onNext: { _ in
-                    self.uiActions.onNext(UIEvents.dismissView)
+                    self.uiActions.onNext(PayInvoiceEvents.dismissView)
                 })
                 .disposed(by: disposeBag)
     }
@@ -211,7 +218,9 @@ class PayInvoiceViewController: UIViewController {
             )
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
                 print("Yes was clicked")
-                self.paySubject.onNext(PayableInvoice(payreq: invoice.payreq, amount: invoice.amount))
+                self.actions.onNext(
+                        .payInvoice(payableInvoice: PayableInvoice(payreq: invoice.payreq, amount: invoice.amount))
+                )
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
                 print("Cancel was clocked")
@@ -225,7 +234,7 @@ class PayInvoiceViewController: UIViewController {
                 .asObservable()
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .subscribe(onNext: { _ in
-                    self.uiActions.onNext(UIEvents.startPayment)
+                    self.uiActions.onNext(PayInvoiceEvents.startPayment)
                 })
                 .disposed(by: disposeBag)
     }
@@ -235,8 +244,28 @@ class PayInvoiceViewController: UIViewController {
                 .asObservable()
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .subscribe(onNext: { _ in
-                    self.uiActions.onNext(UIEvents.startScan)
+                    self.uiActions.onNext(PayInvoiceEvents.startScan)
                 })
                 .disposed(by: disposeBag)
+    }
+
+    lazy var readerVC: QRCodeReaderViewController = {
+        let builder = QRCodeReaderViewControllerBuilder {
+            $0.reader = QRCodeReader(metadataObjectTypes: [.qr], captureDevicePosition: .back)
+        }
+        let vc = QRCodeReaderViewController(builder: builder)
+        vc.delegate = self
+        return vc
+    }()
+
+    func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
+        reader.stopScanning()
+        actions.onNext(.decodeInvoice(invoiceRaw: result.value))
+        dismiss(animated: true)
+    }
+
+    func readerDidCancel(_ reader: QRCodeReaderViewController) {
+        reader.stopScanning()
+        dismiss(animated: true)
     }
 }
