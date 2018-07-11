@@ -1,0 +1,11 @@
+import UIKit
+
+struct NanoFonts {
+    static let fontFace = "Verdana"
+    static let heading = UIFont(name: fontFace, size: 12)!
+
+    static let paragraph = UIFont(name: fontFace, size: 14)!
+
+    static let button = UIFont(name: fontFace, size: 12)!
+    static let bigButton = UIFont(name: fontFace, size: 30)!
+}

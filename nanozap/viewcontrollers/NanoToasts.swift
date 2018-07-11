@@ -42,3 +42,26 @@ func displayError(message: String) {
 
     SwiftMessages.show(config: config, view: view)
 }
+
+func displaySuccess(message: String) {
+    var config = SwiftMessages.Config()
+    config.presentationStyle = .center
+    config.presentationContext = .window(windowLevel: UIWindowLevelStatusBar)
+    config.duration = .seconds(seconds: 2)
+    config.dimMode = .gray(interactive: true)
+    config.interactiveHide = false
+    config.preferredStatusBarStyle = .lightContent
+    config.eventListeners.append() { event in
+        if case .didHide = event {
+            print("yep didHide")
+        }
+    }
+
+    let view = MessageView.viewFromNib(layout: .messageView)
+    view.configureTheme(.success)
+    view.configureContent(title: "Success", body: message)
+    view.button?.isHidden = true
+    view.button?.setTitle("OK", for: .normal)
+    view.configureDropShadow()
+    SwiftMessages.show(config: config, view: view)
+}

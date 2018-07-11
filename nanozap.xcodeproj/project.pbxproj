@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3FCED050F5900E86217C9CD6 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCEDF753CDB3A021489E58B /* Fonts.swift */; };
 		3FCED39F61A06721C1FA9566 /* CommonUIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */; };
 		3FCED65E9CA1A3741A1FBACC /* InvoicesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED4FEFAC6BF8D3CE92844 /* InvoicesTableViewController.swift */; };
 		3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */; };
@@ -47,7 +48,7 @@
 		A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */; };
 		BFD0B72E7264EA9C7AAFB0D9 /* PaymentCreatedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0B83DB9EC5437EA1BFD64 /* PaymentCreatedVC.swift */; };
 		BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0BB283F89D9AB5E995ECF /* SecretService.swift */; };
-		BFD0BD2585942D101789BF85 /* NanoErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0B814847826EE39BF6422 /* NanoErrors.swift */; };
+		BFD0BD2585942D101789BF85 /* NanoToasts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0B814847826EE39BF6422 /* NanoToasts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionViewController.swift; sourceTree = "<group>"; };
 		3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonUIComponents.swift; sourceTree = "<group>"; };
 		3FCEDAF66B09DBEB7FE0F702 /* QRReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRReader.swift; sourceTree = "<group>"; };
+		3FCEDF753CDB3A021489E58B /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInvoiceViewController.swift; sourceTree = "<group>"; };
 		6A059A2820CC7327008EBDD4 /* InvoiceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceService.swift; sourceTree = "<group>"; };
@@ -116,7 +118,7 @@
 		98E150D320DD8F5D001FD985 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BFD0B814847826EE39BF6422 /* NanoErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NanoErrors.swift; sourceTree = "<group>"; };
+		BFD0B814847826EE39BF6422 /* NanoToasts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NanoToasts.swift; sourceTree = "<group>"; };
 		BFD0B83DB9EC5437EA1BFD64 /* PaymentCreatedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentCreatedVC.swift; sourceTree = "<group>"; };
 		BFD0BB283F89D9AB5E995ECF /* SecretService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretService.swift; sourceTree = "<group>"; };
 		CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +178,7 @@
 				6A059A2A20CC7441008EBDD4 /* Invoice.swift */,
 				6A059A2E20CD9243008EBDD4 /* Transaction.swift */,
 				98E150D320DD8F5D001FD985 /* Colors.swift */,
+				3FCEDF753CDB3A021489E58B /* Fonts.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -211,7 +214,7 @@
 				6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */,
 				6A9AC56420D04DC000EFF6ED /* ChannelViewController.swift */,
 				3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */,
-				BFD0B814847826EE39BF6422 /* NanoErrors.swift */,
+				BFD0B814847826EE39BF6422 /* NanoToasts.swift */,
 				984CA58B20E68C0D00BA99BA /* CreatePaymentViewController.swift */,
 				3FCED4FEFAC6BF8D3CE92844 /* InvoicesTableViewController.swift */,
 				BFD0B83DB9EC5437EA1BFD64 /* PaymentCreatedVC.swift */,
@@ -604,11 +607,12 @@
 				BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */,
 				3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */,
 				3FCED39F61A06721C1FA9566 /* CommonUIComponents.swift in Sources */,
-				BFD0BD2585942D101789BF85 /* NanoErrors.swift in Sources */,
+				BFD0BD2585942D101789BF85 /* NanoToasts.swift in Sources */,
 				3FCED65E9CA1A3741A1FBACC /* InvoicesTableViewController.swift in Sources */,
 				3FCEDA7496CB4E79D8E7876B /* InvoiceCell.swift in Sources */,
 				BFD0B72E7264EA9C7AAFB0D9 /* PaymentCreatedVC.swift in Sources */,
 				3FCEDAAE2E66D9A5724A67A4 /* QRReader.swift in Sources */,
+				3FCED050F5900E86217C9CD6 /* Fonts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
