@@ -19,6 +19,11 @@ struct AddInvoiceResponse {
     }
 }
 
+struct PayableInvoice {
+    let payreq: String
+    let amount: Int
+}
+
 struct DecodeInvoiceResponse {
 
     let decodedInvoice: DecodedInvoice
@@ -35,7 +40,6 @@ struct DecodeInvoiceResponse {
                 payreq: payreq
         )
     }
-
 }
 
 struct PayInvoiceResponse {
