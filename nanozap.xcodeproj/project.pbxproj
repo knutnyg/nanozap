@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3FCED050F5900E86217C9CD6 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCEDF753CDB3A021489E58B /* Fonts.swift */; };
 		3FCED39F61A06721C1FA9566 /* CommonUIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */; };
+		3FCED4C03CE7D2A73FDC337C /* OpenChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED391FD0E996BC7E4D8FF /* OpenChannelViewController.swift */; };
 		3FCED65E9CA1A3741A1FBACC /* InvoicesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED4FEFAC6BF8D3CE92844 /* InvoicesTableViewController.swift */; };
 		3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */; };
 		3FCEDA7496CB4E79D8E7876B /* InvoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED0D55DCF1791DE3621AB /* InvoiceCell.swift */; };
@@ -69,6 +70,7 @@
 
 /* Begin PBXFileReference section */
 		3FCED0D55DCF1791DE3621AB /* InvoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceCell.swift; sourceTree = "<group>"; };
+		3FCED391FD0E996BC7E4D8FF /* OpenChannelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenChannelViewController.swift; sourceTree = "<group>"; };
 		3FCED4FEFAC6BF8D3CE92844 /* InvoicesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoicesTableViewController.swift; sourceTree = "<group>"; };
 		3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionViewController.swift; sourceTree = "<group>"; };
 		3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonUIComponents.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				984CA58B20E68C0D00BA99BA /* CreatePaymentViewController.swift */,
 				3FCED4FEFAC6BF8D3CE92844 /* InvoicesTableViewController.swift */,
 				BFD0B83DB9EC5437EA1BFD64 /* PaymentCreatedVC.swift */,
+				3FCED391FD0E996BC7E4D8FF /* OpenChannelViewController.swift */,
 			);
 			path = viewcontrollers;
 			sourceTree = "<group>";
@@ -601,6 +604,7 @@
 				3FCEDA7496CB4E79D8E7876B /* InvoiceCell.swift in Sources */,
 				BFD0B72E7264EA9C7AAFB0D9 /* PaymentCreatedVC.swift in Sources */,
 				3FCED050F5900E86217C9CD6 /* Fonts.swift in Sources */,
+				3FCED4C03CE7D2A73FDC337C /* OpenChannelViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
