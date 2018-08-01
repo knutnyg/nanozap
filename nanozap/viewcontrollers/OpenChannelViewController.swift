@@ -5,8 +5,9 @@ import RxSwift
 import SnapKit
 
 enum OpenChannelActions {
-    case connectToNode(nodeRaw: String)
-    case openChannel(nodeAddr: String)
+    case connectToNode
+    case openChannel(nodeAddr: String, numSat: Int, capacity: Int)
+    case openChannel2
     case fetchPeers
 }
 
@@ -23,28 +24,67 @@ enum OpenChannelActionResponses {
     case peersFetched(result: ConnectedPeersResult)
 }
 
-enum OpenChannelViewState {
-    case newNode(String)
-    case peers([String])
+enum StateChanges {
+    case numSatChanged(Int)
+    case localCapChanged(Int)
+    case qrScanned(String)
+    case peersFetched([String])
     case channelOpened
-    case initial
+}
+
+
+struct OpenChannelViewState {
+    let peers: [String]?
+    let numSats: Int
+    let localCapacity: Int
+    let node: (pubkey: String, host: String)?
+
+    func toString() {
+        print("State: Peers: \(peers) sats: \(numSats) cap: \(localCapacity) node: \(node?.pubkey)@\(node?.host)")
+    }
+
+    func new(
+            peers: [String]? = nil,
+            numSats: Int? = nil,
+            localCapacity: Int? = nil,
+            node: (pubkey: String, host: String)? = nil
+    ) -> OpenChannelViewState {
+        return OpenChannelViewState(
+                peers: peers ?? self.peers,
+                numSats: numSats ?? self.numSats,
+                localCapacity: localCapacity ?? self.localCapacity,
+                node: node ?? self.node
+        )
+    }
 }
 
 class OpenChannelViewController: UIViewController, QRCodeReaderViewControllerDelegate {
 
     let actions = PublishSubject<OpenChannelActions>()
     let uiActions = PublishSubject<OpenChannelEvents>()
-    let model = BehaviorSubject<OpenChannelViewState>(value: .initial)
     let disposeBag = DisposeBag()
+    let state = BehaviorSubject<OpenChannelViewState>(
+            value: OpenChannelViewState(
+                    peers: nil,
+                    numSats: 1,
+                    localCapacity: 0,
+                    node: nil
+            )
+    )
+
+    let stateChange = PublishSubject<StateChanges>()
 
     var scanButton: UIButton!
     var openButton: UIButton!
     var dismissButton: UIButton!
-    var nodeIdLabel: UILabel!
+    var nodePubKey: UILabel!
+    var nodeHost: UILabel!
 
-    var confirmOpen: UIAlertController!
-
-    var peers: [String] = []
+    var satPreLabel = createLabel(text: "Fee:")
+    var satPostLabel = createLabel(text: "sat / byte")
+    var connectedToNode = createLabel(text: "")
+    var satSlider: UISlider!
+    var capacity: UITextField!
 
     override func loadView() {
         super.loadView()
@@ -54,45 +94,51 @@ class OpenChannelViewController: UIViewController, QRCodeReaderViewControllerDel
         scanButton = createButton(text: "Scan")
         openButton = createButton(text: "Open Channel")
         dismissButton = createButton(text: "Dismiss")
-        nodeIdLabel = createLabel(text: "")
+        nodePubKey = createLabel(text: "", font: NanoFonts.paragraphSmall)
+        nodeHost = createLabel(text: "", font: NanoFonts.paragraph)
+        capacity = createTextField(placeholder: "local capacity")
+        capacity.keyboardType = .numberPad
+
+        satSlider = UISlider()
+        satSlider.translatesAutoresizingMaskIntoConstraints = false
+        satSlider.minimumValue = 1
+        satSlider.maximumValue = 50
 
         view.addSubview(scanButton)
+        view.addSubview(connectedToNode)
         view.addSubview(openButton)
         view.addSubview(dismissButton)
-        view.addSubview(nodeIdLabel)
+        view.addSubview(nodePubKey)
+        view.addSubview(nodeHost)
+        view.addSubview(satSlider)
+        view.addSubview(satPreLabel)
+        view.addSubview(satPostLabel)
+        view.addSubview(capacity)
 
-        scanButton.snp.makeConstraints { make in
-            make.top.equalTo(self.view).offset(200)
-            make.centerX.equalTo(self.view)
-        }
-
-        openButton.snp.makeConstraints { make in
-            make.top.equalTo(scanButton.snp.bottom).offset(50)
-            make.centerX.equalTo(self.view)
-        }
-
-        nodeIdLabel.snp.makeConstraints { make in
-            make.top.equalTo(openButton.snp.bottom).offset(50)
-            make.centerX.equalTo(self.view)
-        }
-
-        dismissButton.snp.makeConstraints { make in
-            make.top.equalTo(nodeIdLabel.snp.bottom).offset(50)
-            make.centerX.equalTo(self.view)
-        }
+        addConstraints()
 
         connectScanButton()
         connectOpenButton()
         connectDismissButton()
+        connectSlider()
+        connectCapacity()
 
         uiActions
+                .observeOn(MainScheduler.instance)
                 .subscribe(onNext: { event in
                     switch (event) {
                     case .startScan: self.present(self.readerVC, animated: true)
-                    case .startOpening: self.present(self.confirmOpen!, animated: true)
+                    case .startOpening: self.present(self.getConfimer(), animated: true)
                     case .displaySuccess(let msg): displaySuccess(message: msg)
                     case .displayFailure(let msg): displayError(message: msg)
                     }
+                })
+                .disposed(by: disposeBag)
+
+        Observable<Int>
+                .timer(0, period: 5, scheduler: AppState.bgScheduler)
+                .subscribe(onNext: { _ in
+                    self.actions.onNext(.fetchPeers)
                 })
                 .disposed(by: disposeBag)
 
@@ -106,34 +152,41 @@ class OpenChannelViewController: UIViewController, QRCodeReaderViewControllerDel
                                 .retry(3)
                                 .catchError { error in
                                     print(error)
-                                    displayError(message: "Failure :(")
                                     return Observable.empty()
                                 }
                                 .map { res in
                                     .peersFetched(result: res)
                                 }
 
-                    case .connectToNode(let raw):
-                        let pubkey = raw.components(separatedBy: "@").first ?? ""
-                        let hostname = raw.components(separatedBy: "@").last ?? ""
-
-                        if self.peers.contains(pubkey) {
-                            print("We are already connected to node: \(pubkey)")
-                            return Observable.of(OpenChannelActionResponses.nodeConnected(nodeAddr: pubkey))
+                    case .connectToNode:
+                        let state = try self.state.value()
+                        guard let node = state.node, let peers = state.peers else {
+                            print("Missing data")
+                            return Observable.empty()
                         }
 
-                        return ChannelService.shared.connectToNode(pubkey: pubkey, host: hostname)
+                        if peers.contains(node.pubkey) {
+                            print("We are already connected to node: \(node.pubkey)")
+                            return Observable.of(OpenChannelActionResponses.nodeConnected(nodeAddr: node.pubkey))
+                        }
+
+                        return ChannelService.shared.connectToNode(node: node)
                                 .retry(3)
                                 .catchError { error in
                                     print(error)
-                                    self.uiActions.onNext(.displayFailure(message: "failed to connect to node."))
                                     return Observable.empty()
                                 }
                                 .map { res in
-                                    OpenChannelActionResponses.nodeConnected(nodeAddr: pubkey)
+                                    OpenChannelActionResponses.nodeConnected(nodeAddr: node.pubkey)
                                 }
-                    case .openChannel(let nodeAddr):
-                        return ChannelService.shared.openChannel(nodeAddr: nodeAddr, satPerByte: 1)
+                    case .openChannel2:
+                        let model = try self.state.value()
+                        guard let node = model.node else {
+                            print("Cannot open channel: No node")
+                            return Observable.empty()
+                        }
+
+                        return ChannelService.shared.openChannel(nodePubKey: node.pubkey, satPerByte: model.numSats, amount: model.localCapacity)
                                 .retry(3)
                                 .catchError { error in
                                     print(error)
@@ -143,41 +196,144 @@ class OpenChannelViewController: UIViewController, QRCodeReaderViewControllerDel
                                 .map { res in
                                     OpenChannelActionResponses.channelOpened(result: res)
                                 }
+                    case .openChannel: return Observable.empty()
                     }
                 }
-
                 .observeOn(MainScheduler.instance)
                 .subscribe(onNext: { (res: OpenChannelActionResponses) in
                     switch (res) {
                     case .peersFetched(let res):
-                        self.model.onNext(.peers(res.peers))
+                        self.stateChange.onNext(.peersFetched(res.peers))
                     case .channelOpened:
                         self.uiActions.onNext(.displaySuccess(message: "Channel opened!"))
-                        self.model.onNext(.channelOpened)
-                    case .nodeConnected(let nodeAddr):
-                        self.model.onNext(.newNode(nodeAddr))
-                        self.uiActions.onNext(.displaySuccess(message: "Connected!"))
+                        self.stateChange.onNext(.channelOpened)
+                    case .nodeConnected(let nodeAddr): print(nodeAddr)
+
                     }
 
                 })
                 .disposed(by: disposeBag)
 
-        model
+        stateChange
                 .asObservable()
-                .subscribe(onNext: { (state: OpenChannelViewState) in
-                    switch (state) {
-                    case .initial: self.openButton.isEnabled = false
-                    case .newNode(let addr):
-                        self.setupConfirm(nodePubKey: addr)
-                        self.nodeIdLabel.text = addr
-                        self.openButton.isEnabled = true
-                    case .peers(let peers): self.peers = peers
-                    case .channelOpened: self.openButton.isEnabled = false
+                .subscribe(onNext: { (change: StateChanges) in
+                    do {
+                        let oldState = try self.state.value()
+
+                        switch (change) {
+                        case .qrScanned(let raw):
+                            let split = raw.components(separatedBy: "@")
+                            let pubKey = split.first ?? ""
+                            let host = split.last ?? ""
+
+                            self.state.onNext(oldState.new(node: (pubKey, host)))
+                        case .numSatChanged(let sats):
+                            self.state.onNext(oldState.new(numSats: sats))
+                        case .localCapChanged(let cap):
+                            self.state.onNext(oldState.new(localCapacity: cap))
+                        case .peersFetched(let peers):
+                            self.state.onNext(oldState.new(peers: peers))
+                        case .channelOpened: break
+                        }
+                    } catch {
+                        error
+                        print(error)
                     }
                 })
                 .disposed(by: disposeBag)
 
-        actions.onNext(.fetchPeers)
+        state
+                .asObservable()
+                .subscribe(onNext: { (newState: OpenChannelViewState) in
+                    print("New state: \(newState)")
+
+                    self.satPostLabel.text = "\(newState.numSats) sat / byte"
+
+                    if let node = newState.node, let peers = newState.peers {
+                        if (peers.contains(node.pubkey)) {
+                            self.connectedToNode.text = "Connected: ✅"
+                            self.openButton.isEnabled = true
+                        } else {
+                            self.connectedToNode.text = "Connected: ❌"
+                            self.openButton.isEnabled = false
+                            self.actions.onNext(.connectToNode)
+                        }
+                    }
+                })
+                .disposed(by: disposeBag)
+    }
+
+    private func addConstraints() {
+        connectedToNode.snp.makeConstraints { make in
+            make.top.equalTo(self.view).offset(150)
+            make.right.equalTo(self.view.snp.right).offset(-30)
+        }
+
+        scanButton.snp.makeConstraints { make in
+            make.top.equalTo(self.view).offset(200)
+            make.centerX.equalTo(self.view)
+        }
+
+        nodePubKey.snp.makeConstraints { make in
+            make.top.equalTo(scanButton.snp.bottom).offset(30)
+            make.left.equalTo(self.view).offset(50)
+        }
+
+        nodeHost.snp.makeConstraints { make in
+            make.top.equalTo(nodePubKey).offset(30)
+            make.left.equalTo(self.view).offset(50)
+        }
+
+        satSlider.snp.makeConstraints { make in
+            make.top.equalTo(nodeHost.snp.bottom).offset(50)
+            make.centerX.equalTo(self.view)
+            make.width.equalTo(150)
+        }
+
+        satPreLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(satSlider.snp.centerY)
+            make.right.equalTo(satSlider.snp.left).offset(-30)
+        }
+
+        satPostLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(satSlider.snp.centerY)
+            make.right.equalTo(satSlider.snp.right).offset(30)
+        }
+
+        capacity.snp.makeConstraints { make in
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(satSlider.snp.bottom).offset(30)
+        }
+
+        openButton.snp.makeConstraints { make in
+            make.top.equalTo(capacity.snp.bottom).offset(50)
+            make.centerX.equalTo(self.view)
+        }
+
+        dismissButton.snp.makeConstraints { make in
+            make.top.equalTo(openButton.snp.bottom).offset(50)
+            make.centerX.equalTo(self.view)
+        }
+    }
+
+    private func connectCapacity() {
+        capacity.rx.text.asObservable()
+                .debounce(1, scheduler: MainScheduler.instance)
+                .subscribe(onNext: { val in
+                    if let capacity = Int(val ?? "0") {
+                        self.stateChange.onNext(.localCapChanged(capacity))
+                    }
+                })
+                .disposed(by: disposeBag)
+    }
+
+    private func connectSlider() {
+        satSlider.rx.value.asObservable()
+                .throttle(0.1, scheduler: MainScheduler.instance)
+                .subscribe(onNext: { val in
+                    self.stateChange.onNext(.numSatChanged(Int(val)))
+                })
+                .disposed(by: disposeBag)
     }
 
     private func connectScanButton() {
@@ -209,17 +365,27 @@ class OpenChannelViewController: UIViewController, QRCodeReaderViewControllerDel
                 .disposed(by: disposeBag)
     }
 
-    private func setupConfirm(nodePubKey: String) {
+    private func getConfimer() -> UIAlertController {
+        var message: String
+        do {
+            let state = try self.state.value()
+            message = "A typical transaction is 250 bytes. Fees will be approximately \(state.numSats * 250) sat"
+        } catch (let error) {
+            print(error)
+            message = "A typical transaction is 250 bytes. Fees will be approximately ? sat"
+        }
+
         let alert = UIAlertController(
-                title: "Open Channel?",
-                message: "Confirm opening channel",
+                title: "Confirm opening channel",
+                message: message,
                 preferredStyle: .actionSheet
         )
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-            self.actions.onNext(.openChannel(nodeAddr: nodePubKey))
+            self.actions.onNext(.openChannel2)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
-        self.confirmOpen = alert
+
+        return alert
     }
 
     lazy var readerVC: QRCodeReaderViewController = {
@@ -233,13 +399,18 @@ class OpenChannelViewController: UIViewController, QRCodeReaderViewControllerDel
 
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         reader.stopScanning()
-        actions.onNext(.connectToNode(nodeRaw: result.value))
+        stateChange.onNext(.qrScanned(result.value))
         dismiss(animated: true)
     }
 
     func readerDidCancel(_ reader: QRCodeReaderViewController) {
         reader.stopScanning()
         dismiss(animated: true)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>,
+                               with event: UIEvent?) {
+        capacity.endEditing(true)
     }
 
 }

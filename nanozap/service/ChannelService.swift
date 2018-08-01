@@ -61,13 +61,13 @@ class ChannelService: Channeler {
 
     let rpcmanager: RpcManager = RpcManager.shared
 
-    public func openChannel(nodeAddr: String, satPerByte: Int) -> Observable<OpenChannelResult> {
+    public func openChannel(nodePubKey: String, satPerByte: Int, amount: Int) -> Observable<OpenChannelResult> {
         return Observable.create { obs in
             if let client = self.rpcmanager.client() {
                 var request = Lnrpc_OpenChannelRequest()
-                request.nodePubkeyString = nodeAddr
-                request.satPerByte = 6
-                request.localFundingAmount = 450000
+                request.nodePubkeyString = nodePubKey
+                request.satPerByte = Int64(satPerByte)
+                request.localFundingAmount = Int64(amount)
 
                 print("Trying to open channel")
 
@@ -196,12 +196,12 @@ class ChannelService: Channeler {
         }
     }
 
-    public func connectToNode(pubkey: String, host: String) -> Observable<ConnectToNodeResult> {
+    public func connectToNode(node: (pubkey:String, host:String)) -> Observable<ConnectToNodeResult> {
         return Observable.create { obs in
             if let client = self.rpcmanager.client() {
                 var lnAddr = Lnrpc_LightningAddress()
-                lnAddr.pubkey = pubkey
-                lnAddr.host = host
+                lnAddr.pubkey = node.pubkey
+                lnAddr.host = node.host
 
                 var request = Lnrpc_ConnectPeerRequest()
                 request.addr = lnAddr
