@@ -75,3 +75,7 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 macaroon.png
 cert.png
+*.cer
+*.certSigningRequest
+*.p12
+*.mobileprovision
