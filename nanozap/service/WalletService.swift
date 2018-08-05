@@ -35,7 +35,7 @@ struct WalletData {
 }
 
 struct CreateAddressResult {
-    let address : String
+    let address: String
 }
 
 class WalletService {
@@ -100,6 +100,54 @@ class WalletService {
                             address: result.address
                     )
                     obs.onNext(car)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
+            } else {
+                obs.onError(RPCError.unableToAccessClient)
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    struct SendCoinsRequest {
+        // The address to send coins to
+        let addr: String
+
+        // The amount in satoshis to send
+        let amount: Int64
+
+        // The target number of blocks that this transaction should be confirmed by.
+        let confirmationTarget: Int32
+
+        //// A manual fee rate set in sat/byte that should be used when crafting the transaction.
+        let satPerByte: Int64
+    }
+
+    struct SendCoinsResult {
+        let txid: String
+    }
+
+    public func sendCoins(data: SendCoinsRequest) -> Observable<SendCoinsResult> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
+                var req = Lnrpc_SendCoinsRequest()
+                req.amount = data.amount
+                req.satPerByte = data.satPerByte
+                req.addr = data.addr
+                req.targetConf = data.confirmationTarget
+
+                let res: Result<Lnrpc_SendCoinsResponse, AnyError>
+                        = Result(attempt: { () in try client.sendCoins(req) })
+
+                switch res {
+                case .success(let result):
+                    let scr = SendCoinsResult(
+                            txid: result.txid
+                    )
+                    obs.onNext(scr)
                     obs.onCompleted()
                 case .failure(let error):
                     obs.onError(error)
