@@ -13,6 +13,8 @@ struct PriceInfoResult {
 }
 
 class PriceInfoService {
+    static let shared = PriceInfoService()
+
     let urlString = URL(string: "https://api.coindesk.com/v1/bpi/currentprice.json")!
 
     func getPriceInfo() -> Observable<PriceInfoResult> {

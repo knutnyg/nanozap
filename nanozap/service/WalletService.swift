@@ -28,10 +28,13 @@ struct WalletData {
                     totalBalance: 0,
                     confirmedBalance: 0,
                     unconfirmedBalance: 0
-            ))
+            ),
+            priceInfo: PriceInfo(timestamp: Date(), priceInEUR: 0.0, priceInUSD: 0.0)
+    )
 
     let txs: [Transaction]
     let balance: WalletBalance
+    let priceInfo: PriceInfo
 }
 
 struct CreateAddressResult {
@@ -62,9 +65,10 @@ class WalletService {
     public func getWallet() -> Observable<WalletData> {
         let bal = getWalletBalance()
         let txs = listTransactions()
+        let priceInfo = PriceInfoService.shared.getPriceInfo().map{ res in res.priceInfo }
 
-        return Observable.zip(bal, txs) { (bal, txs) in
-            return WalletData(txs: txs, balance: bal)
+        return Observable.zip(bal, txs, priceInfo) { (bal, txs, priceInfo) in
+            return WalletData(txs: txs, balance: bal, priceInfo: priceInfo)
         }
     }
 
