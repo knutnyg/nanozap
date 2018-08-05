@@ -9,6 +9,11 @@
 import UIKit
 import FontAwesome_swift
 
+enum OnboardingState {
+    case haveStartedBefore
+    case firstStart
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -46,6 +51,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let controllers = [walletVC, invoicesVC, channelsVC, authVC]
         tabBarController.viewControllers = controllers
+
+        let onboardState : OnboardingState = AppState.sharedState.store
+                .get(key: OnboardingStore.startedAtKey)
+                .map { _ in OnboardingState.haveStartedBefore }
+                .or(OnboardingState.firstStart)
+
+        switch (onboardState) {
+        case .haveStartedBefore:
+            tabBarController.selectedViewController = walletVC
+        case .firstStart:
+            let timestamp = Date().iso8601
+            AppState.sharedState.store.save(key: OnboardingStore.startedAtKey, secret: timestamp)
+            tabBarController.selectedViewController = authVC
+        }
 
         window!.rootViewController = tabBarController
         window!.makeKeyAndVisible()

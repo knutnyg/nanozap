@@ -37,7 +37,7 @@ class AppState {
     var cert : String
     var macaroon : String
 
-    private let store : SecretKeeper
+    public let store : SecretKeeper
     
     // TODO: Fix this hackish way of saving state
     // TODO: error handling
