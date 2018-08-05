@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import Result
 
 struct WalletBalance {
     //// The balance of the wallet
@@ -31,6 +32,10 @@ struct WalletData {
 
     let txs: [Transaction]
     let balance: WalletBalance
+}
+
+struct CreateAddressResult {
+    let address : String
 }
 
 class WalletService {
@@ -78,6 +83,59 @@ class WalletService {
                 // return Observable.empty()
                 return Observable.error(RPCError.unableToAccessClient)
             }
+        }
+    }
+
+    public func createWitnessAddress() -> Observable<CreateAddressResult> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
+                let req = Lnrpc_NewWitnessAddressRequest()
+
+                let res: Result<Lnrpc_NewAddressResponse, AnyError>
+                        = Result(attempt: { () in try client.newWitnessAddress(req) })
+
+                switch res {
+                case .success(let result):
+                    let car = CreateAddressResult(
+                            address: result.address
+                    )
+                    obs.onNext(car)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
+            } else {
+                obs.onError(RPCError.unableToAccessClient)
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    public func createAddress() -> Observable<CreateAddressResult> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
+                var req = Lnrpc_NewAddressRequest()
+                req.type = .witnessPubkeyHash
+
+                let res: Result<Lnrpc_NewAddressResponse, AnyError>
+                        = Result(attempt: { () in try client.newAddress(req) })
+
+                switch res {
+                case .success(let result):
+                    let car = CreateAddressResult(
+                            address: result.address
+                    )
+                    obs.onNext(car)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
+            } else {
+                obs.onError(RPCError.unableToAccessClient)
+            }
+
+            return Disposables.create()
         }
     }
 
