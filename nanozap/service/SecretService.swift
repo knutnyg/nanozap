@@ -34,3 +34,7 @@ struct CertStore {
 struct MacaroonStore {
     static let macaroonKey = "macaroon"
 }
+
+struct OnboardingStore {
+    static let startedAtKey = "onboarding-started-at"
+}
