@@ -11,4 +11,8 @@ extension String {
     func truncate(length: Int, trailing: String = "…") -> String {
         return (self.count > length) ? self.prefix(length) + trailing : self
     }
+
+    var dateFromISO8601: Date? {
+        return Formatter.iso8601.date(from: self)   // "Mar 22, 2017, 10:22 AM"
+    }
 }
