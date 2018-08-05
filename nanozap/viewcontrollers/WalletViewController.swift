@@ -6,6 +6,7 @@ import SnapKit
 
 enum WalletUIActions {
     case wallet(walletData: WalletData)
+    case openDeposit(DepositViewController)
 }
 
 class WalletViewController: UIViewController {
@@ -16,6 +17,7 @@ class WalletViewController: UIViewController {
     var payInvoiceButton: UIButton!
     var createInvoiceButton: UIButton!
     var openChannelButton: UIButton!
+    let depositCoinsButton = createButton(text: "Deposit")
 
     let headerColor = NanoColors.deepBlue
 
@@ -61,6 +63,7 @@ class WalletViewController: UIViewController {
         view.addSubview(priceInfoLabel)
         view.addSubview(payInvoiceButton)
         view.addSubview(createInvoiceButton)
+        view.addSubview(depositCoinsButton)
         view.addSubview(openChannelButton)
 
         headerView.snp.makeConstraints { make in
@@ -89,7 +92,12 @@ class WalletViewController: UIViewController {
 
         createInvoiceButton.snp.makeConstraints { (make) in
             make.centerY.equalTo(self.payInvoiceButton).offset(30)
-            make.centerX.equalTo(self.payInvoiceButton)
+            make.centerX.equalTo(self.view)
+        }
+
+        depositCoinsButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(self.createInvoiceButton).offset(30)
+            make.centerX.equalTo(self.view)
         }
 
         openChannelButton.snp.makeConstraints { make in
@@ -136,15 +144,23 @@ class WalletViewController: UIViewController {
 
         uiActions.asObservable()
                 .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (action: WalletUIActions) in
+                .subscribe(onNext: { [weak self] (action: WalletUIActions) in
                     switch (action) {
                     case .wallet(let data):
-                        self.priceInfoLabel.text = "Bitcoin price: \(data.priceInfo.priceInEUR) Euro"
-                        self.transactionsSubject.onNext(data.txs)
-                        self.balanceSubject.onNext(data.balance)
+                        self?.priceInfoLabel.text = "Bitcoin price: \(data.priceInfo.priceInEUR) Euro"
+                        self?.transactionsSubject.onNext(data.txs)
+                        self?.balanceSubject.onNext(data.balance)
+                    case .openDeposit(let vc):
+                        self?.present(vc, animated: true, completion: nil)
                     }
                 })
                 .disposed(by: self.disposeBag)
+
+        depositCoinsButton.rx.tap.asObservable()
+                .map { _ in DepositViewController() }
+                .map { .openDeposit($0) }
+                .bind(to: uiActions)
+                .disposed(by: disposeBag)
 
         balanceSubject.asObservable()
                 .observeOn(MainScheduler.instance)
