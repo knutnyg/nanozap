@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import Result
 
 struct WalletBalance {
     //// The balance of the wallet
@@ -31,6 +32,10 @@ struct WalletData {
 
     let txs: [Transaction]
     let balance: WalletBalance
+}
+
+struct CreateAddressResult {
+    let address: String
 }
 
 class WalletService {
@@ -78,6 +83,107 @@ class WalletService {
                 // return Observable.empty()
                 return Observable.error(RPCError.unableToAccessClient)
             }
+        }
+    }
+
+    public func createWitnessAddress() -> Observable<CreateAddressResult> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
+                let req = Lnrpc_NewWitnessAddressRequest()
+
+                let res: Result<Lnrpc_NewAddressResponse, AnyError>
+                        = Result(attempt: { () in try client.newWitnessAddress(req) })
+
+                switch res {
+                case .success(let result):
+                    let car = CreateAddressResult(
+                            address: result.address
+                    )
+                    obs.onNext(car)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
+            } else {
+                obs.onError(RPCError.unableToAccessClient)
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    struct SendCoinsRequest {
+        // The address to send coins to
+        let addr: String
+
+        // The amount in satoshis to send
+        let amount: Int64
+
+        // The target number of blocks that this transaction should be confirmed by.
+        let confirmationTarget: Int32
+
+        //// A manual fee rate set in sat/byte that should be used when crafting the transaction.
+        let satPerByte: Int64
+    }
+
+    struct SendCoinsResult {
+        let txid: String
+    }
+
+    public func sendCoins(data: SendCoinsRequest) -> Observable<SendCoinsResult> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
+                var req = Lnrpc_SendCoinsRequest()
+                req.amount = data.amount
+                req.satPerByte = data.satPerByte
+                req.addr = data.addr
+                req.targetConf = data.confirmationTarget
+
+                let res: Result<Lnrpc_SendCoinsResponse, AnyError>
+                        = Result(attempt: { () in try client.sendCoins(req) })
+
+                switch res {
+                case .success(let result):
+                    let scr = SendCoinsResult(
+                            txid: result.txid
+                    )
+                    obs.onNext(scr)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
+            } else {
+                obs.onError(RPCError.unableToAccessClient)
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    public func createAddress() -> Observable<CreateAddressResult> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
+                var req = Lnrpc_NewAddressRequest()
+                req.type = .witnessPubkeyHash
+
+                let res: Result<Lnrpc_NewAddressResponse, AnyError>
+                        = Result(attempt: { () in try client.newAddress(req) })
+
+                switch res {
+                case .success(let result):
+                    let car = CreateAddressResult(
+                            address: result.address
+                    )
+                    obs.onNext(car)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
+            } else {
+                obs.onError(RPCError.unableToAccessClient)
+            }
+
+            return Disposables.create()
         }
     }
 
