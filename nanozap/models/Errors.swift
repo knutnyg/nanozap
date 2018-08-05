@@ -6,4 +6,5 @@ enum RPCError: Error {
     case failedToFetchInvoices
     case failedToDecodePayReq
     case genericError(error: Error)
+    case failedToParseResponse
 }
