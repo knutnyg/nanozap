@@ -4,13 +4,20 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
+enum WalletUIActions {
+    case wallet(walletData: WalletData)
+}
+
 class WalletViewController: UIViewController {
     var headerView: UIView!
     var transactionsView: UITableView!
     var walletbalanceLabel: UILabel!
+    var priceInfoLabel: UILabel!
     var payInvoiceButton: UIButton!
     var createInvoiceButton: UIButton!
     var openChannelButton: UIButton!
+
+    var onboarded = false;
 
     let headerColor = NanoColors.deepBlue
 
@@ -22,6 +29,8 @@ class WalletViewController: UIViewController {
     let walletSubject = BehaviorSubject<WalletData>(value: WalletData.initWallet)
     let transactionsSubject = BehaviorSubject<[Transaction]>(value: WalletData.initWallet.txs)
     let balanceSubject = BehaviorSubject<WalletBalance>(value: WalletData.initWallet.balance)
+
+    let uiActions = PublishSubject<WalletUIActions>()
 
     let txDateFormatter = DateFormatter()
 
@@ -39,6 +48,9 @@ class WalletViewController: UIViewController {
         walletbalanceLabel = createLabel(text: "")
         walletbalanceLabel.textAlignment = .center
 
+        priceInfoLabel = createLabel(text: "")
+        priceInfoLabel.textAlignment = .center
+
         payInvoiceButton = createButton(text: "Pay invoice")
         payInvoiceButton.addTarget(self, action: #selector(payInvoiceClicked), for: .touchUpInside)
 
@@ -48,24 +60,51 @@ class WalletViewController: UIViewController {
         view.addSubview(headerView)
         view.addSubview(transactionsView)
         view.addSubview(walletbalanceLabel)
+        view.addSubview(priceInfoLabel)
         view.addSubview(payInvoiceButton)
         view.addSubview(createInvoiceButton)
         view.addSubview(openChannelButton)
+
+        headerView.snp.makeConstraints { make in
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(self.view.snp.top)
+            make.height.equalTo(100)
+            make.width.equalTo(self.view)
+        }
+
+        walletbalanceLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(self.view)
+            make.width.equalTo(self.view).inset(20)
+            make.top.equalTo(headerView.snp.bottom).offset(100)
+        }
+
+        priceInfoLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(self.view)
+            make.width.equalTo(self.view).inset(20)
+            make.top.equalTo(walletbalanceLabel.snp.bottom).offset(8)
+        }
+
+        payInvoiceButton.snp.makeConstraints { make in
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(priceInfoLabel.snp.bottom).offset(8)
+        }
 
         createInvoiceButton.snp.makeConstraints { (make) in
             make.centerY.equalTo(self.payInvoiceButton).offset(30)
             make.centerX.equalTo(self.payInvoiceButton)
         }
-        let views: [String: UIView] = [
-            "headerView": headerView,
-            "transactionsView": transactionsView,
-            "payInvoiceButton": payInvoiceButton,
-            "createInvoiceButton": createInvoiceButton,
-            "walletbalanceLabel": walletbalanceLabel,
-            "openChannelButton": openChannelButton
-        ]
 
-        setConstraints(views: views)
+        openChannelButton.snp.makeConstraints { make in
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(createInvoiceButton.snp.bottom).offset(40)
+        }
+
+        transactionsView.snp.makeConstraints { make in
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(openChannelButton.snp.bottom).offset(100)
+            make.bottom.equalTo(self.view).inset(80)
+            make.width.equalTo(self.view)
+        }
 
         txDateFormatter.dateFormat = "MM.dd"
 
@@ -89,14 +128,25 @@ class WalletViewController: UIViewController {
                 .subscribe(onNext: { _ in
                     let vc = OpenChannelViewController()
                     self.present(vc, animated: true)
-                })
+                }).disposed(by: disposeBag)
 
         walletSubject.asObservable()
-                .subscribe(onNext: { (data) in
-                    self.transactionsSubject.onNext(data.txs)
-                    self.balanceSubject.onNext(data.balance)
+                .subscribe(onNext: { (data: WalletData) in
+                    self.uiActions.onNext(.wallet(walletData: data))
                 })
                 .disposed(by: disposeBag)
+
+        uiActions.asObservable()
+                .observeOn(MainScheduler.instance)
+                .subscribe(onNext: { (action: WalletUIActions) in
+                    switch (action) {
+                    case .wallet(let data):
+                        self.priceInfoLabel.text = "Bitcoin price: \(data.priceInfo.priceInEUR) Euro"
+                        self.transactionsSubject.onNext(data.txs)
+                        self.balanceSubject.onNext(data.balance)
+                    }
+                })
+                .disposed(by: self.disposeBag)
 
         balanceSubject.asObservable()
                 .observeOn(MainScheduler.instance)
@@ -191,35 +241,8 @@ class WalletViewController: UIViewController {
                 ).disposed(by: disposeBag)
     }
 
-    private func setConstraints(views: [String: UIView]) {
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-0-[headerView(100)]-100-[walletbalanceLabel(40)]-[payInvoiceButton]-40-[openChannelButton]-100-[transactionsView]-0-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[walletbalanceLabel]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[payInvoiceButton]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-20-[openChannelButton]-20-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-0-[headerView]-0-|",
-                metrics: nil,
-                views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-10-[transactionsView]-10-|",
-                metrics: nil,
-                views: views))
-    }
-
     @objc func payInvoiceClicked(sender: UIButton!) {
-        var invoiceVC = PayInvoiceViewController()
+        let invoiceVC = PayInvoiceViewController()
         invoiceVC.modalPresentationStyle = .popover
         present(invoiceVC, animated: true, completion: nil)
     }
