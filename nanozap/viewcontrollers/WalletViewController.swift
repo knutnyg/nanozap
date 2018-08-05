@@ -17,8 +17,6 @@ class WalletViewController: UIViewController {
     var createInvoiceButton: UIButton!
     var openChannelButton: UIButton!
 
-    var onboarded = false;
-
     let headerColor = NanoColors.deepBlue
 
     let rpcmanager: RpcManager = RpcManager.shared
