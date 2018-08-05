@@ -28,13 +28,12 @@ enum StateChanges {
     case numSatChanged(Int)
     case localCapChanged(Int)
     case qrScanned(String)
-    case peersFetched([String])
+    case peersFetched([ConnectedPeer])
     case channelOpened
 }
 
-
 struct OpenChannelViewState {
-    let peers: [String]?
+    let peers: [ConnectedPeer]?
     let numSats: Int
     let localCapacity: Int
     let node: (pubkey: String, host: String)?
@@ -44,7 +43,7 @@ struct OpenChannelViewState {
     }
 
     func new(
-            peers: [String]? = nil,
+            peers: [ConnectedPeer]? = nil,
             numSats: Int? = nil,
             localCapacity: Int? = nil,
             node: (pubkey: String, host: String)? = nil
@@ -165,7 +164,8 @@ class OpenChannelViewController: UIViewController, QRCodeReaderViewControllerDel
                             return Observable.empty()
                         }
 
-                        if peers.contains(node.pubkey) {
+                        let alreadyConnected = peers.contains { $0.pubkey == node.pubkey }
+                        if alreadyConnected {
                             print("We are already connected to node: \(node.pubkey)")
                             return Observable.of(OpenChannelActionResponses.nodeConnected(nodeAddr: node.pubkey))
                         }
@@ -250,7 +250,8 @@ class OpenChannelViewController: UIViewController, QRCodeReaderViewControllerDel
                     self.satPostLabel.text = "\(newState.numSats) sat / byte"
 
                     if let node = newState.node, let peers = newState.peers {
-                        if (peers.contains(node.pubkey)) {
+                        let alreadyConnected = peers.contains { $0.pubkey == node.pubkey }
+                        if (alreadyConnected) {
                             self.connectedToNode.text = "Connected: ✅"
                             self.openButton.isEnabled = true
                         } else {

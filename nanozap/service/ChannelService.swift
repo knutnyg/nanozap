@@ -51,9 +51,13 @@ struct ConnectToNodeResult {
     let response: Lnrpc_ConnectPeerResponse
 }
 
+struct ConnectedPeer {
+    let pubkey : String
+    let address : String
+}
+
 struct ConnectedPeersResult {
-    let response: Lnrpc_ListPeersResponse
-    let peers: [String]
+    let peers: [ConnectedPeer]
 }
 
 class ChannelService: Channeler {
@@ -176,9 +180,14 @@ class ChannelService: Channeler {
 
                 let res = Result(attempt: { () throws in try client.listPeers(request) })
                         .map { (res: Lnrpc_ListPeersResponse) in
-                            ConnectedPeersResult(response: res, peers: res.peers.map { peer in
-                                peer.pubKey
-                            })
+                            ConnectedPeersResult(
+                                    peers: res.peers.map { peer in
+                                        ConnectedPeer(
+                                                pubkey: peer.pubKey,
+                                                address: peer.address
+                                        )
+                                    }
+                            )
                         }
 
                 switch res {
@@ -196,7 +205,7 @@ class ChannelService: Channeler {
         }
     }
 
-    public func connectToNode(node: (pubkey:String, host:String)) -> Observable<ConnectToNodeResult> {
+    public func connectToNode(node: (pubkey: String, host: String)) -> Observable<ConnectToNodeResult> {
         return Observable.create { obs in
             if let client = self.rpcmanager.client() {
                 var lnAddr = Lnrpc_LightningAddress()
