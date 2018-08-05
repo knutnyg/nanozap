@@ -114,7 +114,7 @@ class WalletService {
 
     struct SendCoinsRequest {
         // The address to send coins to
-        let addr: String
+        let address: String
 
         // The amount in satoshis to send
         let amount: Int64
@@ -136,7 +136,7 @@ class WalletService {
                 var req = Lnrpc_SendCoinsRequest()
                 req.amount = data.amount
                 req.satPerByte = data.satPerByte
-                req.addr = data.addr
+                req.addr = data.address
                 req.targetConf = data.confirmationTarget
 
                 let res: Result<Lnrpc_SendCoinsResponse, AnyError>
