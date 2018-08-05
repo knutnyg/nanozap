@@ -18,6 +18,7 @@ target 'nanozap' do
   pod 'Result', '~> 4.0.0'
   pod 'FontAwesome.swift'
   pod 'SwiftMessages'
+  pod 'SwiftyJSON', '~> 4.0'
   pod 'SnapKit', '~> 4.0'
   pod "QRCode", :git => "https://github.com/ekscrypto/QRCode.git"
 

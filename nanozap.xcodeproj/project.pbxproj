@@ -10,9 +10,11 @@
 		3FCED050F5900E86217C9CD6 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCEDF753CDB3A021489E58B /* Fonts.swift */; };
 		3FCED39F61A06721C1FA9566 /* CommonUIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */; };
 		3FCED4C03CE7D2A73FDC337C /* OpenChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED391FD0E996BC7E4D8FF /* OpenChannelViewController.swift */; };
+		3FCED5167ED3000A3E1A74C3 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED7CD0B93AD5F73BD7D96 /* Date.swift */; };
 		3FCED65E9CA1A3741A1FBACC /* InvoicesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED4FEFAC6BF8D3CE92844 /* InvoicesTableViewController.swift */; };
 		3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */; };
 		3FCEDA7496CB4E79D8E7876B /* InvoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED0D55DCF1791DE3621AB /* InvoiceCell.swift */; };
+		3FCEDF7665984512D87E7382 /* PriceInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED1EFE893568DA471CD20 /* PriceInfoService.swift */; };
 		6A059A2720CC651C008EBDD4 /* PayInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */; };
 		6A059A2920CC7327008EBDD4 /* InvoiceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2820CC7327008EBDD4 /* InvoiceService.swift */; };
 		6A059A2B20CC7441008EBDD4 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2A20CC7441008EBDD4 /* Invoice.swift */; };
@@ -70,9 +72,11 @@
 
 /* Begin PBXFileReference section */
 		3FCED0D55DCF1791DE3621AB /* InvoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceCell.swift; sourceTree = "<group>"; };
+		3FCED1EFE893568DA471CD20 /* PriceInfoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceInfoService.swift; sourceTree = "<group>"; };
 		3FCED391FD0E996BC7E4D8FF /* OpenChannelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenChannelViewController.swift; sourceTree = "<group>"; };
 		3FCED4FEFAC6BF8D3CE92844 /* InvoicesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoicesTableViewController.swift; sourceTree = "<group>"; };
 		3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionViewController.swift; sourceTree = "<group>"; };
+		3FCED7CD0B93AD5F73BD7D96 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		3FCED923DB73DA82469999E5 /* CommonUIComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonUIComponents.swift; sourceTree = "<group>"; };
 		3FCEDF753CDB3A021489E58B /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 				BFD0BB283F89D9AB5E995ECF /* SecretService.swift */,
 				6A059A2820CC7327008EBDD4 /* InvoiceService.swift */,
 				9899352F20CD31D800498280 /* AppState.swift */,
+				3FCED1EFE893568DA471CD20 /* PriceInfoService.swift */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -282,6 +287,7 @@
 				72A1662520C833C900F85D71 /* Data.swift */,
 				9876FE4020D56C5200D0A7AD /* Optional.swift */,
 				9876FE4220D56C8D00D0A7AD /* String.swift */,
+				3FCED7CD0B93AD5F73BD7D96 /* Date.swift */,
 			);
 			path = extentions;
 			sourceTree = "<group>";
@@ -490,6 +496,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftGRPC/SwiftGRPC.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/Valet/Valet.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -508,6 +515,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGRPC.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftProtobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Valet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -605,6 +613,8 @@
 				BFD0B72E7264EA9C7AAFB0D9 /* PaymentCreatedVC.swift in Sources */,
 				3FCED050F5900E86217C9CD6 /* Fonts.swift in Sources */,
 				3FCED4C03CE7D2A73FDC337C /* OpenChannelViewController.swift in Sources */,
+				3FCEDF7665984512D87E7382 /* PriceInfoService.swift in Sources */,
+				3FCED5167ED3000A3E1A74C3 /* Date.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,7 +779,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.apms.nanozap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -788,7 +798,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.apms.nanozap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
