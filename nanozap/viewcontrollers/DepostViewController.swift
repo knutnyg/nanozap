@@ -20,12 +20,16 @@ class DepositViewController: UIViewController {
     let addressLabel = createLabel(text: "")
     let imageView = createImage(image: Optional.none)
     let copyButton = createButton(text: "Copy address")
-    let dismissButton = createButton(text: "Close")
+    let dismissButton = createButton(text: "Cancel")
 
-    enum CreatePaymentAddress {
+    let uiActions = PublishSubject<CreateAddressActions>()
+
+    enum CreateAddressActions {
+        case dismiss
         case loading
         case success(DepositViewState)
         case failure(Error)
+        case copyToClipboard
     }
 
     override func viewDidLoad() {
@@ -69,53 +73,73 @@ class DepositViewController: UIViewController {
 
         connectCopy()
         connectDismiss()
+        connectUiActions()
+        load()
+    }
 
+    private func connectUiActions() {
+        uiActions.asObservable()
+                .observeOn(MainScheduler.instance)
+                .subscribe(
+                        onNext: { [weak self] action in
+                            switch action {
+                            case .copyToClipboard:
+                                UIPasteboard.general.string = self?.addressLabel.text
+                            case .loading:
+                                self?.addressLabel.text = "Creating..."
+                                self?.copyButton.isEnabled = false
+                            case .success(let data):
+                                self?.copyButton.isEnabled = true
+                                self?.addressLabel.text = data.address ?? ""
+                                self?.imageView.image = data.adddressQR?.image
+                            case .failure(let error):
+                                self?.dismiss(animated: true)
+                                self?.copyButton.isEnabled = false
+                                displayError(message: "Error creating address: \(error)")
+                            case .dismiss:
+                                self?.dismissButton.isEnabled = false
+                                self?.dismiss(animated: true)
+                            }
+                        },
+                        onError: { error in fatalError("onError: \(error)") },
+                        onCompleted: { () in print("onCompleted") }
+                ).disposed(by: disposeBag)
+    }
+
+    private func load() {
         WalletService.shared.createWitnessAddress()
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .map {
                     DepositViewState(address: $0.address, adddressQR: QRCode($0.address))
                 }
                 .map {
-                    CreatePaymentAddress.success($0)
+                    CreateAddressActions.success($0)
                 }
                 .catchError { error in
-                    Observable.just(CreatePaymentAddress.failure(error))
+                    Observable.just(CreateAddressActions.failure(error))
                 }
-                .startWith(CreatePaymentAddress.loading)
-                .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { [weak self] result in
-                    switch result {
-                    case .loading:
-                        self?.addressLabel.text = "Creating..."
-                        self?.copyButton.isEnabled = false
-                    case .success(let data):
-                        self?.copyButton.isEnabled = true
-                        self?.addressLabel.text = data.address ?? ""
-                        self?.imageView.image = data.adddressQR?.image
-                    case .failure(let error):
-                        self?.dismiss(animated: true)
-                        displayError(message: "Error creating address: \(error)")
-                    }
-                }).disposed(by: disposeBag)
+                .startWith(CreateAddressActions.loading)
+                //.bind(to: uiActions)
+                .subscribe(onNext: { [weak self] action in self?.uiActions.onNext(action) })
+                .disposed(by: disposeBag)
 
     }
 
     private func connectDismiss() {
         dismissButton.rx.tap.asObservable()
-            .subscribe(onNext: { [weak self] _ in
-                self?.dismissButton.isEnabled = false
-                self?.dismiss(animated: true)
-             }).disposed(by: disposeBag)
+                .map {
+                    CreateAddressActions.dismiss
+                }
+                .bind(to: uiActions)
+                .disposed(by: disposeBag)
     }
 
     private func connectCopy() {
         copyButton.rx.tap.asObservable()
-                .map { _ in
-                    true
+                .map {
+                    CreateAddressActions.copyToClipboard
                 }
-                .subscribe(onNext: { [weak self] _ in
-                    UIPasteboard.general.string = self?.addressLabel.text
-                })
+                .bind(to: uiActions)
                 .disposed(by: disposeBag)
     }
 }
