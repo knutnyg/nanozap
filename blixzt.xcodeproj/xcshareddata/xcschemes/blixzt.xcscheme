@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7267D96D20C7198300549631"
-               BuildableName = "nanozap.app"
-               BlueprintName = "nanozap"
-               ReferencedContainer = "container:nanozap.xcodeproj">
+               BuildableName = "blixzt.app"
+               BlueprintName = "blixzt"
+               ReferencedContainer = "container:blixzt.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,13 +47,17 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7267D96D20C7198300549631"
-            BuildableName = "nanozap.app"
-            BlueprintName = "nanozap"
-            ReferencedContainer = "container:nanozap.xcodeproj">
+            BuildableName = "blixzt.app"
+            BlueprintName = "blixzt"
+            ReferencedContainer = "container:blixzt.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
+      <LocationScenarioReference
+         identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
+         referenceType = "1">
+      </LocationScenarioReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

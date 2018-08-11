@@ -1,12 +1,12 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '11.4'
 
-target 'nanozap' do
+target 'blixzt' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
   inhibit_all_warnings!
 
-  # Pods for nanozap
+  # Pods for blixzt
   pod 'SwiftProtobuf', '~> 1.0'
   pod 'SwiftGRPC', :inhibit_warnings => true
   pod 'Valet'
@@ -22,12 +22,12 @@ target 'nanozap' do
   pod 'SnapKit', '~> 4.0'
   pod "QRCode", :git => "https://github.com/ekscrypto/QRCode.git"
 
-  target 'nanozapTests' do
+  target 'blixztTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
-  target 'nanozapUITests' do
+  target 'blixztUITests' do
     inherit! :search_paths
     # Pods for testing
   end
