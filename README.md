@@ -1,10 +1,10 @@
-# Nanozap
+# Blixzt
 
 ## TLDR:
-Nanozap is a light GUI client to be used with a private, fully validating LND lightning node.
+Blixzt is a light GUI client to be used with a private, fully validating LND lightning node.
 
 ## Setup
-Nanozap uses Cocoapods for dependencies:
+Blixzt uses Cocoapods for dependencies:
  1. `sudo gem install cocoapods`
  2. `pod install`
  3. open the project using the .xcworkspace file
