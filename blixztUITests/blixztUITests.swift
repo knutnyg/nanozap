@@ -8,7 +8,7 @@
 
 import XCTest
 
-class nanozapUITests: XCTestCase {
+class blixztUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()

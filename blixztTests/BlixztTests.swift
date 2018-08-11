@@ -7,9 +7,9 @@
 //
 
 import XCTest
-@testable import nanozap
+@testable import blixzt
 
-class NanozapTests: XCTestCase {
+class BlixztTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

@@ -15,6 +15,7 @@
 		3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */; };
 		3FCEDA7496CB4E79D8E7876B /* InvoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED0D55DCF1791DE3621AB /* InvoiceCell.swift */; };
 		3FCEDF7665984512D87E7382 /* PriceInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCED1EFE893568DA471CD20 /* PriceInfoService.swift */; };
+		4A79B2135B8C6D0FA563D7E9 /* Pods_blixztUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD2B75EE5F919E85CCD5AB98 /* Pods_blixztUITests.framework */; };
 		6A059A2720CC651C008EBDD4 /* PayInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2620CC651C008EBDD4 /* PayInvoiceViewController.swift */; };
 		6A059A2920CC7327008EBDD4 /* InvoiceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2820CC7327008EBDD4 /* InvoiceService.swift */; };
 		6A059A2B20CC7441008EBDD4 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A059A2A20CC7441008EBDD4 /* Invoice.swift */; };
@@ -25,26 +26,26 @@
 		6ADB0F2320CC1502008E62DF /* ChannelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F2220CC1502008E62DF /* ChannelService.swift */; };
 		6ADB0F2520CC1D33008E62DF /* WalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F2420CC1D33008E62DF /* WalletService.swift */; };
 		6ADB0F2720CC1D60008E62DF /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADB0F2620CC1D60008E62DF /* Errors.swift */; };
+		6AE670F7211F345200B5F81A /* CreatePaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE670F6211F345200B5F81A /* CreatePaymentViewController.swift */; };
+		6AE670FB211F347100B5F81A /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE670F8211F347100B5F81A /* Data.swift */; };
+		6AE670FC211F347100B5F81A /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE670F9211F347100B5F81A /* Optional.swift */; };
+		6AE670FD211F347100B5F81A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE670FA211F347100B5F81A /* String.swift */; };
 		6AFDE89520CC4080000EFA34 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFDE89420CC4080000EFA34 /* AuthViewController.swift */; };
-		707B98F6EAF2D93E3F2BF16B /* Pods_nanozap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */; };
 		7221654620C8591F00A429DE /* ChannelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7221654520C8591F00A429DE /* ChannelsTableViewController.swift */; };
 		7221654B20C85AC000A429DE /* RpcManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7221654A20C85AC000A429DE /* RpcManager.swift */; };
 		7267D97220C7198300549631 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D97120C7198300549631 /* AppDelegate.swift */; };
 		7267D97420C7198300549631 /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D97320C7198300549631 /* WalletViewController.swift */; };
 		7267D97920C7198500549631 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7267D97820C7198500549631 /* Assets.xcassets */; };
-		7267D98720C7198500549631 /* NanozapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D98620C7198500549631 /* NanozapTests.swift */; };
-		7267D99220C7198500549631 /* nanozapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D99120C7198500549631 /* nanozapUITests.swift */; };
+		7267D98720C7198500549631 /* BlixztTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D98620C7198500549631 /* BlixztTests.swift */; };
+		7267D99220C7198500549631 /* blixztUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D99120C7198500549631 /* blixztUITests.swift */; };
 		7267D9A220C71A5B00549631 /* api.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267D9A120C71A5A00549631 /* api.pb.swift */; };
 		72A1662020C7266D00F85D71 /* api.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A1661F20C7266C00F85D71 /* api.grpc.swift */; };
-		72A1662620C833C900F85D71 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A1662520C833C900F85D71 /* Data.swift */; };
 		777B131D1BFD75FE76421DD6 /* Pods_nanozapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */; };
-		984CA58C20E68C0D00BA99BA /* CreatePaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984CA58B20E68C0D00BA99BA /* CreatePaymentViewController.swift */; };
+		910FD0628975BAA6BAF715C5 /* Pods_blixztTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F484B972854CBEBCECDE2B7 /* Pods_blixztTests.framework */; };
 		9876A86620CDA563002E824F /* Podfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = 9876A86320CDA563002E824F /* Podfile.lock */; };
 		9876A86720CDA563002E824F /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 9876A86420CDA563002E824F /* Podfile */; };
 		9876A86820CDA563002E824F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9876A86520CDA563002E824F /* README.md */; };
 		9876FE3F20D4571A00D0A7AD /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876FE3E20D4571A00D0A7AD /* ChannelCell.swift */; };
-		9876FE4120D56C5200D0A7AD /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876FE4020D56C5200D0A7AD /* Optional.swift */; };
-		9876FE4320D56C8D00D0A7AD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876FE4220D56C8D00D0A7AD /* String.swift */; };
 		9899353020CD31D800498280 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9899352F20CD31D800498280 /* AppState.swift */; };
 		98E150D420DD8F5D001FD985 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E150D320DD8F5D001FD985 /* Colors.swift */; };
 		A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */; };
@@ -52,6 +53,7 @@
 		BFD0B72E7264EA9C7AAFB0D9 /* PaymentCreatedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0B83DB9EC5437EA1BFD64 /* PaymentCreatedVC.swift */; };
 		BFD0B739CB1F0F7DBDC2B801 /* SecretService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0BB283F89D9AB5E995ECF /* SecretService.swift */; };
 		BFD0BD2585942D101789BF85 /* NanoToasts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0B814847826EE39BF6422 /* NanoToasts.swift */; };
+		C782D46F368AE72CADA3BD0C /* Pods_blixzt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFD0B3A47292E5C8FE7027C3 /* Pods_blixzt.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		287D9CAA1CE055B522D4CC91 /* Pods-blixztUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-blixztUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-blixztUITests/Pods-blixztUITests.release.xcconfig"; sourceTree = "<group>"; };
 		3FCED0D55DCF1791DE3621AB /* InvoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceCell.swift; sourceTree = "<group>"; };
 		3FCED1EFE893568DA471CD20 /* PriceInfoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceInfoService.swift; sourceTree = "<group>"; };
 		3FCED391FD0E996BC7E4D8FF /* OpenChannelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenChannelViewController.swift; sourceTree = "<group>"; };
@@ -93,35 +96,41 @@
 		6ADB0F2220CC1502008E62DF /* ChannelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelService.swift; sourceTree = "<group>"; };
 		6ADB0F2420CC1D33008E62DF /* WalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletService.swift; sourceTree = "<group>"; };
 		6ADB0F2620CC1D60008E62DF /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		6AE670F6211F345200B5F81A /* CreatePaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePaymentViewController.swift; sourceTree = "<group>"; };
+		6AE670F8211F347100B5F81A /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		6AE670F9211F347100B5F81A /* Optional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Optional.swift; sourceTree = "<group>"; };
+		6AE670FA211F347100B5F81A /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		6AF7324F211F32A500DC2108 /* blixzt.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = blixzt.xcworkspace; sourceTree = "<group>"; };
 		6AFDE89420CC4080000EFA34 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		6D1E7CD5D5217E9A65BEC78D /* Pods-nanozapUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapUITests/Pods-nanozapUITests.release.xcconfig"; sourceTree = "<group>"; };
+		6FCFAA180B5850DE93C9B80E /* Pods-blixztTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-blixztTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-blixztTests/Pods-blixztTests.release.xcconfig"; sourceTree = "<group>"; };
 		7221654520C8591F00A429DE /* ChannelsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsTableViewController.swift; sourceTree = "<group>"; };
 		7221654A20C85AC000A429DE /* RpcManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RpcManager.swift; sourceTree = "<group>"; };
-		7267D96E20C7198300549631 /* nanozap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nanozap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7267D96E20C7198300549631 /* blixzt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = blixzt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7267D97120C7198300549631 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7267D97320C7198300549631 /* WalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewController.swift; sourceTree = "<group>"; };
 		7267D97820C7198500549631 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7267D97D20C7198500549631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7267D98220C7198500549631 /* nanozapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nanozapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7267D98620C7198500549631 /* NanozapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanozapTests.swift; sourceTree = "<group>"; };
+		7267D98220C7198500549631 /* blixztTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = blixztTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7267D98620C7198500549631 /* BlixztTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlixztTests.swift; sourceTree = "<group>"; };
 		7267D98820C7198500549631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7267D98D20C7198500549631 /* nanozapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nanozapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7267D99120C7198500549631 /* nanozapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nanozapUITests.swift; sourceTree = "<group>"; };
+		7267D98D20C7198500549631 /* blixztUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = blixztUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7267D99120C7198500549631 /* blixztUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = blixztUITests.swift; sourceTree = "<group>"; };
 		7267D99320C7198500549631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7267D9A120C71A5A00549631 /* api.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.pb.swift; sourceTree = "<group>"; };
 		72A1661F20C7266C00F85D71 /* api.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.grpc.swift; sourceTree = "<group>"; };
-		72A1662520C833C900F85D71 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Data.swift; path = nanozap/extentions/Data.swift; sourceTree = SOURCE_ROOT; };
 		7D9B63D700EF83677ADDE5EF /* Pods-nanozap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozap/Pods-nanozap.debug.xcconfig"; sourceTree = "<group>"; };
-		984CA58B20E68C0D00BA99BA /* CreatePaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CreatePaymentViewController.swift; path = nanozap/viewcontrollers/CreatePaymentViewController.swift; sourceTree = SOURCE_ROOT; };
 		9876A86320CDA563002E824F /* Podfile.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
 		9876A86420CDA563002E824F /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9876A86520CDA563002E824F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9876FE3E20D4571A00D0A7AD /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
-		9876FE4020D56C5200D0A7AD /* Optional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Optional.swift; path = nanozap/extentions/Optional.swift; sourceTree = SOURCE_ROOT; };
-		9876FE4220D56C8D00D0A7AD /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = String.swift; path = nanozap/extentions/String.swift; sourceTree = SOURCE_ROOT; };
 		9899352F20CD31D800498280 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		98E150D320DD8F5D001FD985 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BCA68EFBEC662681A45D2A9 /* Pods-blixztUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-blixztUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-blixztUITests/Pods-blixztUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		9F484B972854CBEBCECDE2B7 /* Pods_blixztTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_blixztTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A05B866F901382368E584EC7 /* Pods-blixzt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-blixzt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-blixzt/Pods-blixzt.debug.xcconfig"; sourceTree = "<group>"; };
+		A4409E58A541597E5F1C5D4D /* Pods-blixzt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-blixzt.release.xcconfig"; path = "Pods/Target Support Files/Pods-blixzt/Pods-blixzt.release.xcconfig"; sourceTree = "<group>"; };
 		B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFD0B814847826EE39BF6422 /* NanoToasts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NanoToasts.swift; sourceTree = "<group>"; };
 		BFD0B83DB9EC5437EA1BFD64 /* PaymentCreatedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentCreatedVC.swift; sourceTree = "<group>"; };
@@ -129,6 +138,9 @@
 		BFD0BB283F89D9AB5E995ECF /* SecretService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretService.swift; sourceTree = "<group>"; };
 		CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nanozapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F50E6AFFC8D24F78019970 /* Pods-nanozapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-nanozapTests/Pods-nanozapTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DD2B75EE5F919E85CCD5AB98 /* Pods_blixztUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_blixztUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E91A8355B71ABEA733EABE37 /* Pods-blixztTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-blixztTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-blixztTests/Pods-blixztTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EFD0B3A47292E5C8FE7027C3 /* Pods_blixzt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_blixzt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6DF48CC507693F39E9BDDF3 /* Pods-nanozap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nanozap.release.xcconfig"; path = "Pods/Target Support Files/Pods-nanozap/Pods-nanozap.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,7 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				707B98F6EAF2D93E3F2BF16B /* Pods_nanozap.framework in Frameworks */,
+				C782D46F368AE72CADA3BD0C /* Pods_blixzt.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9BF98A9735F8AD059FA555A /* Pods_nanozapTests.framework in Frameworks */,
+				910FD0628975BAA6BAF715C5 /* Pods_blixztTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				777B131D1BFD75FE76421DD6 /* Pods_nanozapUITests.framework in Frameworks */,
+				4A79B2135B8C6D0FA563D7E9 /* Pods_blixztUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +221,7 @@
 		7221654720C8592600A429DE /* viewcontrollers */ = {
 			isa = PBXGroup;
 			children = (
+				6AE670F6211F345200B5F81A /* CreatePaymentViewController.swift */,
 				7267D97320C7198300549631 /* WalletViewController.swift */,
 				7221654520C8591F00A429DE /* ChannelsTableViewController.swift */,
 				6AFDE89420CC4080000EFA34 /* AuthViewController.swift */,
@@ -214,7 +229,6 @@
 				6A9AC56420D04DC000EFF6ED /* ChannelViewController.swift */,
 				3FCED66EB3C80421494B72E0 /* TransactionViewController.swift */,
 				BFD0B814847826EE39BF6422 /* NanoToasts.swift */,
-				984CA58B20E68C0D00BA99BA /* CreatePaymentViewController.swift */,
 				3FCED4FEFAC6BF8D3CE92844 /* InvoicesTableViewController.swift */,
 				BFD0B83DB9EC5437EA1BFD64 /* PaymentCreatedVC.swift */,
 				3FCED391FD0E996BC7E4D8FF /* OpenChannelViewController.swift */,
@@ -229,9 +243,9 @@
 				9876A86420CDA563002E824F /* Podfile */,
 				9876A86320CDA563002E824F /* Podfile.lock */,
 				9876A86520CDA563002E824F /* README.md */,
-				7267D97020C7198300549631 /* nanozap */,
-				7267D98520C7198500549631 /* nanozapTests */,
-				7267D99020C7198500549631 /* nanozapUITests */,
+				7267D97020C7198300549631 /* blixzt */,
+				7267D98520C7198500549631 /* blixztTests */,
+				7267D99020C7198500549631 /* blixztUITests */,
 				7267D96F20C7198300549631 /* Products */,
 				B02C6A39C06381194C53A060 /* Pods */,
 				BA84EE0E4D0D8092E127F8A2 /* Frameworks */,
@@ -241,14 +255,14 @@
 		7267D96F20C7198300549631 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7267D96E20C7198300549631 /* nanozap.app */,
-				7267D98220C7198500549631 /* nanozapTests.xctest */,
-				7267D98D20C7198500549631 /* nanozapUITests.xctest */,
+				7267D96E20C7198300549631 /* blixzt.app */,
+				7267D98220C7198500549631 /* blixztTests.xctest */,
+				7267D98D20C7198500549631 /* blixztUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7267D97020C7198300549631 /* nanozap */ = {
+		7267D97020C7198300549631 /* blixzt */ = {
 			isa = PBXGroup;
 			children = (
 				9876FE3D20D4570900D0A7AD /* view */,
@@ -263,33 +277,33 @@
 				7267D97D20C7198500549631 /* Info.plist */,
 				6A3FDE9D20DFAA8700A06E9D /* Launch Screen.storyboard */,
 			);
-			path = nanozap;
+			path = blixzt;
 			sourceTree = "<group>";
 		};
-		7267D98520C7198500549631 /* nanozapTests */ = {
+		7267D98520C7198500549631 /* blixztTests */ = {
 			isa = PBXGroup;
 			children = (
-				7267D98620C7198500549631 /* NanozapTests.swift */,
+				7267D98620C7198500549631 /* BlixztTests.swift */,
 				7267D98820C7198500549631 /* Info.plist */,
 			);
-			path = nanozapTests;
+			path = blixztTests;
 			sourceTree = "<group>";
 		};
-		7267D99020C7198500549631 /* nanozapUITests */ = {
+		7267D99020C7198500549631 /* blixztUITests */ = {
 			isa = PBXGroup;
 			children = (
-				7267D99120C7198500549631 /* nanozapUITests.swift */,
+				7267D99120C7198500549631 /* blixztUITests.swift */,
 				7267D99320C7198500549631 /* Info.plist */,
 			);
-			path = nanozapUITests;
+			path = blixztUITests;
 			sourceTree = "<group>";
 		};
 		72A1662420C833AF00F85D71 /* extentions */ = {
 			isa = PBXGroup;
 			children = (
-				72A1662520C833C900F85D71 /* Data.swift */,
-				9876FE4020D56C5200D0A7AD /* Optional.swift */,
-				9876FE4220D56C8D00D0A7AD /* String.swift */,
+				6AE670F8211F347100B5F81A /* Data.swift */,
+				6AE670F9211F347100B5F81A /* Optional.swift */,
+				6AE670FA211F347100B5F81A /* String.swift */,
 				3FCED7CD0B93AD5F73BD7D96 /* Date.swift */,
 			);
 			path = extentions;
@@ -314,6 +328,12 @@
 				4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */,
 				6ACEF8C8F91B98293A4AA069 /* Pods-nanozapUITests.debug.xcconfig */,
 				6D1E7CD5D5217E9A65BEC78D /* Pods-nanozapUITests.release.xcconfig */,
+				A05B866F901382368E584EC7 /* Pods-blixzt.debug.xcconfig */,
+				A4409E58A541597E5F1C5D4D /* Pods-blixzt.release.xcconfig */,
+				E91A8355B71ABEA733EABE37 /* Pods-blixztTests.debug.xcconfig */,
+				6FCFAA180B5850DE93C9B80E /* Pods-blixztTests.release.xcconfig */,
+				9BCA68EFBEC662681A45D2A9 /* Pods-blixztUITests.debug.xcconfig */,
+				287D9CAA1CE055B522D4CC91 /* Pods-blixztUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -321,9 +341,13 @@
 		BA84EE0E4D0D8092E127F8A2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6AF7324F211F32A500DC2108 /* blixzt.xcworkspace */,
 				B3EA3E5DA4161139D145EC35 /* Pods_nanozap.framework */,
 				99414638A82BCCDFCF274F6D /* Pods_nanozapTests.framework */,
 				CF57096A06569C00EB14468A /* Pods_nanozapUITests.framework */,
+				EFD0B3A47292E5C8FE7027C3 /* Pods_blixzt.framework */,
+				9F484B972854CBEBCECDE2B7 /* Pods_blixztTests.framework */,
+				DD2B75EE5F919E85CCD5AB98 /* Pods_blixztUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -331,9 +355,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7267D96D20C7198300549631 /* nanozap */ = {
+		7267D96D20C7198300549631 /* blixzt */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7267D99620C7198500549631 /* Build configuration list for PBXNativeTarget "nanozap" */;
+			buildConfigurationList = 7267D99620C7198500549631 /* Build configuration list for PBXNativeTarget "blixzt" */;
 			buildPhases = (
 				363A6C47F571790C01E1888D /* [CP] Check Pods Manifest.lock */,
 				7267D96A20C7198300549631 /* Sources */,
@@ -346,14 +370,14 @@
 			);
 			dependencies = (
 			);
-			name = nanozap;
+			name = blixzt;
 			productName = nanozap;
-			productReference = 7267D96E20C7198300549631 /* nanozap.app */;
+			productReference = 7267D96E20C7198300549631 /* blixzt.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7267D98120C7198500549631 /* nanozapTests */ = {
+		7267D98120C7198500549631 /* blixztTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7267D99920C7198500549631 /* Build configuration list for PBXNativeTarget "nanozapTests" */;
+			buildConfigurationList = 7267D99920C7198500549631 /* Build configuration list for PBXNativeTarget "blixztTests" */;
 			buildPhases = (
 				86F5795A5F9E84B545902552 /* [CP] Check Pods Manifest.lock */,
 				7267D97E20C7198500549631 /* Sources */,
@@ -365,14 +389,14 @@
 			dependencies = (
 				7267D98420C7198500549631 /* PBXTargetDependency */,
 			);
-			name = nanozapTests;
+			name = blixztTests;
 			productName = nanozapTests;
-			productReference = 7267D98220C7198500549631 /* nanozapTests.xctest */;
+			productReference = 7267D98220C7198500549631 /* blixztTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		7267D98C20C7198500549631 /* nanozapUITests */ = {
+		7267D98C20C7198500549631 /* blixztUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7267D99C20C7198500549631 /* Build configuration list for PBXNativeTarget "nanozapUITests" */;
+			buildConfigurationList = 7267D99C20C7198500549631 /* Build configuration list for PBXNativeTarget "blixztUITests" */;
 			buildPhases = (
 				AD8F041C36EAA2D533F76EEC /* [CP] Check Pods Manifest.lock */,
 				7267D98920C7198500549631 /* Sources */,
@@ -384,9 +408,9 @@
 			dependencies = (
 				7267D98F20C7198500549631 /* PBXTargetDependency */,
 			);
-			name = nanozapUITests;
+			name = blixztUITests;
 			productName = nanozapUITests;
-			productReference = 7267D98D20C7198500549631 /* nanozapUITests.xctest */;
+			productReference = 7267D98D20C7198500549631 /* blixztUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -412,7 +436,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7267D96920C7198300549631 /* Build configuration list for PBXProject "nanozap" */;
+			buildConfigurationList = 7267D96920C7198300549631 /* Build configuration list for PBXProject "blixzt" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -425,9 +449,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7267D96D20C7198300549631 /* nanozap */,
-				7267D98120C7198500549631 /* nanozapTests */,
-				7267D98C20C7198500549631 /* nanozapUITests */,
+				7267D96D20C7198300549631 /* blixzt */,
+				7267D98120C7198500549631 /* blixztTests */,
+				7267D98C20C7198500549631 /* blixztUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -473,7 +497,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-nanozap-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-blixzt-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -486,7 +510,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-nanozap/Pods-nanozap-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-blixzt/Pods-blixzt-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/FontAwesome.swift/FontAwesome_swift.framework",
 				"${BUILT_PRODUCTS_DIR}/PasswordExtension/PasswordExtension.framework",
@@ -525,7 +549,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-nanozap/Pods-nanozap-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-blixzt/Pods-blixzt-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		86F5795A5F9E84B545902552 /* [CP] Check Pods Manifest.lock */ = {
@@ -539,7 +563,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-nanozapTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-blixztTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -570,7 +594,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-nanozapUITests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-blixztUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -585,19 +609,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				7267D97420C7198300549631 /* WalletViewController.swift in Sources */,
-				9876FE4120D56C5200D0A7AD /* Optional.swift in Sources */,
-				9876FE4320D56C8D00D0A7AD /* String.swift in Sources */,
 				6A059A2B20CC7441008EBDD4 /* Invoice.swift in Sources */,
 				6A9AC56520D04DC000EFF6ED /* ChannelViewController.swift in Sources */,
 				9876FE3F20D4571A00D0A7AD /* ChannelCell.swift in Sources */,
+				6AE670FB211F347100B5F81A /* Data.swift in Sources */,
 				98E150D420DD8F5D001FD985 /* Colors.swift in Sources */,
 				9899353020CD31D800498280 /* AppState.swift in Sources */,
-				984CA58C20E68C0D00BA99BA /* CreatePaymentViewController.swift in Sources */,
+				6AE670FC211F347100B5F81A /* Optional.swift in Sources */,
 				7221654620C8591F00A429DE /* ChannelsTableViewController.swift in Sources */,
 				7221654B20C85AC000A429DE /* RpcManager.swift in Sources */,
 				6ADB0F2320CC1502008E62DF /* ChannelService.swift in Sources */,
 				6AFDE89520CC4080000EFA34 /* AuthViewController.swift in Sources */,
-				72A1662620C833C900F85D71 /* Data.swift in Sources */,
 				72A1662020C7266D00F85D71 /* api.grpc.swift in Sources */,
 				6ADB0F2520CC1D33008E62DF /* WalletService.swift in Sources */,
 				6A059A2F20CD9243008EBDD4 /* Transaction.swift in Sources */,
@@ -611,12 +633,14 @@
 				3FCED8CADC7C0AAAE595A17F /* TransactionViewController.swift in Sources */,
 				3FCED39F61A06721C1FA9566 /* CommonUIComponents.swift in Sources */,
 				BFD0BD2585942D101789BF85 /* NanoToasts.swift in Sources */,
+				6AE670F7211F345200B5F81A /* CreatePaymentViewController.swift in Sources */,
 				3FCED65E9CA1A3741A1FBACC /* InvoicesTableViewController.swift in Sources */,
 				3FCEDA7496CB4E79D8E7876B /* InvoiceCell.swift in Sources */,
 				BFD0B72E7264EA9C7AAFB0D9 /* PaymentCreatedVC.swift in Sources */,
 				3FCED050F5900E86217C9CD6 /* Fonts.swift in Sources */,
 				3FCED4C03CE7D2A73FDC337C /* OpenChannelViewController.swift in Sources */,
 				3FCEDF7665984512D87E7382 /* PriceInfoService.swift in Sources */,
+				6AE670FD211F347100B5F81A /* String.swift in Sources */,
 				3FCED5167ED3000A3E1A74C3 /* Date.swift in Sources */,
 				BFD0B60C9A606D5E9F82051C /* DepostViewController.swift in Sources */,
 			);
@@ -626,7 +650,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7267D98720C7198500549631 /* NanozapTests.swift in Sources */,
+				7267D98720C7198500549631 /* BlixztTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,7 +658,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7267D99220C7198500549631 /* nanozapUITests.swift in Sources */,
+				7267D99220C7198500549631 /* blixztUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,12 +667,12 @@
 /* Begin PBXTargetDependency section */
 		7267D98420C7198500549631 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7267D96D20C7198300549631 /* nanozap */;
+			target = 7267D96D20C7198300549631 /* blixzt */;
 			targetProxy = 7267D98320C7198500549631 /* PBXContainerItemProxy */;
 		};
 		7267D98F20C7198500549631 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7267D96D20C7198300549631 /* nanozap */;
+			target = 7267D96D20C7198300549631 /* blixzt */;
 			targetProxy = 7267D98E20C7198500549631 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -770,12 +794,12 @@
 		};
 		7267D99720C7198500549631 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D9B63D700EF83677ADDE5EF /* Pods-nanozap.debug.xcconfig */;
+			baseConfigurationReference = A05B866F901382368E584EC7 /* Pods-blixzt.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = E9A359GGU4;
-				INFOPLIST_FILE = nanozap/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/blixzt/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -789,12 +813,12 @@
 		};
 		7267D99820C7198500549631 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F6DF48CC507693F39E9BDDF3 /* Pods-nanozap.release.xcconfig */;
+			baseConfigurationReference = A4409E58A541597E5F1C5D4D /* Pods-blixzt.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = E9A359GGU4;
-				INFOPLIST_FILE = nanozap/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/blixzt/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -808,18 +832,18 @@
 		};
 		7267D99A20C7198500549631 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7F50E6AFFC8D24F78019970 /* Pods-nanozapTests.debug.xcconfig */;
+			baseConfigurationReference = E91A8355B71ABEA733EABE37 /* Pods-blixztTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = nanozapTests/Info.plist;
+				INFOPLIST_FILE = blixztTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = xyz.nygaard.nanozapTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blixzt.blixztTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -829,18 +853,18 @@
 		};
 		7267D99B20C7198500549631 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4CB6C2616BCDEB1109577235 /* Pods-nanozapTests.release.xcconfig */;
+			baseConfigurationReference = 6FCFAA180B5850DE93C9B80E /* Pods-blixztTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = nanozapTests/Info.plist;
+				INFOPLIST_FILE = blixztTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = xyz.nygaard.nanozapTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blixzt.blixztTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -850,7 +874,7 @@
 		};
 		7267D99D20C7198500549631 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ACEF8C8F91B98293A4AA069 /* Pods-nanozapUITests.debug.xcconfig */;
+			baseConfigurationReference = 9BCA68EFBEC662681A45D2A9 /* Pods-blixztUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -870,7 +894,7 @@
 		};
 		7267D99E20C7198500549631 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6D1E7CD5D5217E9A65BEC78D /* Pods-nanozapUITests.release.xcconfig */;
+			baseConfigurationReference = 287D9CAA1CE055B522D4CC91 /* Pods-blixztUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -891,7 +915,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7267D96920C7198300549631 /* Build configuration list for PBXProject "nanozap" */ = {
+		7267D96920C7198300549631 /* Build configuration list for PBXProject "blixzt" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7267D99420C7198500549631 /* Debug */,
@@ -900,7 +924,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7267D99620C7198500549631 /* Build configuration list for PBXNativeTarget "nanozap" */ = {
+		7267D99620C7198500549631 /* Build configuration list for PBXNativeTarget "blixzt" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7267D99720C7198500549631 /* Debug */,
@@ -909,7 +933,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7267D99920C7198500549631 /* Build configuration list for PBXNativeTarget "nanozapTests" */ = {
+		7267D99920C7198500549631 /* Build configuration list for PBXNativeTarget "blixztTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7267D99A20C7198500549631 /* Debug */,
@@ -918,7 +942,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7267D99C20C7198500549631 /* Build configuration list for PBXNativeTarget "nanozapUITests" */ = {
+		7267D99C20C7198500549631 /* Build configuration list for PBXNativeTarget "blixztUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7267D99D20C7198500549631 /* Debug */,
