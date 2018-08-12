@@ -47,7 +47,6 @@ private enum AuthStateChanges {
 
 class AuthViewController: UIViewController, QRCodeReaderViewControllerDelegate {
 
-    var onePasswordButton: UIButton!
     var hostnameTextField: UITextField!
     var certLabel: UILabel!
     var macaroonLabel: UILabel!
@@ -139,7 +138,10 @@ class AuthViewController: UIViewController, QRCodeReaderViewControllerDelegate {
 
                         let valid = RpcManager.testConfig(cfg: config)
                         if (valid) {
-                            let state = AuthStateUpdate(macaroon: config.macaroon, hostname: config.address, cert: config.cert)
+                            let state = AuthStateUpdate(
+                                    macaroon: config.macaroon,
+                                    hostname: config.address,
+                                    cert: config.cert)
                             AppState.sharedState.updater.onNext(.updateAuthConfig(state))
                         }
                     }
