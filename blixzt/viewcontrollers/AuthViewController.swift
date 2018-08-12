@@ -7,7 +7,45 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate {
+enum AuthEvent {
+    case stateUpdate(AuthState)
+    case displaySuccess(message: String)
+    case displayFailure(message: String)
+}
+
+struct AuthState {
+    var macaroon: String?
+    var cert: String?
+    var hostname: String?
+
+    func new(
+            macaroon: String? = nil,
+            cert: String? = nil,
+            hostname: String? = nil) -> AuthState {
+        return AuthState(
+                macaroon: macaroon ?? self.macaroon,
+                cert: cert ?? self.cert,
+                hostname: hostname ?? self.hostname)
+    }
+}
+
+enum ScanObject {
+    case cert
+    case macaroon
+}
+
+enum AuthUIAction {
+    case displaySuccess(message: String)
+    case displayFailure(message: String)
+}
+
+private enum AuthStateChanges {
+    case hostname(hostname: String)
+    case cert(cert: String)
+    case macaroon(macaroon: String)
+}
+
+class AuthViewController: UIViewController, QRCodeReaderViewControllerDelegate {
 
     var onePasswordButton: UIButton!
     var hostnameTextField: UITextField!
@@ -18,34 +56,29 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
     var scanMacaroon: UIButton!
 
     let disposeBag = DisposeBag()
-    var scanType:String = "none"
-    
-    var macaroon:String?
-    var cert:String?
-    var hostname:String?
+    var scanType: ScanObject = .cert
 
-    var hostnameObs = BehaviorSubject<String?>(value: "")
-    let certObs = PublishSubject<String>()
-    let macaroonObs = PublishSubject<String>()
-    
+    let state = BehaviorSubject<AuthState>(value: AuthState(
+            macaroon: AppState.sharedState.macaroon,
+            cert: AppState.sharedState.cert,
+            hostname: AppState.sharedState.hostname)
+    )
+    let uiActions = PublishSubject<AuthUIAction>()
+    private let stateChanges = PublishSubject<AuthStateChanges>()
+
     override func viewDidLoad() {
 
         view.backgroundColor = UIColor.white
 
         hostnameTextField = createTextField(placeholder: "hostname:port")
-        hostnameTextField.translatesAutoresizingMaskIntoConstraints = false
+        hostnameTextField.keyboardType = .URL
 
         certLabel = createLabel(text: "")
         macaroonLabel = createLabel(text: "")
 
         testSecretsButton = createButton(text: "test secrets")
-        testSecretsButton.addTarget(self, action: #selector(testAuthClicked), for: .touchUpInside)
-
         scanCert = createButton(text: "Scan Cert")
-        scanCert.addTarget(self, action: #selector(scanCertClicked), for: .touchUpInside)
-
         scanMacaroon = createButton(text: "Scan Macaroon")
-        scanMacaroon.addTarget(self, action: #selector(scanMacaroonClicked), for: .touchUpInside)
 
         self.view.addSubview(hostnameTextField)
         self.view.addSubview(certLabel)
@@ -81,94 +114,107 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
             make.centerX.equalTo(self.view)
         }
 
-        self.macaroon = AppState.sharedState.macaroon
-        self.cert = AppState.sharedState.cert
-        self.hostname = AppState.sharedState.hostname
-        self.hostnameObs = BehaviorSubject<String?>(value: AppState.sharedState.hostname)
-        
-        certLabel.text = (self.cert != nil) ? "Cert: ✅" : "Cert: ❌"
-        macaroonLabel.text = (self.macaroon != nil) ? "Macaroon: ✅" : "Macaroon: ❌"
-        hostnameTextField.text = self.hostname ?? ""
+        state
+                .observeOn(MainScheduler.instance)
+                .subscribe(onNext: { (state: AuthState) in
+                    self.certLabel.text = (state.cert != nil) ? "Cert: ✅" : "Cert: ❌"
+                    self.macaroonLabel.text = (state.macaroon != nil) ? "Macaroon: ✅" : "Macaroon: ❌"
+                    self.hostnameTextField.text = state.hostname ?? ""
+                }).disposed(by: disposeBag)
+
+        stateChanges
+                .observeOn(AppState.userInitiatedBgScheduler)
+                .subscribe(onNext: { (change: AuthStateChanges) in
+                    if let state = self.getState() {
+                        switch (change) {
+                        case .hostname(let hostname): self.state.onNext(state.new(hostname: hostname))
+                        case .cert(let cert): self.state.onNext(state.new(cert: cert))
+                        case .macaroon(let macaroon): self.state.onNext(state.new(macaroon: macaroon))
+                        }
+
+                        let config = RpcConfig(
+                                address: state.hostname ?? "",
+                                macaroon: state.macaroon ?? "",
+                                cert: state.cert ?? "")
+
+                        let valid = RpcManager.testConfig(cfg: config)
+                        if (valid) {
+                            let state = AuthStateUpdate(macaroon: config.macaroon, hostname: config.address, cert: config.cert)
+                            AppState.sharedState.updater.onNext(.updateAuthConfig(state))
+                        }
+                    }
+                }).disposed(by: disposeBag)
+
+        scanCert.rx.tap
+                .asObservable()
+                .subscribe(onNext: { _ in
+                    self.readerVC.delegate = self
+                    self.readerVC.modalPresentationStyle = .formSheet
+                    self.present(self.readerVC, animated: true, completion: { self.scanType = .cert })
+                })
+                .disposed(by: disposeBag)
+
+        scanMacaroon.rx.tap
+                .asObservable()
+                .subscribe(onNext: { _ in
+                    self.readerVC.delegate = self
+                    self.readerVC.modalPresentationStyle = .formSheet
+                    self.present(self.readerVC, animated: true, completion: { self.scanType = .macaroon })
+                })
+                .disposed(by: disposeBag)
+
+        testSecretsButton.rx.tap
+                .asObservable()
+                .subscribe(onNext: { _ in
+                    do {
+                        _ = try WalletService.shared.getBalance()
+                        let alert = UIAlertController(
+                                title: "Success 🙌",
+                                message: "Successfully made a request to LND",
+                                preferredStyle: .alert
+                        )
+
+                        alert.addAction(UIAlertAction(
+                                title: "Great",
+                                style: .default,
+                                handler: nil
+                        ))
+                        self.present(alert, animated: true)
+                    } catch {
+                        let alert = UIAlertController(
+                                title: "Failure 😢",
+                                message: "Failed to make a request to LND",
+                                preferredStyle: .alert
+                        )
+
+                        alert.addAction(UIAlertAction(
+                                title: "OK",
+                                style: .default,
+                                handler: nil
+                        ))
+                        self.present(alert, animated: true)
+                    }
+                })
+                .disposed(by: disposeBag)
 
         hostnameTextField.rx.text
-            .distinctUntilChanged()
-            .bind(to: hostnameObs)
-            .disposed(by: disposeBag)
+                .asObservable()
+                .debounce(0.5, scheduler: AppState.userInitiatedBgScheduler)
+                .subscribe(onNext: { (val: String?) in
+                    self.stateChanges.onNext(.hostname(hostname: val!))
+                })
+                .disposed(by: disposeBag)
 
-        let obs1 = hostnameObs.asObservable()
-            .do(onNext: { (val : Any) in print("host=", val) })
-            .filter { optVal in optVal.map { value in true }.or(false) }
-            .map { val in val.or("") }
-            .do(onNext: { (val : String) in self.hostname = val })
-            .startWith(hostname ?? "")
-
-        let obs2 = certObs.distinctUntilChanged().startWith(cert ?? "")
-        let obs3 = macaroonObs.distinctUntilChanged().startWith(macaroon ?? "")
-
-        let configs = Observable
-            .combineLatest(obs1, obs2, obs3)
-            .debounce(0.5, scheduler: AppState.userInitiatedBgScheduler)
-            .observeOn(AppState.userInitiatedBgScheduler)
-            .map { (address, cert, macaroon) in
-                RpcConfig(address: address, macaroon: macaroon, cert: cert)
-            }
-        
-        let validConfigs = configs
-            .filter { cfg in RpcManager.testConfig(cfg: cfg) }
-
-        validConfigs
-            .map { (rpcConfig) in
-                AuthStateUpdate(macaroon: rpcConfig.macaroon, hostname: rpcConfig.address, cert: rpcConfig.cert)
-            }
-            .map { action in
-                Event.updateAuthConfig(action)
-            }
-            .bind(to: AppState.sharedState.updater)
-            .disposed(by: disposeBag)
-    }
-
-    @IBAction func onePasswordButtonClicked(_ sender: Any) {
-        // Using the provided classes
-        let domain = self.hostname ?? "https://github.com"
-
-        PasswordExtension.shared
-            .findLoginDetails(for: domain, viewController: self, sender: nil) { (loginDetails, error) in
-                if let loginDetails = loginDetails {
-                    print("Title: \(loginDetails.title ?? "")")
-                    print("Username: \(loginDetails.username)")
-                    print("Password: \(loginDetails.password ?? "")")
-                    print("Notes: \(loginDetails.notes ?? "")")
-                    print("URL: \(loginDetails.urlString)")
-                    print("Fields: ", loginDetails.fields ?? "")
-                    print("Fields: ", loginDetails.returnedFields ?? "")
-
-                    self.certObs.onNext(loginDetails.notes ?? "")
-                    self.macaroonObs.onNext(loginDetails.password ?? "")
-                    self.hostnameTextField.text = loginDetails.urlString
-                    
-                } else if let error = error {
-                    switch error.code {
-                    case .extensionCancelledByUser:
-                        print(error.localizedDescription)
-                    default:
-                        print("Error: \(error)")
+        uiActions
+                .observeOn(MainScheduler.instance)
+                .subscribe(onNext: { (action: AuthUIAction) in
+                    switch (action) {
+                    case .displayFailure(let message): displayError(message: message)
+                    default: break
                     }
-                }
-        }
+                }).disposed(by: disposeBag)
     }
 
-    @objc func scanCertClicked(sender: UIButton!) {
-        readerVC.delegate = self
-        readerVC.modalPresentationStyle = .formSheet
-        present(readerVC, animated: true, completion: { self.scanType = "cert"})
-    }
-
-    @objc func scanMacaroonClicked(sender: UIButton!) {
-        readerVC.delegate = self
-        readerVC.modalPresentationStyle = .formSheet
-        present(readerVC, animated: true, completion: { self.scanType = "macaroon"})
-    }
-    
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
             $0.reader = QRCodeReader(metadataObjectTypes: [.qr], captureDevicePosition: .back)
@@ -176,83 +222,54 @@ class AuthViewController : UIViewController, QRCodeReaderViewControllerDelegate 
         return QRCodeReaderViewController(builder: builder)
     }()
 
-
-
-    @objc func testAuthClicked(sender: UIButton!) {
-        do {
-            _ = try WalletService.shared.getBalance()
-            let alert = UIAlertController(
-                title: "Success 🙌",
-                message: "Successfully made a request to LND",
-                preferredStyle: .alert
-            )
-            
-            alert.addAction(UIAlertAction(
-                title: "Great",
-                style: .default,
-                handler: nil
-            ))
-            self.present(alert, animated: true)
-        } catch {
-            let alert = UIAlertController(
-                title: "Failure 😢",
-                message: "Failed to make a request to LND",
-                preferredStyle: .alert
-            )
-            
-            alert.addAction(UIAlertAction(
-                title: "OK",
-                style: .default,
-                handler: nil
-            ))
-            self.present(alert, animated: true)
-        }
-    }
-    
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         reader.stopScanning()
-        
+
         switch scanType {
-        case "cert":
+        case .cert:
             if !(certIsValid(cert: result.value)) {
-                return
+                self.uiActions.onNext(.displayFailure(message: "Error scanning"))
+            } else {
+                stateChanges.onNext(.cert(cert: result.value))
             }
-            certObs.onNext(result.value)
-            certLabel.text = "✅"
-        case "macaroon":
+        case .macaroon:
             if !(macaroonIsValid(macaroon: result.value)) {
-                return
+                self.uiActions.onNext(.displayFailure(message: "Error scanning"))
+            } else {
+                let base64Macaroon = Data(base64Encoded: result.value)!
+                let macaroon = base64Macaroon.hexString()
+                stateChanges.onNext(.macaroon(macaroon: macaroon))
             }
-            let base64Macaroon = Data(base64Encoded: result.value)!
-            
-            macaroon = base64Macaroon.hexString()
-            macaroonObs.onNext(macaroon ?? "")
-            macaroonLabel.text = "✅"
-            
-        default:
-            print(result.value)
         }
 
         dismiss(animated: true, completion: nil)
     }
-    
+
     func readerDidCancel(_ reader: QRCodeReaderViewController) {
         reader.stopScanning()
-        
+
         dismiss(animated: true, completion: nil)
     }
-    
-    public func certIsValid(cert:String) -> Bool {
-        return
-            cert.contains("-----BEGIN CERTIFICATE-----") &&
-            cert.contains("-----END CERTIFICATE-----")
+
+    public func certIsValid(cert: String) -> Bool {
+        return cert.contains("-----BEGIN CERTIFICATE-----") &&
+                cert.contains("-----END CERTIFICATE-----")
     }
-    
-    public func macaroonIsValid(macaroon:String) -> Bool {
+
+    public func macaroonIsValid(macaroon: String) -> Bool {
         if let data = Data(base64Encoded: macaroon) {
             return !data.isEmpty
         }
-        
+
         return false
+    }
+
+    private func getState() -> AuthState? {
+        do {
+            return try self.state.value()
+        } catch let error {
+            print(error)
+        }
+        return nil
     }
 }

@@ -21,7 +21,7 @@ class RpcManager {
 
     public static func testConfig(cfg : RpcConfig) -> Bool {
         do {
-            if cfg.cert.count < 1 || cfg.macaroon.count < 1 {
+            if cfg.cert.count < 1 || cfg.macaroon.count < 1 || cfg.address.count < 1 {
                 return false
             }
             
