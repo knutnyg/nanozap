@@ -7,6 +7,11 @@ import SnapKit
 enum WalletUIActions {
     case wallet(walletData: WalletData)
     case openDeposit(DepositViewController)
+    case openChannel
+    case openCreateInvoice
+    case selectedTx(Transaction)
+    case failure(Error)
+    case loading
 }
 
 class WalletViewController: UIViewController {
@@ -26,9 +31,7 @@ class WalletViewController: UIViewController {
 
     let loadSubject = BehaviorSubject<Void>(value: ())
 
-    let walletSubject = BehaviorSubject<WalletData>(value: WalletData.initWallet)
     let transactionsSubject = BehaviorSubject<[Transaction]>(value: WalletData.initWallet.txs)
-    let balanceSubject = BehaviorSubject<WalletBalance>(value: WalletData.initWallet.balance)
 
     let uiActions = PublishSubject<WalletUIActions>()
 
@@ -112,6 +115,9 @@ class WalletViewController: UIViewController {
             make.width.equalTo(self.view)
         }
 
+        let refreshControl = UIRefreshControl()
+        transactionsView.refreshControl = refreshControl
+
         txDateFormatter.dateFormat = "MM.dd"
 
         headerView.backgroundColor = headerColor
@@ -121,25 +127,24 @@ class WalletViewController: UIViewController {
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { (_) in
                     WalletService.shared.getWallet().retry(3)
+                            .retry(3)
+                            .map { walletData in
+                                WalletUIActions.wallet(walletData: walletData)
+                            }
+                            .startWith(WalletUIActions.loading)
+                            .catchError { error in
+                                return Observable.just(WalletUIActions.failure(error))
+                            }
                 }
-                .catchError({ (error) -> Observable<WalletData> in
-                    print("caught error", error)
-                    return Observable.empty()
-                })
-                .bind(to: walletSubject)
+                .bind(to: uiActions)
                 .disposed(by: disposeBag)
 
         openChannelButton.rx.tap
                 .asObservable()
-                .subscribe(onNext: { _ in
-                    let vc = OpenChannelViewController()
-                    self.present(vc, animated: true)
-                }).disposed(by: disposeBag)
-
-        walletSubject.asObservable()
-                .subscribe(onNext: { (data: WalletData) in
-                    self.uiActions.onNext(.wallet(walletData: data))
-                })
+                .map { _ in
+                    WalletUIActions.openChannel
+                }
+                .bind(to: uiActions)
                 .disposed(by: disposeBag)
 
         uiActions.asObservable()
@@ -149,24 +154,37 @@ class WalletViewController: UIViewController {
                     case .wallet(let data):
                         self?.priceInfoLabel.text = "Bitcoin price: \(data.priceInfo.priceInEUR) Euro"
                         self?.transactionsSubject.onNext(data.txs)
-                        self?.balanceSubject.onNext(data.balance)
+                        self?.walletbalanceLabel.text = "\(data.balance.confirmedBalance)"
+                        refreshControl.endRefreshing()
                     case .openDeposit(let vc):
                         self?.present(vc, animated: true, completion: nil)
+                    case .openChannel:
+                        let vc = OpenChannelViewController()
+                        self?.present(vc, animated: true)
+                    case .openCreateInvoice:
+                        let vc = CreatePaymentViewController()
+                        self?.present(vc, animated: true, completion: nil)
+                    case .failure(let error):
+                        refreshControl.endRefreshing()
+                        displayError(message: "Error loading wallet data: \(error)")
+                    case .loading:
+                        refreshControl.beginRefreshing()
+                    case .selectedTx(let tx):
+                        let model = TransactionDetailViewModel(tx: tx)
+                        let view = TransactionDetailViewController.make(model: model)
+                        self?.present(view, animated: true, completion: nil)
                     }
                 })
                 .disposed(by: self.disposeBag)
 
         depositCoinsButton.rx.tap.asObservable()
-                .map { _ in DepositViewController() }
-                .map { .openDeposit($0) }
+                .map { _ in
+                    DepositViewController()
+                }
+                .map {
+                    .openDeposit($0)
+                }
                 .bind(to: uiActions)
-                .disposed(by: disposeBag)
-
-        balanceSubject.asObservable()
-                .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (bal) in
-                    self.walletbalanceLabel.text! = "\(bal.confirmedBalance)"
-                })
                 .disposed(by: disposeBag)
 
         transactionsView.rx
@@ -174,16 +192,10 @@ class WalletViewController: UIViewController {
                 .asObservable()
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .do(onNext: { tx in print("selected tx=", tx.txHash) })
-                .map { (tx) in
-                    TransactionDetailViewModel(tx: tx)
+                .map { tx in
+                    WalletUIActions.selectedTx(tx)
                 }
-                .map { (model) in
-                    TransactionDetailViewController.make(model: model)
-                }
-                .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (view) in
-                    self.present(view, animated: true, completion: nil)
-                })
+                .bind(to: uiActions)
                 .disposed(by: disposeBag)
 
         transactionsSubject.asObservable()
@@ -204,9 +216,6 @@ class WalletViewController: UIViewController {
                 }
                 .disposed(by: disposeBag)
 
-        let refreshControl = UIRefreshControl()
-        transactionsView.refreshControl = refreshControl
-
         refreshControl.rx
                 .controlEvent(.valueChanged)
                 .map { [refreshControl] _ in
@@ -219,40 +228,24 @@ class WalletViewController: UIViewController {
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { (_) in
                     WalletService.shared.getWallet().retry(3)
+                            .retry(3)
+                            .map { walletData in
+                                WalletUIActions.wallet(walletData: walletData)
+                            }
+                            .startWith(WalletUIActions.loading)
+                            .catchError { error in
+                                return Observable.just(WalletUIActions.failure(error))
+                            }
                 }
-                .catchError({ (error) -> Observable<WalletData> in
-                    print("caught error", error)
-                    return Observable.empty()
-                })
-                // go back to main thread to touch UI
-                .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (data) in
-                    print("some refresh")
-                    self.transactionsSubject.onNext(data.txs)
-                    self.walletbalanceLabel.text! = "Confirmed: \(data.balance.confirmedBalance) SAT"
-                    refreshControl.endRefreshing()
-                }, onError: { (error) in
-                    print("got error on refresh: ", error)
-                    refreshControl.endRefreshing()
-                })
+                .bind(to: uiActions)
                 .disposed(by: disposeBag)
 
         createInvoiceButton.rx.tap.asObservable()
                 .map { _ in
-                    true
+                    WalletUIActions.openCreateInvoice
                 }
-                .map { _ in
-                    CreatePaymentViewController()
-                }
-                .subscribe(
-                        onNext: { [weak self] val in
-                            self?.present(val, animated: true, completion: nil)
-                        },
-                        onError: { error in
-                            print("error handling tap", error)
-                            fatalError("died handling tap")
-                        }
-                ).disposed(by: disposeBag)
+                .bind(to: uiActions)
+                .disposed(by: disposeBag)
     }
 
     @objc func payInvoiceClicked(sender: UIButton!) {
