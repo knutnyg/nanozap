@@ -101,8 +101,7 @@ class DepositViewController: UIViewController {
                                 self?.dismiss(animated: true)
                             }
                         },
-                        onError: { error in fatalError("onError: \(error)") },
-                        onCompleted: { () in print("onCompleted") }
+                        onError: { error in fatalError("onError: \(error)") }
                 ).disposed(by: disposeBag)
     }
 
