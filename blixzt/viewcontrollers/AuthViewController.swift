@@ -201,7 +201,7 @@ class AuthViewController: UIViewController, QRCodeReaderViewControllerDelegate {
 
         hostnameTextField.rx.text
                 .asObservable()
-                .debounce(0.5, scheduler: AppState.userInitiatedBgScheduler)
+                .debounce(2, scheduler: AppState.userInitiatedBgScheduler)
                 .subscribe(onNext: { (val: String?) in
                     self.stateChanges.onNext(.hostname(hostname: val!))
                 })
