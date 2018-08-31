@@ -21,7 +21,8 @@ class RpcManager {
 
     public static func testConfig(cfg : RpcConfig) -> Bool {
         do {
-            if cfg.cert.count < 1 || cfg.macaroon.count < 1 || cfg.address.count < 1 {
+            let regex = try NSRegularExpression(pattern: "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")
+            if cfg.cert.count < 1 || cfg.macaroon.count < 1 || !(regex.matches(in: cfg.address, options: [], range: NSRange(location: 0, length: cfg.address.count)).count > 0) {
                 return false
             }
             

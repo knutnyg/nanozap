@@ -7,13 +7,13 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-enum AuthEvent {
+private enum AuthEvent {
     case stateUpdate(AuthState)
     case displaySuccess(message: String)
     case displayFailure(message: String)
 }
 
-struct AuthState {
+private struct AuthState {
     var macaroon: String?
     var cert: String?
     var hostname: String?
@@ -29,12 +29,12 @@ struct AuthState {
     }
 }
 
-enum ScanObject {
+private enum ScanObject {
     case cert
     case macaroon
 }
 
-enum AuthUIAction {
+private enum AuthUIAction {
     case displaySuccess(message: String)
     case displayFailure(message: String)
 }
@@ -55,14 +55,14 @@ class AuthViewController: UIViewController, QRCodeReaderViewControllerDelegate {
     var scanMacaroon: UIButton!
 
     let disposeBag = DisposeBag()
-    var scanType: ScanObject = .cert
+    private var scanType: ScanObject = .cert
 
-    let state = BehaviorSubject<AuthState>(value: AuthState(
+    private let state = BehaviorSubject<AuthState>(value: AuthState(
             macaroon: AppState.sharedState.macaroon,
             cert: AppState.sharedState.cert,
             hostname: AppState.sharedState.hostname)
     )
-    let uiActions = PublishSubject<AuthUIAction>()
+    private let uiActions = PublishSubject<AuthUIAction>()
     private let stateChanges = PublishSubject<AuthStateChanges>()
 
     override func viewDidLoad() {
@@ -116,8 +116,8 @@ class AuthViewController: UIViewController, QRCodeReaderViewControllerDelegate {
         state
                 .observeOn(MainScheduler.instance)
                 .subscribe(onNext: { (state: AuthState) in
-                    self.certLabel.text = (state.cert != nil) ? "Cert: ✅" : "Cert: ❌"
-                    self.macaroonLabel.text = (state.macaroon != nil) ? "Macaroon: ✅" : "Macaroon: ❌"
+                    self.certLabel.text = (state.cert != nil && state.cert != "") ? "Cert: ✅" : "Cert: ❌"
+                    self.macaroonLabel.text = (state.macaroon != nil && state.macaroon != "") ? "Macaroon: ✅" : "Macaroon: ❌"
                     self.hostnameTextField.text = state.hostname ?? ""
                 }).disposed(by: disposeBag)
 

@@ -56,7 +56,7 @@ class AppState {
     
     init(store : SecretKeeper = ICloudSecretKeeper()) {
         self.store = store
-        hostname = store.get(key: HostnameStore.hostnameKey) ?? "restored-hostname"
+        hostname = store.get(key: HostnameStore.hostnameKey) ?? ""
         cert = store.get(key: CertStore.certKey) ?? ""
         macaroon = store.get(key: MacaroonStore.macaroonKey) ?? ""
 
