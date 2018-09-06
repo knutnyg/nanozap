@@ -52,8 +52,8 @@ struct ConnectToNodeResult {
 }
 
 struct ConnectedPeer {
-    let pubkey : String
-    let address : String
+    let pubkey: String
+    let address: String
 }
 
 struct ConnectedPeersResult {
@@ -64,6 +64,10 @@ class ChannelService: Channeler {
     static let shared: ChannelService = ChannelService()
 
     let rpcmanager: RpcManager = RpcManager.shared
+
+    func getChannels() throws -> [Channel] {
+        return []
+    }
 
     public func openChannel(nodePubKey: String, satPerByte: Int, amount: Int) -> Observable<OpenChannelResult> {
         return Observable.create { obs in
@@ -239,57 +243,93 @@ class ChannelService: Channeler {
         }
     }
 
-    public func getChannelsRx() -> Observable<[Channel]> {
-        return Observable.deferred {
-            if let res = try self.rpcmanager.client()?.listChannels(Lnrpc_ListChannelsRequest()) {
+//    public func getPendingChannels() throws -> [PendingChannel] {
+//        return Observable.deferred {
+//            if let res = try self.rpcmanager.client()?.pendingChannels(request: Lnrpc_PendingChannelsRequest) {
+//
+//                let pendingOpen = res.pendingOpenChannels.map({ (channel:Lnrpc_PendingChannelsResponse.PendingOpenChannel) in
+//                    return PendingOpenChannel(channel.channel.)
+//                })
+//
+//                let chans = res.channels.map({ (lndChannel: Lnrpc_Channel) in
+//                    return Channel(
+//                            active: lndChannel.active,
+//                            remotePubkey: lndChannel.remotePubkey,
+//                            channelPoint: lndChannel.channelPoint,
+//                            channelId: Int(lndChannel.chanID),
+//                            capacity: Int(lndChannel.capacity),
+//                            remoteBalance: Int(lndChannel.remoteBalance),
+//                            commitFee: Int(lndChannel.commitFee),
+//                            commitWeight: Int(lndChannel.commitWeight),
+//                            feePerKw: Int(lndChannel.feePerKw),
+//                            numUpdates: Int(lndChannel.numUpdates),
+//                            csvDelay: Int(lndChannel.csvDelay)
+//                    )
+//                })
+//
+//                return Observable.just(chans)
+//            } else {
+//                return Observable.error(RPCError.unableToAccessClient)
+//            }
+//        }
+//    }
 
-                let chans = res.channels.map({ (lndChannel: Lnrpc_Channel) in
-                    return Channel(
-                            active: lndChannel.active,
-                            remotePubkey: lndChannel.remotePubkey,
-                            channelPoint: lndChannel.channelPoint,
-                            channelId: Int(lndChannel.chanID),
-                            capacity: Int(lndChannel.capacity),
-                            remoteBalance: Int(lndChannel.remoteBalance),
-                            commitFee: Int(lndChannel.commitFee),
-                            commitWeight: Int(lndChannel.commitWeight),
-                            feePerKw: Int(lndChannel.feePerKw),
-                            numUpdates: Int(lndChannel.numUpdates),
-                            csvDelay: Int(lndChannel.csvDelay)
-                    )
-                })
+    public func listPendingChannels() -> Observable<[Channel]> {
+        return Observable.of([Channel(active: false, remotePubkey: "pubkey", channelPoint: "point", channelId: 012, capacity: 500000, remoteBalance: 0, commitFee: 2000, commitWeight: 20, feePerKw: 2, numUpdates: 2, csvDelay: 4)])
+    }
 
-                return Observable.just(chans)
-            } else {
-                return Observable.error(RPCError.unableToAccessClient)
-            }
+    public func listChannels() -> Observable<[ChannelE]> {
+        let openChannels = self.listOpenChannels()
+                .map { channels in
+                    channels.map { chan in
+                        ChannelE.active(chan)
+                    }
+                }
+
+        let pendingChannels = self.listPendingChannels()
+                .map { channels in
+                    channels.map { chan in
+                        ChannelE.pending(chan)
+                    }
+                }
+
+        return Observable.zip(openChannels, pendingChannels) { (open, pending) in
+            return [open, pending].flatMap{ $0 }
         }
     }
 
-    public func getChannels() throws -> [Channel] {
-        do {
-            if let res = try rpcmanager.client()?.listChannels(Lnrpc_ListChannelsRequest()) {
-                return res.channels.map({ (lndChannel: Lnrpc_Channel) in
-                    return Channel(
-                            active: lndChannel.active,
-                            remotePubkey: lndChannel.remotePubkey,
-                            channelPoint: lndChannel.channelPoint,
-                            channelId: Int(lndChannel.chanID),
-                            capacity: Int(lndChannel.capacity),
-                            remoteBalance: Int(lndChannel.remoteBalance),
-                            commitFee: Int(lndChannel.commitFee),
-                            commitWeight: Int(lndChannel.commitWeight),
-                            feePerKw: Int(lndChannel.feePerKw),
-                            numUpdates: Int(lndChannel.numUpdates),
-                            csvDelay: Int(lndChannel.csvDelay)
-                    )
-                })
+    public func listOpenChannels() -> Observable<[Channel]> {
+        return Observable.create { obs in
+            if let client = self.rpcmanager.client() {
+
+                let result = Result(attempt: { () in try client.listChannels(Lnrpc_ListChannelsRequest()) })
+
+                switch (result) {
+                case .success(let res):
+                    let channels = res.channels.map { (lnChan: Lnrpc_Channel) in
+                        Channel(
+                                active: lnChan.active,
+                                remotePubkey: lnChan.remotePubkey,
+                                channelPoint: lnChan.channelPoint,
+                                channelId: Int(lnChan.chanID),
+                                capacity: Int(lnChan.capacity),
+                                remoteBalance: Int(lnChan.remoteBalance),
+                                commitFee: Int(lnChan.commitFee),
+                                commitWeight: Int(lnChan.commitWeight),
+                                feePerKw: Int(lnChan.feePerKw),
+                                numUpdates: Int(lnChan.numUpdates),
+                                csvDelay: Int(lnChan.csvDelay)
+                        )
+                    }
+                    obs.onNext(channels)
+                    obs.onCompleted()
+                case .failure(let error):
+                    obs.onError(error)
+                }
             } else {
-                return []
+                obs.onError(RPCError.unableToAccessClient)
             }
-        } catch {
-            print("Unexpected error: \(error).")
-            throw RPCError.failedToFetchChannels
+            return Disposables.create()
         }
     }
 }

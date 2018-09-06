@@ -1,7 +1,42 @@
 import Foundation
 import UIKit
 
-struct Channel {
+enum ChannelE : Comparable {
+    case pending(Channel)
+    case active(Channel)
+
+    public static func <(lhs: ChannelE, rhs: ChannelE) -> Bool {
+        let localA:Int = {
+            switch (lhs) {
+            case .active(let active): return active.localBalance
+            case .pending(let pending): return pending.localBalance
+            }
+        }()
+
+        let localB:Int = {
+            switch (rhs) {
+            case .active(let active): return active.localBalance
+            case .pending(let pending): return pending.localBalance
+            }
+        }()
+
+        return localA < localB
+    }
+
+    public static func ==(lhs: ChannelE, rhs: ChannelE) -> Bool {
+        let myTuple = (lhs, rhs)
+        switch (myTuple) {
+        case (.active(let lhi), .active(let rhi)):
+            return lhi == rhi
+        case (.pending(let lhi), .pending(let rhi)):
+            return lhi == rhi
+        case (_, _):
+            return false
+        }
+    }
+}
+
+struct Channel : Equatable {
     let active:Bool
     let remotePubkey:String
     ///The outpoint (txid:index) of the funding transaction. With this value, Bob
@@ -44,5 +79,9 @@ struct Channel {
         self.csvDelay = csvDelay
         
         self.localBalance = max(capacity - remoteBalance - commitFee, 0)
+    }
+
+    public static func ==(lhs: Channel, rhs: Channel) -> Bool {
+        return lhs.channelId == rhs.channelId
     }
 }
