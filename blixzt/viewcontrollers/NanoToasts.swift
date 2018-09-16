@@ -23,7 +23,7 @@ func displayError(message: String) {
     config.preferredStatusBarStyle = .lightContent
 
     // Specify one or more event listeners to respond to show and hide events.
-    config.eventListeners.append() { event in
+    config.eventListeners.append { event in
         if case .didHide = event {
             print("yep didHide")
         }
@@ -51,7 +51,7 @@ func displaySuccess(message: String) {
     config.dimMode = .gray(interactive: true)
     config.interactiveHide = false
     config.preferredStatusBarStyle = .lightContent
-    config.eventListeners.append() { event in
+    config.eventListeners.append { event in
         if case .didHide = event {
             print("yep didHide")
         }

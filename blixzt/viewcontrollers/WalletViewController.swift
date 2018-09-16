@@ -227,7 +227,7 @@ class WalletViewController: UIViewController {
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { (_) in
-                    WalletService.shared.getWallet().retry(3)
+                    WalletService.shared.getWallet()
                             .retry(3)
                             .map { walletData in
                                 WalletUIActions.wallet(walletData: walletData)

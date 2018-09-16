@@ -31,8 +31,14 @@ class ChannelsTableViewController: UITableViewController {
                     
                     let attachment = NSTextAttachment()
                     attachment.image = channel.active ? activeImage : inactiveImage
-                    let imageOffsetY:CGFloat = 0.0;
-                    attachment.bounds = CGRect(x: 0, y: imageOffsetY, width: attachment.image!.size.width, height: attachment.image!.size.height)
+
+                    let imageOffsetY:CGFloat = 0.0
+                    attachment.bounds = CGRect(
+                            x: 0.0,
+                            y: imageOffsetY,
+                            width: attachment.image!.size.width,
+                            height: attachment.image!.size.height
+                    )
 
                     let attachmentString = NSAttributedString(attachment: attachment)
 

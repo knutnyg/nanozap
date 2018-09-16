@@ -76,10 +76,17 @@ func toInvoiceModel(vals: [Payable]) -> [InvoiceCellModel] {
     }
 }
 
+enum LoadInvoicesResult {
+    case loading()
+    case done(res : [Payable])
+    case failure(error : Error)
+}
+
 class InvoicesTableViewController: UITableViewController {
     private let disposeBag = DisposeBag()
 
     let loadInvoices = BehaviorSubject<Void>(value: ())
+    let invocesObs = PublishSubject<LoadInvoicesResult>()
     let invoicesObs = BehaviorSubject<[Payable]>(value: [])
 
     override func viewDidLoad() {
@@ -98,6 +105,33 @@ class InvoicesTableViewController: UITableViewController {
                 )) { (row, aModel: InvoiceCellModel, cell: InvoiceCell) in
                     cell.update(model: aModel)
                 }
+                .disposed(by: disposeBag)
+
+        let refreshControl = UIRefreshControl()
+        self.refreshControl = refreshControl
+
+        invocesObs
+                // go back to main thread to touch UI
+                .observeOn(MainScheduler.instance)
+                .subscribe(
+                        onNext: { [weak self] result in
+                            print("some refresh result")
+                            switch (result) {
+                            case .loading:
+                                self?.refreshControl?.beginRefreshing()
+                            case .done(let invoices):
+                                self?.invoicesObs.onNext(invoices)
+                                self?.refreshControl?.endRefreshing()
+                            case .failure(let error):
+                                print("got error on refresh: ", error)
+                                self?.refreshControl?.endRefreshing()
+                                displayError(message: "Error refreshing invoices.")
+                            }
+                        },
+                        onError: { (error) in
+                            print("refreshcontrol died: ", error)
+                            fatalError("refreshcontrol died!")
+                        })
                 .disposed(by: disposeBag)
 
         self.tableView.rx.modelSelected(InvoiceCellModel.self)
@@ -134,23 +168,17 @@ class InvoicesTableViewController: UITableViewController {
                         })
                 .disposed(by: disposeBag)
 
-        let refreshControl = UIRefreshControl()
-        self.refreshControl = refreshControl
-
         loadInvoices
                 // do network activity in background thread
                 .observeOn(AppState.userInitiatedBgScheduler)
                 .flatMap { [weak self] (_) in
-                    self?.getInvoices() ?? Observable.empty()
+                    return (self?.getInvoices()
+                        .map { invs in LoadInvoicesResult.done(res: invs) }
+                        .catchError { err in Observable.just(LoadInvoicesResult.failure(error: err)) }
+                        .startWith(LoadInvoicesResult.loading())) ?? Observable.empty()
                 }
-                .bind(to: invoicesObs)
+                .bind(to: invocesObs)
                 .disposed(by: disposeBag)
-
-        enum LoadInvoicesState {
-            case loading()
-            case done(res : [Payable])
-            case failure(error : Error)
-        }
 
         refreshControl.rx
                 .controlEvent(.valueChanged)
@@ -162,37 +190,13 @@ class InvoicesTableViewController: UITableViewController {
                 .filter { val in
                     val == true
                 }
-                .flatMap { _ in
-                    self.getInvoices()
-                        .map { invs in LoadInvoicesState.done(res: invs) }
-                        .catchError { err in Observable.just(LoadInvoicesState.failure(error: err)) }
-                        .startWith(LoadInvoicesState.loading())
+                .flatMap { [weak self] _ in
+                    return (self?.getInvoices()
+                        .map { invs in LoadInvoicesResult.done(res: invs) }
+                        .catchError { err in Observable.just(LoadInvoicesResult.failure(error: err)) }
+                        .startWith(LoadInvoicesResult.loading())) ?? Observable.empty()
                 }
-                // go back to main thread to touch UI
-                .observeOn(MainScheduler.instance)
-                .subscribe(
-                        onNext: { [weak self] result in
-                            print("some refresh result")
-                            switch (result) {
-                            case .loading:
-                                // do nothing
-                                print("loading")
-                            case .done(let invoices):
-                                self?.invoicesObs.onNext(invoices)
-                                self?.refreshControl?.endRefreshing()
-                            case .failure(let error):
-                                print("got error on refresh: ", error)
-                                self?.refreshControl?.endRefreshing()
-                                displayError(message: "Error refreshing invoices.")
-                            }
-                        },
-                        onError: { (error) in
-                            print("refreshcontrol died: ", error)
-                            fatalError("refreshcontrol died!")
-                        },
-                        onCompleted: {
-                            refreshControl.endRefreshing()
-                        })
+                .bind(to: invocesObs)
                 .disposed(by: disposeBag)
     }
 
