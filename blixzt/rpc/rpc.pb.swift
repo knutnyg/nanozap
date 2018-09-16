@@ -191,7 +191,7 @@ struct Lnrpc_Transaction {
   //// The height of the block this transaction was included in
   var blockHeight: Int32 = 0
 
-  //// Timestamp of this transaction
+  //// Timestamp of this transaction 
   var timeStamp: Int64 = 0
 
   //// Fees paid for this transaction
@@ -497,7 +497,7 @@ struct Lnrpc_SendCoinsRequest {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  //// The address to send coins to
+  //// The address to send coins to 
   var addr: String = String()
 
   //// The amount in satoshis to send
@@ -527,7 +527,7 @@ struct Lnrpc_SendCoinsResponse {
   init() {}
 }
 
-///*
+///* 
 ///`AddressType` has to be one of:
 ///
 ///- `p2wkh`: Pay to witness key hash (`WITNESS_PUBKEY_HASH` = 0)
@@ -671,7 +671,7 @@ struct Lnrpc_ConnectPeerRequest {
   mutating func clearAddr() {_storage._addr = nil}
 
   ///* If set, the daemon will attempt to persistently connect to the target
-  /// peer.  Otherwise, the call will be synchronous.
+  /// peer.  Otherwise, the call will be synchronous. 
   var perm: Bool {
     get {return _storage._perm}
     set {_uniqueStorage()._perm = newValue}
@@ -905,10 +905,10 @@ struct Lnrpc_ChannelCloseSummary {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  //// The outpoint (txid:index) of the funding transaction.
+  //// The outpoint (txid:index) of the funding transaction. 
   var channelPoint: String = String()
 
-  ////  The unique channel ID for the channel.
+  ////  The unique channel ID for the channel. 
   var chanID: UInt64 = 0
 
   //// The hash of the genesis block that this channel resides within.
@@ -1320,6 +1320,9 @@ struct Lnrpc_OpenChannelRequest {
 
   //// The delay we require on the remote's commitment transaction. If this is not set, it will be scaled automatically with the channel size.
   var remoteCsvDelay: UInt32 = 0
+
+  //// The minimum number of confirmations each one of your outputs used for the funding transaction must satisfy.
+  var minConfs: Int32 = 0
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -1837,7 +1840,7 @@ struct Lnrpc_NodeInfoRequest {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  //// The 33-byte hex-encoded compressed public of the target node
+  //// The 33-byte hex-encoded compressed public of the target node 
   var pubKey: String = String()
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
@@ -1932,6 +1935,8 @@ struct Lnrpc_RoutingPolicy {
   var feeBaseMsat: Int64 = 0
 
   var feeRateMilliMsat: Int64 = 0
+
+  var disabled: Bool = false
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -2299,63 +2304,160 @@ struct Lnrpc_Invoice {
   ///purposes for the invoice's creator, and will also be set in the description
   ///field of the encoded payment request if the description_hash field is not
   ///being used.
-  var memo: String = String()
+  var memo: String {
+    get {return _storage._memo}
+    set {_uniqueStorage()._memo = newValue}
+  }
 
   //// An optional cryptographic receipt of payment
-  var receipt: Data = SwiftProtobuf.Internal.emptyData
+  var receipt: Data {
+    get {return _storage._receipt}
+    set {_uniqueStorage()._receipt = newValue}
+  }
 
   ///*
   ///The hex-encoded preimage (32 byte) which will allow settling an incoming
   ///HTLC payable to this preimage
-  var rPreimage: Data = SwiftProtobuf.Internal.emptyData
+  var rPreimage: Data {
+    get {return _storage._rPreimage}
+    set {_uniqueStorage()._rPreimage = newValue}
+  }
 
   //// The hash of the preimage
-  var rHash: Data = SwiftProtobuf.Internal.emptyData
+  var rHash: Data {
+    get {return _storage._rHash}
+    set {_uniqueStorage()._rHash = newValue}
+  }
 
   //// The value of this invoice in satoshis
-  var value: Int64 = 0
+  var value: Int64 {
+    get {return _storage._value}
+    set {_uniqueStorage()._value = newValue}
+  }
 
   //// Whether this invoice has been fulfilled
-  var settled: Bool = false
+  var settled: Bool {
+    get {return _storage._settled}
+    set {_uniqueStorage()._settled = newValue}
+  }
 
   //// When this invoice was created
-  var creationDate: Int64 = 0
+  var creationDate: Int64 {
+    get {return _storage._creationDate}
+    set {_uniqueStorage()._creationDate = newValue}
+  }
 
   //// When this invoice was settled
-  var settleDate: Int64 = 0
+  var settleDate: Int64 {
+    get {return _storage._settleDate}
+    set {_uniqueStorage()._settleDate = newValue}
+  }
 
   ///*
   ///A bare-bones invoice for a payment within the Lightning Network.  With the
   ///details of the invoice, the sender has all the data necessary to send a
   ///payment to the recipient.
-  var paymentRequest: String = String()
+  var paymentRequest: String {
+    get {return _storage._paymentRequest}
+    set {_uniqueStorage()._paymentRequest = newValue}
+  }
 
   ///*
   ///Hash (SHA-256) of a description of the payment. Used if the description of
   ///payment (memo) is too long to naturally fit within the description field
   ///of an encoded payment request.
-  var descriptionHash: Data = SwiftProtobuf.Internal.emptyData
+  var descriptionHash: Data {
+    get {return _storage._descriptionHash}
+    set {_uniqueStorage()._descriptionHash = newValue}
+  }
 
   //// Payment request expiry time in seconds. Default is 3600 (1 hour).
-  var expiry: Int64 = 0
+  var expiry: Int64 {
+    get {return _storage._expiry}
+    set {_uniqueStorage()._expiry = newValue}
+  }
 
   //// Fallback on-chain address.
-  var fallbackAddr: String = String()
+  var fallbackAddr: String {
+    get {return _storage._fallbackAddr}
+    set {_uniqueStorage()._fallbackAddr = newValue}
+  }
 
   //// Delta to use for the time-lock of the CLTV extended to the final hop.
-  var cltvExpiry: UInt64 = 0
+  var cltvExpiry: UInt64 {
+    get {return _storage._cltvExpiry}
+    set {_uniqueStorage()._cltvExpiry = newValue}
+  }
 
   ///*
   ///Route hints that can each be individually used to assist in reaching the
   ///invoice's destination.
-  var routeHints: [Lnrpc_RouteHint] = []
+  var routeHints: [Lnrpc_RouteHint] {
+    get {return _storage._routeHints}
+    set {_uniqueStorage()._routeHints = newValue}
+  }
 
   //// Whether this invoice should include routing hints for private channels.
-  var `private`: Bool = false
+  var `private`: Bool {
+    get {return _storage._private}
+    set {_uniqueStorage()._private = newValue}
+  }
+
+  ///*
+  ///The "add" index of this invoice. Each newly created invoice will increment
+  ///this index making it monotonically increasing. Callers to the
+  ///SubscribeInvoices call can use this to instantly get notified of all added
+  ///invoices with an add_index greater than this one.
+  var addIndex: UInt64 {
+    get {return _storage._addIndex}
+    set {_uniqueStorage()._addIndex = newValue}
+  }
+
+  ///*
+  ///The "settle" index of this invoice. Each newly settled invoice will
+  ///increment this index making it monotonically increasing. Callers to the
+  ///SubscribeInvoices call can use this to instantly get notified of all
+  ///settled invoices with an settle_index greater than this one.
+  var settleIndex: UInt64 {
+    get {return _storage._settleIndex}
+    set {_uniqueStorage()._settleIndex = newValue}
+  }
+
+  //// Deprecated, use amt_paid_sat or amt_paid_msat.
+  var amtPaid: Int64 {
+    get {return _storage._amtPaid}
+    set {_uniqueStorage()._amtPaid = newValue}
+  }
+
+  ///*
+  ///The amount that was accepted for this invoice, in satoshis. This will ONLY
+  ///be set if this invoice has been settled. We provide this field as if the
+  ///invoice was created with a zero value, then we need to record what amount
+  ///was ultimately accepted. Additionally, it's possible that the sender paid
+  ///MORE that was specified in the original invoice. So we'll record that here
+  ///as well.
+  var amtPaidSat: Int64 {
+    get {return _storage._amtPaidSat}
+    set {_uniqueStorage()._amtPaidSat = newValue}
+  }
+
+  ///*
+  ///The amount that was accepted for this invoice, in millisatoshis. This will
+  ///ONLY be set if this invoice has been settled. We provide this field as if
+  ///the invoice was created with a zero value, then we need to record what
+  ///amount was ultimately accepted. Additionally, it's possible that the sender
+  ///paid MORE that was specified in the original invoice. So we'll record that
+  ///here as well.
+  var amtPaidMsat: Int64 {
+    get {return _storage._amtPaidMsat}
+    set {_uniqueStorage()._amtPaidMsat = newValue}
+  }
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
 }
 
 struct Lnrpc_AddInvoiceResponse {
@@ -2370,6 +2472,13 @@ struct Lnrpc_AddInvoiceResponse {
   ///details of the invoice, the sender has all the data necessary to send a
   ///payment to the recipient.
   var paymentRequest: String = String()
+
+  ///*
+  ///The "add" index of this invoice. Each newly created invoice will increment
+  ///this index making it monotonically increasing. Callers to the
+  ///SubscribeInvoices call can use this to instantly get notified of all added
+  ///invoices with an add_index greater than this one.
+  var addIndex: UInt64 = 0
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -2399,8 +2508,21 @@ struct Lnrpc_ListInvoiceRequest {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  //// Toggles if all invoices should be returned, or only those that are currently unsettled.
+  //// If set, only unsettled invoices will be returned in the response.
   var pendingOnly: Bool = false
+
+  ///*
+  ///The index of an invoice that will be used as either the start or end of a
+  ///query to determine which invoices should be returned in the response.
+  var indexOffset: UInt64 = 0
+
+  //// The max number of invoices to return in the response to this query.
+  var numMaxInvoices: UInt64 = 0
+
+  ///*
+  ///If set, the invoices returned will result from seeking backwards from the
+  ///specified index offset. This can be used to paginate backwards.
+  var reversed: Bool = false
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -2412,7 +2534,20 @@ struct Lnrpc_ListInvoiceResponse {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
+  ///*
+  ///A list of invoices from the time slice of the time series specified in the
+  ///request.
   var invoices: [Lnrpc_Invoice] = []
+
+  ///*
+  ///The index of the last item in the set of returned invoices. This can be used
+  ///to seek further, pagination style.
+  var lastIndexOffset: UInt64 = 0
+
+  ///*
+  ///The index of the last item in the set of returned invoices. This can be used
+  ///to seek backwards, pagination style.
+  var firstIndexOffset: UInt64 = 0
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -2423,6 +2558,20 @@ struct Lnrpc_InvoiceSubscription {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
+
+  ///*
+  ///If specified (non-zero), then we'll first start by sending out
+  ///notifications for all added indexes with an add_index greater than this
+  ///value. This allows callers to catch up on any events they missed while they
+  ///weren't connected to the streaming RPC.
+  var addIndex: UInt64 = 0
+
+  ///*
+  ///If specified (non-zero), then we'll first start by sending out
+  ///notifications for all settled indexes with an settle_index greater than
+  ///this value. This allows callers to catch up on any events they missed while
+  ///they weren't connected to the streaming RPC.
+  var settleIndex: UInt64 = 0
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -5077,6 +5226,7 @@ extension Lnrpc_OpenChannelRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     8: .same(proto: "private"),
     9: .same(proto: "min_htlc_msat"),
     10: .same(proto: "remote_csv_delay"),
+    11: .same(proto: "min_confs"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5091,6 +5241,7 @@ extension Lnrpc_OpenChannelRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
       case 8: try decoder.decodeSingularBoolField(value: &self.`private`)
       case 9: try decoder.decodeSingularInt64Field(value: &self.minHtlcMsat)
       case 10: try decoder.decodeSingularUInt32Field(value: &self.remoteCsvDelay)
+      case 11: try decoder.decodeSingularInt32Field(value: &self.minConfs)
       default: break
       }
     }
@@ -5124,6 +5275,9 @@ extension Lnrpc_OpenChannelRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     if self.remoteCsvDelay != 0 {
       try visitor.visitSingularUInt32Field(value: self.remoteCsvDelay, fieldNumber: 10)
     }
+    if self.minConfs != 0 {
+      try visitor.visitSingularInt32Field(value: self.minConfs, fieldNumber: 11)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -5137,6 +5291,7 @@ extension Lnrpc_OpenChannelRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     if self.`private` != other.`private` {return false}
     if self.minHtlcMsat != other.minHtlcMsat {return false}
     if self.remoteCsvDelay != other.remoteCsvDelay {return false}
+    if self.minConfs != other.minConfs {return false}
     if unknownFields != other.unknownFields {return false}
     return true
   }
@@ -6319,6 +6474,7 @@ extension Lnrpc_RoutingPolicy: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     2: .same(proto: "min_htlc"),
     3: .same(proto: "fee_base_msat"),
     4: .same(proto: "fee_rate_milli_msat"),
+    5: .same(proto: "disabled"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6328,6 +6484,7 @@ extension Lnrpc_RoutingPolicy: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       case 2: try decoder.decodeSingularInt64Field(value: &self.minHtlc)
       case 3: try decoder.decodeSingularInt64Field(value: &self.feeBaseMsat)
       case 4: try decoder.decodeSingularInt64Field(value: &self.feeRateMilliMsat)
+      case 5: try decoder.decodeSingularBoolField(value: &self.disabled)
       default: break
       }
     }
@@ -6346,6 +6503,9 @@ extension Lnrpc_RoutingPolicy: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if self.feeRateMilliMsat != 0 {
       try visitor.visitSingularInt64Field(value: self.feeRateMilliMsat, fieldNumber: 4)
     }
+    if self.disabled != false {
+      try visitor.visitSingularBoolField(value: self.disabled, fieldNumber: 5)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -6354,6 +6514,7 @@ extension Lnrpc_RoutingPolicy: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if self.minHtlc != other.minHtlc {return false}
     if self.feeBaseMsat != other.feeBaseMsat {return false}
     if self.feeRateMilliMsat != other.feeRateMilliMsat {return false}
+    if self.disabled != other.disabled {return false}
     if unknownFields != other.unknownFields {return false}
     return true
   }
@@ -7086,96 +7247,196 @@ extension Lnrpc_Invoice: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementa
     13: .same(proto: "cltv_expiry"),
     14: .same(proto: "route_hints"),
     15: .same(proto: "private"),
+    16: .same(proto: "add_index"),
+    17: .same(proto: "settle_index"),
+    18: .same(proto: "amt_paid"),
+    19: .same(proto: "amt_paid_sat"),
+    20: .same(proto: "amt_paid_msat"),
   ]
 
+  fileprivate class _StorageClass {
+    var _memo: String = String()
+    var _receipt: Data = SwiftProtobuf.Internal.emptyData
+    var _rPreimage: Data = SwiftProtobuf.Internal.emptyData
+    var _rHash: Data = SwiftProtobuf.Internal.emptyData
+    var _value: Int64 = 0
+    var _settled: Bool = false
+    var _creationDate: Int64 = 0
+    var _settleDate: Int64 = 0
+    var _paymentRequest: String = String()
+    var _descriptionHash: Data = SwiftProtobuf.Internal.emptyData
+    var _expiry: Int64 = 0
+    var _fallbackAddr: String = String()
+    var _cltvExpiry: UInt64 = 0
+    var _routeHints: [Lnrpc_RouteHint] = []
+    var _private: Bool = false
+    var _addIndex: UInt64 = 0
+    var _settleIndex: UInt64 = 0
+    var _amtPaid: Int64 = 0
+    var _amtPaidSat: Int64 = 0
+    var _amtPaidMsat: Int64 = 0
+
+    static let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _memo = source._memo
+      _receipt = source._receipt
+      _rPreimage = source._rPreimage
+      _rHash = source._rHash
+      _value = source._value
+      _settled = source._settled
+      _creationDate = source._creationDate
+      _settleDate = source._settleDate
+      _paymentRequest = source._paymentRequest
+      _descriptionHash = source._descriptionHash
+      _expiry = source._expiry
+      _fallbackAddr = source._fallbackAddr
+      _cltvExpiry = source._cltvExpiry
+      _routeHints = source._routeHints
+      _private = source._private
+      _addIndex = source._addIndex
+      _settleIndex = source._settleIndex
+      _amtPaid = source._amtPaid
+      _amtPaidSat = source._amtPaidSat
+      _amtPaidMsat = source._amtPaidMsat
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let fieldNumber = try decoder.nextFieldNumber() {
-      switch fieldNumber {
-      case 1: try decoder.decodeSingularStringField(value: &self.memo)
-      case 2: try decoder.decodeSingularBytesField(value: &self.receipt)
-      case 3: try decoder.decodeSingularBytesField(value: &self.rPreimage)
-      case 4: try decoder.decodeSingularBytesField(value: &self.rHash)
-      case 5: try decoder.decodeSingularInt64Field(value: &self.value)
-      case 6: try decoder.decodeSingularBoolField(value: &self.settled)
-      case 7: try decoder.decodeSingularInt64Field(value: &self.creationDate)
-      case 8: try decoder.decodeSingularInt64Field(value: &self.settleDate)
-      case 9: try decoder.decodeSingularStringField(value: &self.paymentRequest)
-      case 10: try decoder.decodeSingularBytesField(value: &self.descriptionHash)
-      case 11: try decoder.decodeSingularInt64Field(value: &self.expiry)
-      case 12: try decoder.decodeSingularStringField(value: &self.fallbackAddr)
-      case 13: try decoder.decodeSingularUInt64Field(value: &self.cltvExpiry)
-      case 14: try decoder.decodeRepeatedMessageField(value: &self.routeHints)
-      case 15: try decoder.decodeSingularBoolField(value: &self.`private`)
-      default: break
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        switch fieldNumber {
+        case 1: try decoder.decodeSingularStringField(value: &_storage._memo)
+        case 2: try decoder.decodeSingularBytesField(value: &_storage._receipt)
+        case 3: try decoder.decodeSingularBytesField(value: &_storage._rPreimage)
+        case 4: try decoder.decodeSingularBytesField(value: &_storage._rHash)
+        case 5: try decoder.decodeSingularInt64Field(value: &_storage._value)
+        case 6: try decoder.decodeSingularBoolField(value: &_storage._settled)
+        case 7: try decoder.decodeSingularInt64Field(value: &_storage._creationDate)
+        case 8: try decoder.decodeSingularInt64Field(value: &_storage._settleDate)
+        case 9: try decoder.decodeSingularStringField(value: &_storage._paymentRequest)
+        case 10: try decoder.decodeSingularBytesField(value: &_storage._descriptionHash)
+        case 11: try decoder.decodeSingularInt64Field(value: &_storage._expiry)
+        case 12: try decoder.decodeSingularStringField(value: &_storage._fallbackAddr)
+        case 13: try decoder.decodeSingularUInt64Field(value: &_storage._cltvExpiry)
+        case 14: try decoder.decodeRepeatedMessageField(value: &_storage._routeHints)
+        case 15: try decoder.decodeSingularBoolField(value: &_storage._private)
+        case 16: try decoder.decodeSingularUInt64Field(value: &_storage._addIndex)
+        case 17: try decoder.decodeSingularUInt64Field(value: &_storage._settleIndex)
+        case 18: try decoder.decodeSingularInt64Field(value: &_storage._amtPaid)
+        case 19: try decoder.decodeSingularInt64Field(value: &_storage._amtPaidSat)
+        case 20: try decoder.decodeSingularInt64Field(value: &_storage._amtPaidMsat)
+        default: break
+        }
       }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.memo.isEmpty {
-      try visitor.visitSingularStringField(value: self.memo, fieldNumber: 1)
-    }
-    if !self.receipt.isEmpty {
-      try visitor.visitSingularBytesField(value: self.receipt, fieldNumber: 2)
-    }
-    if !self.rPreimage.isEmpty {
-      try visitor.visitSingularBytesField(value: self.rPreimage, fieldNumber: 3)
-    }
-    if !self.rHash.isEmpty {
-      try visitor.visitSingularBytesField(value: self.rHash, fieldNumber: 4)
-    }
-    if self.value != 0 {
-      try visitor.visitSingularInt64Field(value: self.value, fieldNumber: 5)
-    }
-    if self.settled != false {
-      try visitor.visitSingularBoolField(value: self.settled, fieldNumber: 6)
-    }
-    if self.creationDate != 0 {
-      try visitor.visitSingularInt64Field(value: self.creationDate, fieldNumber: 7)
-    }
-    if self.settleDate != 0 {
-      try visitor.visitSingularInt64Field(value: self.settleDate, fieldNumber: 8)
-    }
-    if !self.paymentRequest.isEmpty {
-      try visitor.visitSingularStringField(value: self.paymentRequest, fieldNumber: 9)
-    }
-    if !self.descriptionHash.isEmpty {
-      try visitor.visitSingularBytesField(value: self.descriptionHash, fieldNumber: 10)
-    }
-    if self.expiry != 0 {
-      try visitor.visitSingularInt64Field(value: self.expiry, fieldNumber: 11)
-    }
-    if !self.fallbackAddr.isEmpty {
-      try visitor.visitSingularStringField(value: self.fallbackAddr, fieldNumber: 12)
-    }
-    if self.cltvExpiry != 0 {
-      try visitor.visitSingularUInt64Field(value: self.cltvExpiry, fieldNumber: 13)
-    }
-    if !self.routeHints.isEmpty {
-      try visitor.visitRepeatedMessageField(value: self.routeHints, fieldNumber: 14)
-    }
-    if self.`private` != false {
-      try visitor.visitSingularBoolField(value: self.`private`, fieldNumber: 15)
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      if !_storage._memo.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._memo, fieldNumber: 1)
+      }
+      if !_storage._receipt.isEmpty {
+        try visitor.visitSingularBytesField(value: _storage._receipt, fieldNumber: 2)
+      }
+      if !_storage._rPreimage.isEmpty {
+        try visitor.visitSingularBytesField(value: _storage._rPreimage, fieldNumber: 3)
+      }
+      if !_storage._rHash.isEmpty {
+        try visitor.visitSingularBytesField(value: _storage._rHash, fieldNumber: 4)
+      }
+      if _storage._value != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._value, fieldNumber: 5)
+      }
+      if _storage._settled != false {
+        try visitor.visitSingularBoolField(value: _storage._settled, fieldNumber: 6)
+      }
+      if _storage._creationDate != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._creationDate, fieldNumber: 7)
+      }
+      if _storage._settleDate != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._settleDate, fieldNumber: 8)
+      }
+      if !_storage._paymentRequest.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._paymentRequest, fieldNumber: 9)
+      }
+      if !_storage._descriptionHash.isEmpty {
+        try visitor.visitSingularBytesField(value: _storage._descriptionHash, fieldNumber: 10)
+      }
+      if _storage._expiry != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._expiry, fieldNumber: 11)
+      }
+      if !_storage._fallbackAddr.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._fallbackAddr, fieldNumber: 12)
+      }
+      if _storage._cltvExpiry != 0 {
+        try visitor.visitSingularUInt64Field(value: _storage._cltvExpiry, fieldNumber: 13)
+      }
+      if !_storage._routeHints.isEmpty {
+        try visitor.visitRepeatedMessageField(value: _storage._routeHints, fieldNumber: 14)
+      }
+      if _storage._private != false {
+        try visitor.visitSingularBoolField(value: _storage._private, fieldNumber: 15)
+      }
+      if _storage._addIndex != 0 {
+        try visitor.visitSingularUInt64Field(value: _storage._addIndex, fieldNumber: 16)
+      }
+      if _storage._settleIndex != 0 {
+        try visitor.visitSingularUInt64Field(value: _storage._settleIndex, fieldNumber: 17)
+      }
+      if _storage._amtPaid != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._amtPaid, fieldNumber: 18)
+      }
+      if _storage._amtPaidSat != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._amtPaidSat, fieldNumber: 19)
+      }
+      if _storage._amtPaidMsat != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._amtPaidMsat, fieldNumber: 20)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   func _protobuf_generated_isEqualTo(other: Lnrpc_Invoice) -> Bool {
-    if self.memo != other.memo {return false}
-    if self.receipt != other.receipt {return false}
-    if self.rPreimage != other.rPreimage {return false}
-    if self.rHash != other.rHash {return false}
-    if self.value != other.value {return false}
-    if self.settled != other.settled {return false}
-    if self.creationDate != other.creationDate {return false}
-    if self.settleDate != other.settleDate {return false}
-    if self.paymentRequest != other.paymentRequest {return false}
-    if self.descriptionHash != other.descriptionHash {return false}
-    if self.expiry != other.expiry {return false}
-    if self.fallbackAddr != other.fallbackAddr {return false}
-    if self.cltvExpiry != other.cltvExpiry {return false}
-    if self.routeHints != other.routeHints {return false}
-    if self.`private` != other.`private` {return false}
+    if _storage !== other._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let other_storage = _args.1
+        if _storage._memo != other_storage._memo {return false}
+        if _storage._receipt != other_storage._receipt {return false}
+        if _storage._rPreimage != other_storage._rPreimage {return false}
+        if _storage._rHash != other_storage._rHash {return false}
+        if _storage._value != other_storage._value {return false}
+        if _storage._settled != other_storage._settled {return false}
+        if _storage._creationDate != other_storage._creationDate {return false}
+        if _storage._settleDate != other_storage._settleDate {return false}
+        if _storage._paymentRequest != other_storage._paymentRequest {return false}
+        if _storage._descriptionHash != other_storage._descriptionHash {return false}
+        if _storage._expiry != other_storage._expiry {return false}
+        if _storage._fallbackAddr != other_storage._fallbackAddr {return false}
+        if _storage._cltvExpiry != other_storage._cltvExpiry {return false}
+        if _storage._routeHints != other_storage._routeHints {return false}
+        if _storage._private != other_storage._private {return false}
+        if _storage._addIndex != other_storage._addIndex {return false}
+        if _storage._settleIndex != other_storage._settleIndex {return false}
+        if _storage._amtPaid != other_storage._amtPaid {return false}
+        if _storage._amtPaidSat != other_storage._amtPaidSat {return false}
+        if _storage._amtPaidMsat != other_storage._amtPaidMsat {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
     if unknownFields != other.unknownFields {return false}
     return true
   }
@@ -7186,6 +7447,7 @@ extension Lnrpc_AddInvoiceResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "r_hash"),
     2: .same(proto: "payment_request"),
+    16: .same(proto: "add_index"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7193,6 +7455,7 @@ extension Lnrpc_AddInvoiceResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
       switch fieldNumber {
       case 1: try decoder.decodeSingularBytesField(value: &self.rHash)
       case 2: try decoder.decodeSingularStringField(value: &self.paymentRequest)
+      case 16: try decoder.decodeSingularUInt64Field(value: &self.addIndex)
       default: break
       }
     }
@@ -7205,12 +7468,16 @@ extension Lnrpc_AddInvoiceResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     if !self.paymentRequest.isEmpty {
       try visitor.visitSingularStringField(value: self.paymentRequest, fieldNumber: 2)
     }
+    if self.addIndex != 0 {
+      try visitor.visitSingularUInt64Field(value: self.addIndex, fieldNumber: 16)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   func _protobuf_generated_isEqualTo(other: Lnrpc_AddInvoiceResponse) -> Bool {
     if self.rHash != other.rHash {return false}
     if self.paymentRequest != other.paymentRequest {return false}
+    if self.addIndex != other.addIndex {return false}
     if unknownFields != other.unknownFields {return false}
     return true
   }
@@ -7254,13 +7521,19 @@ extension Lnrpc_PaymentHash: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 extension Lnrpc_ListInvoiceRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ListInvoiceRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "pending_only"),
+    1: .same(proto: "pending_only"),
+    4: .same(proto: "index_offset"),
+    5: .same(proto: "num_max_invoices"),
+    6: .same(proto: "reversed"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
       case 1: try decoder.decodeSingularBoolField(value: &self.pendingOnly)
+      case 4: try decoder.decodeSingularUInt64Field(value: &self.indexOffset)
+      case 5: try decoder.decodeSingularUInt64Field(value: &self.numMaxInvoices)
+      case 6: try decoder.decodeSingularBoolField(value: &self.reversed)
       default: break
       }
     }
@@ -7270,11 +7543,23 @@ extension Lnrpc_ListInvoiceRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     if self.pendingOnly != false {
       try visitor.visitSingularBoolField(value: self.pendingOnly, fieldNumber: 1)
     }
+    if self.indexOffset != 0 {
+      try visitor.visitSingularUInt64Field(value: self.indexOffset, fieldNumber: 4)
+    }
+    if self.numMaxInvoices != 0 {
+      try visitor.visitSingularUInt64Field(value: self.numMaxInvoices, fieldNumber: 5)
+    }
+    if self.reversed != false {
+      try visitor.visitSingularBoolField(value: self.reversed, fieldNumber: 6)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   func _protobuf_generated_isEqualTo(other: Lnrpc_ListInvoiceRequest) -> Bool {
     if self.pendingOnly != other.pendingOnly {return false}
+    if self.indexOffset != other.indexOffset {return false}
+    if self.numMaxInvoices != other.numMaxInvoices {return false}
+    if self.reversed != other.reversed {return false}
     if unknownFields != other.unknownFields {return false}
     return true
   }
@@ -7284,12 +7569,16 @@ extension Lnrpc_ListInvoiceResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
   static let protoMessageName: String = _protobuf_package + ".ListInvoiceResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "invoices"),
+    2: .same(proto: "last_index_offset"),
+    3: .same(proto: "first_index_offset"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
       case 1: try decoder.decodeRepeatedMessageField(value: &self.invoices)
+      case 2: try decoder.decodeSingularUInt64Field(value: &self.lastIndexOffset)
+      case 3: try decoder.decodeSingularUInt64Field(value: &self.firstIndexOffset)
       default: break
       }
     }
@@ -7299,11 +7588,19 @@ extension Lnrpc_ListInvoiceResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     if !self.invoices.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.invoices, fieldNumber: 1)
     }
+    if self.lastIndexOffset != 0 {
+      try visitor.visitSingularUInt64Field(value: self.lastIndexOffset, fieldNumber: 2)
+    }
+    if self.firstIndexOffset != 0 {
+      try visitor.visitSingularUInt64Field(value: self.firstIndexOffset, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   func _protobuf_generated_isEqualTo(other: Lnrpc_ListInvoiceResponse) -> Bool {
     if self.invoices != other.invoices {return false}
+    if self.lastIndexOffset != other.lastIndexOffset {return false}
+    if self.firstIndexOffset != other.firstIndexOffset {return false}
     if unknownFields != other.unknownFields {return false}
     return true
   }
@@ -7311,18 +7608,34 @@ extension Lnrpc_ListInvoiceResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
 
 extension Lnrpc_InvoiceSubscription: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".InvoiceSubscription"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "add_index"),
+    2: .same(proto: "settle_index"),
+  ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let _ = try decoder.nextFieldNumber() {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularUInt64Field(value: &self.addIndex)
+      case 2: try decoder.decodeSingularUInt64Field(value: &self.settleIndex)
+      default: break
+      }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.addIndex != 0 {
+      try visitor.visitSingularUInt64Field(value: self.addIndex, fieldNumber: 1)
+    }
+    if self.settleIndex != 0 {
+      try visitor.visitSingularUInt64Field(value: self.settleIndex, fieldNumber: 2)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   func _protobuf_generated_isEqualTo(other: Lnrpc_InvoiceSubscription) -> Bool {
+    if self.addIndex != other.addIndex {return false}
+    if self.settleIndex != other.settleIndex {return false}
     if unknownFields != other.unknownFields {return false}
     return true
   }
